@@ -22,7 +22,7 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "GDI\\": "app/"
         }
     },
     "autoload-dev": {

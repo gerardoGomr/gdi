@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace GDI\Events;
 
 abstract class Event
 {
