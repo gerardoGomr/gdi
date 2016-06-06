@@ -13,17 +13,17 @@
 			</div>
 		</div>
 		<ul class="menu list-unstyled" id="navigation_components">
+			<li><a href="" class="glyphicons notes_2"><i></i><span>Pólizas</span></a></li>
 			<li class="hasSubmenu">
-				<a href="#submenuServidores" class="glyphicons group" data-toggle="collapse"><i></i><span>Servidores públicos</span></a>
-				<ul id="submenuServidores" class="animated fadeIn collapse">
-					<li class="text-small"><a href="{{ url('admin/servidores/alta') }}" class="glyphicons circle_plus"><i></i><span>Alta</span></a></li>
-					<li class="text-small"><a href="{{ url('admin/servidores') }}" class="glyphicons nameplate_alt"><i></i><span>Administración</span></a></li>
+				<a href="#submenuReportes" class="glyphicons stats" data-toggle="collapse"><i></i><span>Reportes</span></a>
+				<ul id="submenuReportes" class="animated fadeIn collapse">
+					<li class="text-small"><a href="{{ url('admin/servidores/alta') }}" class="glyphicons chevron-right"><i></i><span>Comisiones</span></a></li>
 				</ul>
 			</li>
 			<li class="hasSubmenu">
 				<a href="#submenuAdmon" class="glyphicons cogwheels" data-toggle="collapse"><i></i><span>Administración</span></a>
 				<ul id="submenuAdmon" class="animated fadeIn collapse">
-					<li class="text-small"><a href="{{ url('registrar') }}" class="glyphicons ban"><i></i><span>Declaraciones no realizadas</span></a></li>
+					<li class="text-small"><a href="{{ url('registrar') }}" class="glyphicons ban"><i></i><span>Agentes</span></a></li>
 				</ul>
 			</li>
 		</ul>

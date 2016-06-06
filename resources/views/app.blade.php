@@ -14,7 +14,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
 
 		<!-- CSS DEFINITION -->
-		<link rel="shortcut icon" href="{{ asset('public/img/logo.png') }}">
+		<link rel="shortcut icon" href="{{ asset('public/img/logo.ico') }}">
 		<link rel="stylesheet" type="text/css" href="{{ asset('public/css/base-styles.css') }}" />
 		<link rel="stylesheet" type="text/css" href="{{ asset('public/css/admin.css') }}" />
 

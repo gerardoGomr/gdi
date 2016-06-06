@@ -1,5 +1,5 @@
 <!-- NAVBAR -->
-<div class="navbar hidden-print box main navbar-primary" role="navigation">
+<div class="navbar hidden-print box main navbar-primary" role="navigation" style="background: url('{{ url('public/img/fondo.png') }}') repeat-x">
 	<div class="user-action user-action-btn-navbar pull-left border-right">
 		<button class="btn btn-sm btn-navbar btn-primary btn-stroke" data-toggle="tooltip" data-original-title="Expander/contraer menú" data-placement="right"><i class="fa fa-bars fa-2x"></i></button>
 	</div>
@@ -21,7 +21,7 @@
 				<span class="media margin-none">
 					<span class="pull-left"></span>
 					<span class="media-body">
-						<span class="strong"><i class="fa fa-user"></i> - </span><span class="caret"></span>
+						<span class="strong"><i class="fa fa-user"></i> Gerardo Adrián Gómez Ruiz</span><span class="caret"></span>
 					</span>
 				</span>
 			</a>
