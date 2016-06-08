@@ -1,6 +1,8 @@
 <?php
 namespace GDI\Dominio\Vehiculos;
 
+use GDI\Dominio\Polizas\AsociadoProtegido;
+
 /**
  * Class Vehiculo
  * Ejemplo: Nissan - Tsuru GSI - 2016 - Taxi
@@ -31,6 +33,16 @@ class Vehiculo
     private $anio;
 
     /**
+     * @var string
+     */
+    private $numeroSerie;
+
+    /**
+     * @var string
+     */
+    private $numeroMotor;
+
+    /**
      * @var Modalidad
      */
     private $modalidad;
@@ -45,15 +57,19 @@ class Vehiculo
      * @param Modelo $modelo
      * @param Marca $marca
      * @param int $anio
+     * @param string|null $numeroSerie
+     * @param string|null $numeroMotor
      * @param Modalidad $modalidad
+     * @param AsociadoProtegido $asociadoProtegido
      * @param int $id
      */
-    public function __construct(Modelo $modelo = null, Marca $marca = null, $anio = 0, Modalidad $modalidad = null, $id = 0)
+    public function __construct(Modelo $modelo = null, Marca $marca = null, $anio = 0, $numeroSerie = null, $numeroMotor = null, Modalidad $modalidad = null, AsociadoProtegido $asociadoProtegido = null, $id = 0)
     {
         $this->modelo    = $modelo;
         $this->marca     = $marca;
         $this->anio      = $anio;
         $this->modalidad = $modalidad;
+        $this->asociadoProtegido = $asociadoProtegido;
     }
 
 
@@ -95,5 +111,13 @@ class Vehiculo
     public function getModalidad()
     {
         return $this->modalidad;
+    }
+
+    /**
+     * @return AsociadoProtegido
+     */
+    public function getAsociadoProtegido()
+    {
+        return $this->asociadoProtegido;
     }
 }
