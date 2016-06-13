@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<ul class="menu list-unstyled" id="navigation_components">
-			<li><a href="" class="glyphicons notes_2"><i></i><span>Pólizas</span></a></li>
+			<li><a href="{{ url('polizas') }}" class="glyphicons notes_2"><i></i><span>Pólizas</span></a></li>
 			<li class="hasSubmenu">
 				<a href="#submenuReportes" class="glyphicons stats" data-toggle="collapse"><i></i><span>Reportes</span></a>
 				<ul id="submenuReportes" class="animated fadeIn collapse">

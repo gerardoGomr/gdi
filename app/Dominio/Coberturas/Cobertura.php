@@ -35,6 +35,11 @@ class Cobertura
     /**
      * @var IColeccion
      */
+    private $costos;
+
+    /**
+     * @var IColeccion
+     */
     private $responsabilidades;
 
     /**
@@ -45,13 +50,14 @@ class Cobertura
      * @param IColeccion $responsabilidades
      * @param int $id
      */
-    public function __construct($nombre = null, CoberturaTipo $coberturaTipo = null, Servicio $servicio = null, IColeccion $responsabilidades = null, $id = 0)
+    public function __construct($nombre = null, CoberturaTipo $coberturaTipo = null, Servicio $servicio = null, IColeccion $responsabilidades = null, IColeccion $costos, $id = 0)
     {
         $this->id                = $id;
         $this->nombre            = $nombre;
         $this->coberturaTipo     = $coberturaTipo;
         $this->servicio          = $servicio;
         $this->responsabilidades = $responsabilidades;
+        $this->costos            = $costos;
     }
 
     /**
@@ -96,17 +102,19 @@ class Cobertura
 
     /**
      * agregar una nueva responsabilidad a la cobertura
-     * @param ResponsabilidadCobertura $responsabilidad
      * @throws \Exception
      * @return void
      */
-    public function agregarResponsabilidad(ResponsabilidadCobertura $responsabilidad)
+    public function verificarResponsabilidad()
     {
-        if ($this->coberturaTipo == CoberturaTipo::LOCAL) {
-            if ($responsabilidad->getCoberturaConcepto()->getConcepto() !== CoberturaConcepto::RC_VIAJERO) {
-                throw new \Exception('No se aceptan resposabilidades diferentes a ' . CoberturaConcepto::RC_VIAJERO . ' en cobertura de tipo Local');
+        foreach ($this->responsabilidades as $responsabilidad) {
+            if ($this->coberturaTipo == CoberturaTipo::LOCAL) {
+                if ($responsabilidad->getCoberturaConcepto() == CoberturaConcepto::RC_VIAJERO) {
+
+                }
             }
         }
+
 
         if ($this->coberturaTipo == CoberturaTipo::BASICA) {
             if ($responsabilidad->getCoberturaConcepto()->getConcepto() == CoberturaConcepto::DANIOS_MATERIALES || $responsabilidad->getCoberturaConcepto()->getConcepto() == CoberturaConcepto::ROBO_TOTAL) {

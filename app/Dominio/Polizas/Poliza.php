@@ -53,7 +53,12 @@ class Poliza
     /**
      * @var bool
      */
-    private $estaPagada;    
+    private $estaPagada;
+
+    /**
+     * @var double
+     */
+    private $costo;
 
     /**
      * Class Poliza Constructor
@@ -148,5 +153,13 @@ class Poliza
     public function getEstaPagada()
     {
         return $this->estaPagada;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCosto()
+    {
+        return $this->costo;
     }
 }

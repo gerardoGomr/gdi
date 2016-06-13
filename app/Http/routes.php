@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('principal');
 });
 
+Route::get('polizas', 'Polizas\PolizasController@index');
+Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');
+
 Route::get('login', function () {
     return view('login');
 });
