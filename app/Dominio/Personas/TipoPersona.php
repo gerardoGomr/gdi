@@ -1,5 +1,4 @@
 <?php
-
 namespace GDI\Dominio\Personas;
 
 use \SplEnum;

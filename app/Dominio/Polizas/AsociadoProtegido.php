@@ -3,6 +3,7 @@ namespace GDI\Dominio\Polizas;
 
 use GDI\Dominio\Personas\Persona;
 use GDI\Dominio\Personas\TipoPersona;
+use GDI\Dominio\Personas\Domicilio;
 
 /**
  * Class AsociadoProtegido
@@ -39,13 +40,13 @@ class AsociadoProtegido extends Persona
 
     /**
      * AsociadoProtegido constructor.
-     * @param int $id
      * @param null $razonSocial
      * @param string $rfc
      * @param Domicilio $domicilio
      * @param TipoPersona $tipoPersona
+     * @param int $id
      */
-    public function __construct($id = 0, $razonSocial = null, $rfc = null, Domicilio $domicilio = null, TipoPersona $tipoPersona = TipoPersona::PERSONA_FISICA)
+    public function __construct($razonSocial = null, $rfc = null, Domicilio $domicilio = null, TipoPersona $tipoPersona = null, $id = 0)
     {
         $this->id          = $id;
         $this->razonSocial = $razonSocial;

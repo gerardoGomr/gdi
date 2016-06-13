@@ -1,10 +1,10 @@
 <?php
 namespace GDI\Aplicacion;
 
-use Illuminate\Support\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use GDI\Dominio\Listas\IColeccion;
 
-class Coleccion extends Collection implements IColeccion
+class Coleccion extends ArrayCollection implements IColeccion
 {
 
 }
