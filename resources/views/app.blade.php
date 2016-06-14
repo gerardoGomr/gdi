@@ -6,7 +6,7 @@
 <!--[if !IE]><!-->
 <html class="app sidebar sidebar-fusion footer-sticky navbar-sticky"><!-- <![endif]-->
 	<head>
-		<title>Grupo de Desarrollo Integral del Transporte</title>
+		<title>GRUPO DE DESARROLLO INTEGRAL DEL TRANSPORTE</title>
 
 		<!-- Meta -->
 		<meta charset="utf-8" />
@@ -46,7 +46,7 @@
 			<!-- Footer -->
 			<div id="footer" class="hidden-print">
 				<!--  Copyright Line -->
-				<div class="copy">&copy; {{ date('Y') }} - <a href="#">GDI v1.0</a> - Sistema de Pólizas</div>
+				<div class="copy">&copy; {{ date('Y') }} - <a href="#">GDI v1.0</a> - SISTEMA DE PÓLIZAS</div>
 				<!--  End Copyright Line -->
 			</div>
 			<!-- Footer END -->

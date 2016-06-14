@@ -5,81 +5,287 @@
         <div class="col-md-12">
             <div class="col-separator col-separator-first border-none">
                 <div class="col-table">
-                    <h4 class="innerAll">Agregar nueva póliza</h4>
+                    <h4 class="innerAll">AGREGAR NUEVA PÓLIZA</h4>
                     <div class="col-separator-h"></div>
                     <div class="col-table-row">
                         <div class="col-app col-unscrollable">
                             <div class="col-app">
-                                <form class="form-horizontal">
+                                <form class="form-horizontal" id="formPoliza" action="">
                                     <div class="innerAll">
                                         <div class="row">
-                                            <div class="col-md-12 col-lg-6">
-                                                <div class="box-generic">
-                                                    <h4 class="innerAll border-bottom">Buscar vehículos asociados a pólizas.</h4>
-                                                    <div class="form-group">
-                                                        <div class="col-md-10 col-md-offset-1">
-                                                            <input type="text" name="datoVehiculo" id="datoVehiculo" class="form-control" placeholder="Escriba el número de serie o número de motor y presion ENTER">
+                                            <div class="col-md-12 col-lg-8" id="busquedaVehiculo">
+                                                <div class="box-generic padding-none">
+                                                    <h4 class="innerAll border-bottom bg-gray">VEHÍCULOS ASOCIADOS A PÓLIZAS</h4>
+                                                    <div class="innerAll">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">VEHÍCULO:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="datoVehiculo" id="datoVehiculo" class="form-control" placeholder="ESCRIBA EL NÚMERO DE SERIE O MOTOR Y PRESIONE ENTER">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12 col-lg-6">
-                                                <div class="box-generic">
-                                                    <h4 class="innerAll border-bottom">Datos del asociado protegido</h4>
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3" for="modelo">Asociado protegido:</label>
-                                                        <div class="col-md-7">
-                                                            <input type="text" name="datoAsociado" id="datoAsociado" class="form-control" placeholder="Ingrese nombres, domicilio, razón social o RFC y presion ENTER">
+                                            <div class="col-md-12 col-lg-6 hide" id="datosAsociado">
+                                                <div class="box-generic padding-none">
+                                                    <h4 class="innerAll border-bottom bg-gray">DATOS DE ASOCIADO PROTEGIDO</h4>
+                                                    <div class="innerAll">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="datoAsociado">ASOCIADO PROTEGIDO:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="datoAsociado" id="datoAsociado" class="form-control" placeholder="ESCRIBA NOMBRES O RFC Y PRESIONE ENTER">
+                                                            </div>
                                                         </div>
+
+                                                        <div id="desgloseAsociado" class="innerAll hide" style="max-height: 400px; overflow-y: scroll;">
+                                                            <table class="table table-bordered table-hover text-small">
+                                                                <thead>
+                                                                    <tr class="bg-primary">
+                                                                        <th>NOMBRE</th>
+                                                                        <th>RFC</th>
+                                                                        <th>DOMICILIO</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Gerardo Adrián Gómez Ruiz</td>
+                                                                        <td>9611930080</td>
+                                                                        <td>Av. Barrio Colón No. 261 Fracc. El Diamante</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                        <div id="registrarAsociado" class="hide">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3" for="tipoPersona">TIPO PERSONA:</label>
+                                                                <div class="col-md-7">
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="tipoPersona" value="1" class="persona"> P. FÍSICA
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="tipoPersona" value="2" class="persona"> P. MORAL
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group fisica hide">
+                                                                <label class="control-label col-md-3" for="nombre">NOMBRE:</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" name="nombre" id="nombre" class="form-control">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group fisica hide">
+                                                                <label class="control-label col-md-3" for="paterno">A. PATERNO:</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" name="paterno" id="paterno" class="form-control">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group fisica hide">
+                                                                <label class="control-label col-md-3" for="materno">A. MATERNO:</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" name="materno" id="materno" class="form-control">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group moral hide">
+                                                                <label class="control-label col-md-3" for="razonSocial">RAZÓN SOCIAL:</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" name="razonSocial" id="razonSocial" class="form-control">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3" for="rfc">R. F. C.:</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" name="rfc" id="rfc" class="form-control">
+                                                                </div>
+                                                            </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12 col-lg-6">
-                                                <div class="box-generic">
-                                                    <h4 class="innerAll border-bottom">Datos del vehículo</h4>
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3" for="marca">Marca:</label>
-                                                        <div class="col-md-7">
-                                                            <select class="form-control" name="marca" id="marca">
-                                                                <option>Seleccione</option>
-                                                            </select>
+                                            <div class="col-md-12 col-lg-6 hide" id="datosVehiculo">
+                                                <div class="box-generic padding-none">
+                                                    <h4 class="innerAll border-bottom bg-gray">DATOS DEL VEHÍCULO</h4>
+                                                    <div class="innerAll">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="marca">ASOCIADO PROTEGIDO:</label>
+                                                            <div class="col-md-7">JUAN APARICIO <button id="cambiarAsociado" class="btn btn-primary btn-stroke">Cambiar</button></div>
                                                         </div>
-                                                    </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="servicio">SERVICIO:</label>
+                                                                    <div class="col-md-7">
+                                                                        <select class="form-control" name="servicio" id="servicio">
+                                                                            <option value="">SELECCIONE</option>
+                                                                            <option value="1">ESTATAL</option>
+                                                                            <option value="2">FEDERAL</option>
+                                                                            <option value="3">OTRO</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
 
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3" for="modelo">Modelo:</label>
-                                                        <div class="col-md-7">
-                                                            <select class="form-control" name="modelo" id="modelo">
-                                                                <option>Seleccione</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="modalidad">MODALIDAD:</label>
+                                                                    <div class="col-md-7">
+                                                                        <select class="form-control" name="modalidad" id="modalidad">
+                                                                            <option value="">SELECCIONE</option>
+                                                                            <option value="1">TAXI</option>
+                                                                            <option value="2">COMBI</option>
+                                                                            <option value="3">URVAN</option>
+                                                                            <option value="3">OTRO</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
 
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3" for="anio">Año:</label>
-                                                        <div class="col-md-3">
-                                                            <input type="text" name="anio" id="anio" class="form-control">
-                                                        </div>
-                                                    </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="marca">MARCA:</label>
+                                                                    <div class="col-md-7">
+                                                                        <select class="form-control" name="marca" id="marca">
+                                                                            <option>SELECCIONE</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
 
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3" for="servicio">Servicio:</label>
-                                                        <div class="col-md-7">
-                                                            <select class="form-control" name="servicio" id="servicio">
-                                                                <option value="">Seleccione</option>
-                                                                <option value="1">Estatal</option>
-                                                                <option value="2">Federal</option>
-                                                                <option value="3">Otro</option>
-                                                            </select>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="modelo">MODELO:</label>
+                                                                    <div class="col-md-7">
+                                                                        <select class="form-control" name="modelo" id="modelo">
+                                                                            <option>SELECCIONE</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="anio">AÑO:</label>
+                                                                    <div class="col-md-3 col-lg-7">
+                                                                        <input type="text" name="anio" id="anio" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="numSerie">NUM. SERIE:</label>
+                                                                    <div class="col-md-7">
+                                                                        <input type="text" name="numSerie" id="numSerie" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="numMotor">NUM. MOTOR:</label>
+                                                                    <div class="col-md-7">
+                                                                        <input type="text" name="numMotor" id="numMotor" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="capacidad">CAPACIDAD:</label>
+                                                                    <div class="col-md-5 col-lg-7">
+                                                                        <div class="input-group">
+                                                                            <input type="text" name="capacidad" id="capacidad" class="form-control">
+                                                                            <span class="input-group-addon">PASAJEROS</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                        <!-- <div class="form-group">
+                                                            <label class="control-label col-md-3" for="servicio">SERVICIO:</label>
+                                                            <div class="col-md-7">ESTATAL</div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="modalidad">MODALIDAD:</label>
+                                                            <div class="col-md-7">TAXI</div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="marca">MARCA:</label>
+                                                            <div class="col-md-7">NISSAN</div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="modelo">MODELO:</label>
+                                                            <div class="col-md-7">TSURU GSI</div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="anio">AÑO:</label>
+                                                            <div class="col-md-3">2015</div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 col-lg-6">
-                                                <div class="box-generic">
-                                                    <h4 class="innerAll border-bottom">Coberturas</h4>
+
+                                            <div class="col-md-12 col-lg-6 hide" id="datosCobertura">
+                                                <div class="box-generic padding-none">
+                                                    <h4 class="innerAll border-bottom bg-gray">COBERTURAS</h4>
+                                                    <div class="innerAll">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="coberturaServicio">SERVICIO:</label>
+                                                            <div class="col-md-7">-</div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="coberturaTipo">TIPO:</label>
+                                                            <div class="col-md-7">
+                                                                <select class="form-control" name="coberturaTipo" id="coberturaTipo">
+                                                                    <option value="">SELECCIONE</option>
+                                                                    <option value="1">LOCAL</option>
+                                                                    <option value="2" selected="selected">BÁSICA</option>
+                                                                    <option value="3">AMPLIA</option>
+                                                                    <option value="3">OTRA</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="coberturaTipo">COBERTURA:</label>
+                                                            <div class="col-md-7">
+                                                                <select class="form-control" name="coberturaTipo" id="coberturaTipo">
+                                                                    <option value="">SELECCIONE</option>
+                                                                    <option value="1">LOCAL DEFAULT</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="innerAll" id="desgloseCobertura">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>COSTO:</td>
+                                                                    <td class="strong text-primary">$1, 500.00</td>
+                                                                </tr>
+                                                            </table>
+                                                            <div class="separator"></div>
+                                                            <table class="table table-bordered text-small">
+                                                                <thead class="bg-primary">
+                                                                    <tr>
+                                                                        <th>CONCEPTO</th>
+                                                                        <th>LIM. RESPONSABILIDAD</th>
+                                                                        <th>CUOTA EXTRAORDINARIA</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>DAÑOS MATERIALES:</td>
+                                                                        <td>EXCLUÍDO</td>
+                                                                        <td>-</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -92,4 +298,8 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('js')
+    <script src="{{ asset('public/js/polizas/polizas_registrar.js') }}"></script>
 @stop
