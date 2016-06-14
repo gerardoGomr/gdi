@@ -960,6 +960,12 @@ jQuery(document).ready(function($) {
         }, 300);
     }
 });
+jQuery(document).ready(function($) {
+    // transformar la escritura de los elementos a mayúsculas
+    $('input[type=text], textarea').on('keyup', function () {
+        $(this).val($(this).val().toUpperCase());
+    });
+});
 /*! jQuery Validation Plugin - v1.10.0 - 9/7/2012
 * https://github.com/jzaefferer/jquery-validation
 * Copyright (c) 2012 Jörn Zaefferer; Licensed MIT, GPL */

@@ -23,8 +23,6 @@ $(document).ready(function() {
 			bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL VEHÍCULO.', function () {
 				$busquedaVehiculo.addClass('hide');
 				$datosAsociado.removeClass('hide');
-				$datosVehiculo.removeClass('hide');
-				$datosCobertura.removeClass('hide');
 
 				setTimeout(function () {
 					$('#datoAsociado').focus();
@@ -37,6 +35,9 @@ $(document).ready(function() {
 	$datoAsociado.on('keyup', function(event) {
 		if (event === 13 || event.which === 13) {
 			bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL ASOCIADO PROTEGIDO.', function () {
+				$datosVehiculo.removeClass('hide');
+				$datosCobertura.removeClass('hide');
+				$('#acciones').find('.hide').removeClass('hide');
 				$registrarAsociado.removeClass('hide');
 			});
 		}
@@ -54,6 +55,17 @@ $(document).ready(function() {
 			$formPoliza.find('div.moral').removeClass('hide');
 		}
 	});
+
+	// cancelar registro
+	$('#cancelar').on('click', function (event) {
+		event.preventDefault();
+
+		bootbox.confirm('¿DESEA CANCELAR LA CAPTURA Y REGRESAR AL LISTADO DE PÓLIZAS?', function (e) {
+			if (e === true) {
+				window.location.href = $('#cancelar').attr('href');
+			}
+		})
+	})
 
 	// focus a primer elemento
 	setTimeout(function () {

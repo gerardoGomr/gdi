@@ -404,6 +404,10 @@ h6 [class*="icon-"] {
   -ms-background-size: 100% 30px;
   background-size: 100% 30px;
 }
+input,
+textarea {
+  text-transform: uppercase;
+}
 /* --- LOADING [less.helpers] from assets/components/core/less/helpers.less */
 .scripts-async .container-fluid {
   visibility: hidden;

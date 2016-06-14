@@ -12,9 +12,14 @@
                             <div class="col-app">
                                 <form class="form-horizontal" id="formPoliza" action="">
                                     <div class="innerAll">
+                                        <span id="acciones">
+                                            <a href="" class="hide btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR PÓLIZA</a>
+                                            <a href="{{ url('polizas') }}" class="btn btn-default" id="cancelar"><i class="fa fa-times"></i> CANCELAR REGISTRO</a>
+                                            <div class="separator"></div>
+                                        </span>
                                         <div class="row">
-                                            <div class="col-md-12 col-lg-8" id="busquedaVehiculo">
-                                                <div class="box-generic padding-none">
+                                            <div class="col-md-12 col-lg-6">
+                                                <div id="busquedaVehiculo" class="box-generic padding-none">
                                                     <h4 class="innerAll border-bottom bg-gray">VEHÍCULOS ASOCIADOS A PÓLIZAS</h4>
                                                     <div class="innerAll">
                                                         <div class="form-group">
@@ -25,10 +30,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12 col-lg-6 hide" id="datosAsociado">
-                                                <div class="box-generic padding-none">
+                                                <div id="datosAsociado" class="box-generic padding-none hide">
                                                     <h4 class="innerAll border-bottom bg-gray">DATOS DE ASOCIADO PROTEGIDO</h4>
                                                     <div class="innerAll">
                                                         <div class="form-group">
@@ -41,18 +44,18 @@
                                                         <div id="desgloseAsociado" class="innerAll hide" style="max-height: 400px; overflow-y: scroll;">
                                                             <table class="table table-bordered table-hover text-small">
                                                                 <thead>
-                                                                    <tr class="bg-primary">
-                                                                        <th>NOMBRE</th>
-                                                                        <th>RFC</th>
-                                                                        <th>DOMICILIO</th>
-                                                                    </tr>
+                                                                <tr class="bg-primary">
+                                                                    <th>NOMBRE</th>
+                                                                    <th>RFC</th>
+                                                                    <th>DOMICILIO</th>
+                                                                </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <td>Gerardo Adrián Gómez Ruiz</td>
-                                                                        <td>9611930080</td>
-                                                                        <td>Av. Barrio Colón No. 261 Fracc. El Diamante</td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>Gerardo Adrián Gómez Ruiz</td>
+                                                                    <td>9611930080</td>
+                                                                    <td>Av. Barrio Colón No. 261 Fracc. El Diamante</td>
+                                                                </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -109,12 +112,11 @@
                                                                     <input type="text" name="rfc" id="rfc" class="form-control">
                                                                 </div>
                                                             </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12 col-lg-6 hide" id="datosVehiculo">
-                                                <div class="box-generic padding-none">
+                                                <div id="datosVehiculo" class="box-generic padding-none hide">
                                                     <h4 class="innerAll border-bottom bg-gray">DATOS DEL VEHÍCULO</h4>
                                                     <div class="innerAll">
                                                         <div class="form-group">
@@ -170,8 +172,8 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label class="control-label col-md-3" for="anio">AÑO:</label>
-                                                                    <div class="col-md-3 col-lg-7">
-                                                                        <input type="text" name="anio" id="anio" class="form-control">
+                                                                    <div class="col-md-3 col-lg-5">
+                                                                        <input type="text" name="anio" id="anio" class="form-control" maxlength="4" placeholder="4 dígitos">
                                                                     </div>
                                                                 </div>
 
@@ -228,8 +230,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12 col-lg-6 hide" id="datosCobertura">
-                                                <div class="box-generic padding-none">
+                                            <div class="col-md-12 col-lg-6">
+                                                <div id="datosCobertura" class="box-generic padding-none hide">
                                                     <h4 class="innerAll border-bottom bg-gray">COBERTURAS</h4>
                                                     <div class="innerAll">
                                                         <div class="form-group">
@@ -245,7 +247,6 @@
                                                                     <option value="1">LOCAL</option>
                                                                     <option value="2" selected="selected">BÁSICA</option>
                                                                     <option value="3">AMPLIA</option>
-                                                                    <option value="3">OTRA</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -255,9 +256,53 @@
                                                             <div class="col-md-7">
                                                                 <select class="form-control" name="coberturaTipo" id="coberturaTipo">
                                                                     <option value="">SELECCIONE</option>
-                                                                    <option value="1">LOCAL DEFAULT</option>
+                                                                    <option value="1">OTRA</option>
+                                                                    <option value="2">LOCAL DEFAULT</option>
                                                                 </select>
                                                             </div>
+                                                        </div>
+
+                                                        <div class="" id="registroCobertura">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">NOMBRE:</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" name="nombreCobertura" id="nombreCobertura" class="form-control">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">CONCEPTO:</label>
+                                                                <div class="col-md-7">
+                                                                    <div class="input-group">
+                                                                        <select class="form-control" name="conceptoCobertura" id="conceptoCobertura">
+                                                                            <option value="">SELECCIONE</option>
+                                                                            <option value="1">OTRO</option>
+                                                                            <option value="2">R.C. VIAJERO</option>
+                                                                            <option value="2">ROBO TOTAL</option>
+                                                                        </select>
+                                                                        <div class="input-group-btn">
+                                                                            <button id="agregarConceptoCobertura" class="btn btn-default" data-toggle="tooltip" data-original-title="AGREGAR A RESPONSABILIDADES" data-placement="top"><i class="fa fa-plus-square"></i></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <table id="tablaReponsabilidades" class="table table-bordered">
+                                                                <thead class="bg-gray">
+                                                                    <tr>
+                                                                        <th>CONCEPTO</th>
+                                                                        <th>LIM. RESPONSABILIDAD</th>
+                                                                        <th>CUOTA EXTRAORDINARIA</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><input type="text" name="concepto[]" value="R.C. VIAJERO" class="form-control"></td>
+                                                                        <td><input type="text" name="limResponsabilidad[]" value="HASTA 19D" class="form-control"></td>
+                                                                        <td><input type="text" name="cuotaExtraordinaria[]" value="-" class="form-control"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
 
                                                         <div class="innerAll" id="desgloseCobertura">
@@ -270,18 +315,18 @@
                                                             <div class="separator"></div>
                                                             <table class="table table-bordered text-small">
                                                                 <thead class="bg-primary">
-                                                                    <tr>
-                                                                        <th>CONCEPTO</th>
-                                                                        <th>LIM. RESPONSABILIDAD</th>
-                                                                        <th>CUOTA EXTRAORDINARIA</th>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <th>CONCEPTO</th>
+                                                                    <th>LIM. RESPONSABILIDAD</th>
+                                                                    <th>CUOTA EXTRAORDINARIA</th>
+                                                                </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <td>DAÑOS MATERIALES:</td>
-                                                                        <td>EXCLUÍDO</td>
-                                                                        <td>-</td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>DAÑOS MATERIALES:</td>
+                                                                    <td>EXCLUÍDO</td>
+                                                                    <td>-</td>
+                                                                </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
