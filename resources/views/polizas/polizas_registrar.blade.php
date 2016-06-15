@@ -13,7 +13,7 @@
                                 <form class="form-horizontal" id="formPoliza" action="">
                                     <div class="innerAll">
                                         <span id="acciones">
-                                            <a href="" class="hide btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR PÓLIZA</a>
+                                            <a href="" id="registrarPoliza" class="hide btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR PÓLIZA</a>
                                             <a href="{{ url('polizas') }}" class="btn btn-default" id="cancelar"><i class="fa fa-times"></i> CANCELAR REGISTRO</a>
                                             <div class="separator"></div>
                                         </span>
@@ -121,10 +121,28 @@
                                                     <div class="innerAll">
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3" for="marca">ASOCIADO PROTEGIDO:</label>
-                                                            <div class="col-md-7">JUAN APARICIO <button id="cambiarAsociado" class="btn btn-primary btn-stroke">Cambiar</button></div>
+                                                            <div class="col-md-7">
+                                                                <span id="asociadoElegido">-</span>
+                                                                <!--<button id="cambiarAsociado" class="btn btn-primary btn-stroke">Cambiar</button>-->
+                                                            </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-md-3" for="modalidad">MODALIDAD:</label>
+                                                                    <div class="col-md-7">
+                                                                        <select class="form-control" name="modalidad" id="modalidad">
+                                                                            <option value="">SELECCIONE</option>
+                                                                            <option value="2">TAXI</option>
+                                                                            <option value="3">COMBI</option>
+                                                                            <option value="4">URVAN</option>
+                                                                            <option value="5">MOTOCARRO</option>
+                                                                            <option value="6">MICROBUS</option>
+                                                                            <option value="1">OTRO</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
                                                                 <div class="form-group">
                                                                     <label class="control-label col-md-3" for="servicio">SERVICIO:</label>
                                                                     <div class="col-md-7">
@@ -132,19 +150,6 @@
                                                                             <option value="">SELECCIONE</option>
                                                                             <option value="1">ESTATAL</option>
                                                                             <option value="2">FEDERAL</option>
-                                                                            <option value="3">OTRO</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label class="control-label col-md-3" for="modalidad">MODALIDAD:</label>
-                                                                    <div class="col-md-7">
-                                                                        <select class="form-control" name="modalidad" id="modalidad">
-                                                                            <option value="">SELECCIONE</option>
-                                                                            <option value="1">TAXI</option>
-                                                                            <option value="2">COMBI</option>
-                                                                            <option value="3">URVAN</option>
                                                                             <option value="3">OTRO</option>
                                                                         </select>
                                                                     </div>
@@ -202,41 +207,28 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="form-group">
-                                                            <label class="control-label col-md-3" for="servicio">SERVICIO:</label>
-                                                            <div class="col-md-7">ESTATAL</div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3" for="modalidad">MODALIDAD:</label>
-                                                            <div class="col-md-7">TAXI</div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3" for="marca">MARCA:</label>
-                                                            <div class="col-md-7">NISSAN</div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3" for="modelo">MODELO:</label>
-                                                            <div class="col-md-7">TSURU GSI</div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3" for="anio">AÑO:</label>
-                                                            <div class="col-md-3">2015</div>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12 col-lg-6">
+                                                <div id="datosAsociadoAgente" class="box-generic padding-none hide">
+                                                    <h4 class="innerAll border-bottom bg-gray">ASOCIADO AGENTE</h4>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="asociadoAgente">&nbsp;</label>
+                                                        <div class="col-md-7">
+                                                            <select class="form-control" name="asociadoAgente" id="asociadoAgente">
+                                                                <option value="">SELECCIONE</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div id="datosCobertura" class="box-generic padding-none hide">
                                                     <h4 class="innerAll border-bottom bg-gray">COBERTURAS</h4>
                                                     <div class="innerAll">
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3" for="coberturaServicio">SERVICIO:</label>
-                                                            <div class="col-md-7">-</div>
+                                                            <div class="col-md-7"><span id="coberturaServicio"></span></div>
                                                         </div>
 
                                                         <div class="form-group">
@@ -252,9 +244,9 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="control-label col-md-3" for="coberturaTipo">COBERTURA:</label>
+                                                            <label class="control-label col-md-3" for="cobertura">COBERTURA:</label>
                                                             <div class="col-md-7">
-                                                                <select class="form-control" name="coberturaTipo" id="coberturaTipo">
+                                                                <select class="form-control" name="cobertura" id="cobertura">
                                                                     <option value="">SELECCIONE</option>
                                                                     <option value="1">OTRA</option>
                                                                     <option value="2">LOCAL DEFAULT</option>
@@ -262,7 +254,21 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="" id="registroCobertura">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="vigencia">VIGENCIA:</label>
+                                                            <div class="col-md-7">
+                                                                <select class="form-control" name="vigencia" id="vigencia">
+                                                                    <option value="">SELECCIONE</option>
+                                                                    <option value="1">6 MESES</option>
+                                                                    <option value="2">12 MESES</option>
+                                                                    <option value="3">13 MESES</option>
+                                                                    <option value="4">18 MESES</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="hide" id="registroCobertura">
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-3">NOMBRE:</label>
                                                                 <div class="col-md-7">
@@ -334,6 +340,15 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="hidden" name="polizaNueva" id="polizaNueva">
+                                        <input type="hidden" name="asociadoNuevo" id="asociadoNuevo">
+                                        <input type="hidden" name="vehiculoNuevo" id="vehiculoNuevo">
+                                        <input type="hidden" name="coberturaNueva" id="coberturaNueva">
+
+                                        <input type="hidden" id="buscarAsociado" value="0">
                                     </div>
                                 </form>
                             </div>
