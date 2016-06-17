@@ -17,6 +17,10 @@ Route::get('/', function () {
 
 Route::get('polizas', 'Polizas\PolizasController@index');
 Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');
+Route::post('polizas/registrar', [
+    'as' => 'poliza-registrar',
+    'use' => 'Polizas\PolizasController@registrar',
+]);
 
 Route::get('login', function () {
     return view('login');

@@ -10,7 +10,7 @@
                     <div class="col-table-row">
                         <div class="col-app col-unscrollable">
                             <div class="col-app">
-                                <form class="form-horizontal" id="formPoliza" action="">
+                                <form class="form-horizontal" id="formPoliza" action="{{ route('poliza-registrar') }}">
                                     <div class="innerAll">
                                         <span id="acciones">
                                             <a href="" id="registrarPoliza" class="hide btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR PÓLIZA</a>
@@ -41,7 +41,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="desgloseAsociado" class="innerAll hide" style="max-height: 400px; overflow-y: scroll;">
+                                                        <div id="desgloseAsociado" class="hide" style="max-height: 400px; overflow-y: scroll;">
                                                             <table class="table table-bordered table-hover text-small">
                                                                 <thead>
                                                                 <tr class="bg-primary">
@@ -148,10 +148,12 @@
                                                                     <div class="col-md-7">
                                                                         <select class="form-control" name="servicio" id="servicio">
                                                                             <option value="">SELECCIONE</option>
-                                                                            <option value="1">ESTATAL</option>
-                                                                            <option value="2">FEDERAL</option>
-                                                                            <option value="3">OTRO</option>
+                                                                            <option value="1">OTRO</option>
+                                                                            <option value="2">ESTATAL</option>
+                                                                            <option value="3">FEDERAL</option>
                                                                         </select>
+                                                                        <div class="separator hide"></div>
+                                                                        <input type="text" name="otroServicio" id="otroServicio" class="form-control hide" placeholder="ESCRIBA EL SERVICIO">
                                                                     </div>
                                                                 </div>
 
@@ -168,8 +170,11 @@
                                                                     <label class="control-label col-md-3" for="modelo">MODELO:</label>
                                                                     <div class="col-md-7">
                                                                         <select class="form-control" name="modelo" id="modelo">
-                                                                            <option>SELECCIONE</option>
+                                                                            <option value="">SELECCIONE</option>
+                                                                            <option value="1">OTRO</option>
                                                                         </select>
+                                                                        <div class="separator hide"></div>
+                                                                        <input type="text" name="otroModelo" id="otroModelo" class="form-control hide" placeholder="ESCRIBA EL MODELO">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -215,11 +220,56 @@
                                                 <div id="datosAsociadoAgente" class="box-generic padding-none hide">
                                                     <h4 class="innerAll border-bottom bg-gray">ASOCIADO AGENTE</h4>
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3" for="asociadoAgente">&nbsp;</label>
+                                                        <label class="control-label col-md-3" for="asociadoAgente">NOMBRE:</label>
                                                         <div class="col-md-7">
                                                             <select class="form-control" name="asociadoAgente" id="asociadoAgente">
                                                                 <option value="">SELECCIONE</option>
+                                                                <option value="1">OTRO</option>
                                                             </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="datosCapturaAsociadoAgente" class="hide">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="nombreAgente">NOMBRE:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="nombreAgente" id="nombreAgente" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="paternoAgente">A. PATERNO:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="paternoAgente" id="paternoAgente" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="maternoAgente">A. MATERNO:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="maternoAgente" id="maternoAgente" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="domicilioAgente">DOMICILIO:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="domicilioAgente" id="domicilioAgente" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="ciudadAgente">CIUDAD:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="ciudadAgente" id="ciudadAgente" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="telefonoAgente">TELÉFONO:</label>
+                                                            <div class="col-md-7">
+                                                                <input type="text" name="telefonoAgente" id="telefonoAgente" class="form-control">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -255,14 +305,10 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="control-label col-md-3" for="vigencia">VIGENCIA:</label>
+                                                            <label class="control-label col-md-3 vigenciaCobertura" for="vigenciaCobertura">VIGENCIA:</label>
                                                             <div class="col-md-7">
-                                                                <select class="form-control" name="vigencia" id="vigencia">
+                                                                <select class="form-control vigenciaCobertura" name="vigenciaCobertura" id="vigenciaCobertura">
                                                                     <option value="">SELECCIONE</option>
-                                                                    <option value="1">6 MESES</option>
-                                                                    <option value="2">12 MESES</option>
-                                                                    <option value="3">13 MESES</option>
-                                                                    <option value="4">18 MESES</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -273,6 +319,40 @@
                                                                 <label class="control-label col-md-3">NOMBRE:</label>
                                                                 <div class="col-md-7">
                                                                     <input type="text" name="nombreCobertura" id="nombreCobertura" class="form-control">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3" for="vigencias">VIGENCIAS:</label>
+                                                                <div class="col-md-7">
+                                                                    <select class="form-control" name="vigencias" id="vigencias">
+                                                                        <option value="">SELECCIONE</option>
+                                                                        <option value="1">OTRA</option>
+                                                                        <option value="2">6 MESES</option>
+                                                                        <option value="3">12 MESES</option>
+                                                                        <option value="4">13 MESES</option>
+                                                                        <option value="5">18 MESES</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group nuevaVigencia">
+                                                                <label for="nuevaVigencia" class="control-label col-md-3">NUEVA VIGENCIA</label>
+                                                                <div class="col-md-4">
+                                                                    <div class="input-group">
+                                                                        <input type="text" name="nuevaVigencia" id="nuevaVigencia" class="form-control" maxlength="2">
+                                                                        <span class="input-group-addon">MESES</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="nuevoCosto" class="control-label col-md-3">NUEVO COSTO:</label>
+                                                                <div class="col-md-4">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                                                        <input type="text" name="nuevoCosto" id="nuevoCosto" class="form-control">
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -311,7 +391,7 @@
                                                             </table>
                                                         </div>
 
-                                                        <div class="innerAll" id="desgloseCobertura">
+                                                        <div class="innerAll hide" id="desgloseCobertura">
                                                             <table>
                                                                 <tr>
                                                                     <td>COSTO:</td>
@@ -347,7 +427,6 @@
                                         <input type="hidden" name="asociadoNuevo" id="asociadoNuevo">
                                         <input type="hidden" name="vehiculoNuevo" id="vehiculoNuevo">
                                         <input type="hidden" name="coberturaNueva" id="coberturaNueva">
-
                                         <input type="hidden" id="buscarAsociado" value="0">
                                     </div>
                                 </form>

@@ -30,7 +30,7 @@ $(document).ready(function() {
 			bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL VEHÍCULO.', function () {
 				$busquedaVehiculo.addClass('hide');
 				$datosAsociado.removeClass('hide');
-
+				$datosAsociadoAgente.removeClass('hide');
 				$datosVehiculo.removeClass('hide');
 				$datosCobertura.removeClass('hide');
 				$('#acciones').find('.hide').removeClass('hide');
@@ -47,7 +47,6 @@ $(document).ready(function() {
 		if (event === 13 || event.which === 13) {
 			bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL ASOCIADO PROTEGIDO.', function () {
 				$registrarAsociado.removeClass('hide');
-				$datosAsociadoAgente.removeClass('hide');
 				$buscarAsociado.val('1');
 			});
 		}
@@ -77,16 +76,61 @@ $(document).ready(function() {
 		});
 	});
 
+	// change a modelo de carro
+	$('#modelo').on('change', function (event) {
+		if ($(this).val() === '1') {
+			$('#otroModelo').removeClass('hide');
+			$('#otroModelo').siblings('div.separator').removeClass('hide');
+			$('#otroModelo').focus();
+		} else {
+			$('#otroModelo').addClass('hide');
+			$('#otroModelo').siblings('div.separator').addClass('hide');
+		}
+	});
+
 	// change a servicio de vehículo
 	$('#servicio').on('change', function (event) {
 		var servicioTexto = $(this).find('option:selected').text();
 		$('#coberturaServicio').text(servicioTexto);
+
+		if ($(this).val() === '1') {
+			$('#otroServicio').removeClass('hide');
+			$('#otroServicio').siblings('div.separator').removeClass('hide');
+			$('#otroServicio').focus();
+		} else {
+			$('#otroServicio').addClass('hide');
+			$('#otroServicio').siblings('div.separator').addClass('hide');
+		}
+	});
+
+	// change a asociado agente
+	$('#asociadoAgente').on('change', function (event) {
+		if ($(this).val() === '1') {
+			$('#datosCapturaAsociadoAgente').removeClass('hide');
+		} else {
+			$('#datosCapturaAsociadoAgente').addClass('hide');
+		}
 	});
 
 	// change a cobertura
 	$('#cobertura').on('change', function (event) {
 		if ($(this).val() === '1') {
 			$('#registroCobertura').removeClass('hide');
+			$('#vigenciaCobertura').addClass('hide');
+			$formPoliza.find('label.vigenciaCobertura').addClass('hide');
+		} else {
+			$('#registroCobertura').addClass('hide');
+			$('#vigenciaCobertura').removeClass('hide');
+			$formPoliza.find('label.vigenciaCobertura').removeClass('hide');
+		}
+	});
+
+	// change a nueva vigencia
+	$('#vigencias').on('change', function (event) {
+		if ($(this).val() === '1') {
+			$formPoliza.find('div.nuevaVigencia').removeClass('hide');
+		} else {
+			$formPoliza.find('div.nuevaVigencia').addClass('hide');
 		}
 	});
 
