@@ -6,6 +6,12 @@
   font-weight: 400;
   src: url(../fonts/Nunito-Regular.ttf);
 }
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/RobotoCondensed-Regular.ttf);
+}
 /* --- LOADING [less.mixins] from assets/components/core/less/mixins.less */
 /* --- LOADING [less.scaffolding] from assets/components/core/less/scaffolding.less */
 html {
@@ -13,7 +19,7 @@ html {
   height: 100%;
 }
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background: #eaeaea;
   font-size: 14px;
   color: #525252;
@@ -54,7 +60,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0 0 5px;
   font-weight: 700;
   color: #4d4d4d;
@@ -240,7 +246,7 @@ input,
 button,
 select,
 textarea {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 pre.prettyprint {
   word-break: normal;
@@ -2670,7 +2676,7 @@ input[type="color"],
 .uneditable-input {
   font-size: 13px;
   border-radius: 0 0 0 0;
-  border-color: #efefef;
+  border-color: #ccccce;
 }
 .uniformjs .radio .disabled input[type="radio"],
 .uniformjs .checkbox .disabled input[type="checkbox"] {
@@ -2730,7 +2736,7 @@ input[type=text],
 input[type=password],
 select,
 textarea {
-  border-color: #efefef;
+  border-color: #ccccce;
   color: #A7A7A7;
 }
 .control-label.center {
@@ -2777,10 +2783,10 @@ textarea {
 }
 .input-group .input-group-addon {
   background: #fff;
-  border-color: #efefef;
+  border-color: #ccccce;
 }
 .form-control {
-  border-color: #efefef;
+  border-color: #ccccce;
   box-shadow: none;
 }
 .friends-search {

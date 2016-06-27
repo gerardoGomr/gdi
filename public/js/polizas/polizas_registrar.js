@@ -28,16 +28,21 @@ $(document).ready(function() {
 	$datoVehiculo.on('keyup', function(event) {
 		if (event === 13 || event.which === 13) {
 			bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL VEHÍCULO.', function () {
-				$busquedaVehiculo.addClass('hide');
-				$datosAsociado.removeClass('hide');
-				$datosAsociadoAgente.removeClass('hide');
+				//$busquedaVehiculo.addClass('hide');
+				//$datosAsociado.removeClass('hide');
+				//$datosAsociadoAgente.removeClass('hide');
+				$('#vehiculoNoEncontrado').text('NO SE ENCONTRARON COINCIDENCIAS DE NÚMERO DE SERIE O MOTOR " ' + $datoVehiculo.val() + ' "');
+				$('#vehiculoNoEncontrado').removeClass('hide');
+				$('#numSerie').val($datoVehiculo.val());
+				$('#numMotor').val($datoVehiculo.val());
+				$datoVehiculo.val('');
 				$datosVehiculo.removeClass('hide');
 				$datosCobertura.removeClass('hide');
-				$('#acciones').find('.hide').removeClass('hide');
+				//$('#acciones').find('.hide').removeClass('hide');
 
-				setTimeout(function () {
-					$('#datoAsociado').focus();
-				}, 500);
+				// setTimeout(function () {
+				// 	$('#datoAsociado').focus();
+				// }, 500);
 			});
 		}
 	});
@@ -45,10 +50,11 @@ $(document).ready(function() {
 	// buscar asociado mediante dato: nombre, RFC
 	$datoAsociado.on('keyup', function(event) {
 		if (event === 13 || event.which === 13) {
-			bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL ASOCIADO PROTEGIDO.', function () {
+			/*bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL ASOCIADO PROTEGIDO.', function () {
 				$registrarAsociado.removeClass('hide');
 				$buscarAsociado.val('1');
-			});
+			});*/
+			$('#resultadoAsociados').click();
 		}
 	});
 
