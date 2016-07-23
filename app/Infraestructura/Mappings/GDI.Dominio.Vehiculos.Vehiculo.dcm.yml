@@ -1,0 +1,42 @@
+GDI\Dominio\Vehiculos\Vehiculo:
+  type: entity
+  table: vehiculo
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    anio:
+      type: integer
+      nullable: false
+      column: anio
+    numeroSerie:
+      type: string
+      length: 50
+      nullable: false
+      column: num_serie
+    numeroMotor:
+      type: string
+      length: 50
+      nullable: false
+      column: num_motor
+  oneToOne:
+    modelo:
+      targetEntity: Modelo
+      joinColumn:
+        name: modelo_id
+        referencedColumnName: id
+      cascade: [persist]
+    modalidad:
+      targetEntity: Modalidad
+      joinColumn:
+        name: modalidad_id
+        referencedColumnName: id
+      cascade: [persist]
+    oficina:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id
+      cascade: ["persist"]

@@ -1,7 +1,6 @@
 <?php
 namespace GDI\Dominio\Vehiculos;
-
-use \SplEnum;
+use GDI\Dominio\Oficinas\Oficina;
 
 /**
  * Class Modalidad
@@ -9,11 +8,44 @@ use \SplEnum;
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class Modalidad extends SplEnum
+class Modalidad
 {
-    const __default = self::TAXI;
-    const TAXI      = 1;
-    const COMBI     = 2;
-    const URVAN     = 3;
-    const MOTOTAXI  = 4;
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $modalidad;
+
+    /**
+     * @var Oficina
+     */
+    private $oficina;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModalidad()
+    {
+        return $this->modalidad;
+    }
+
+    /**
+     * @return Oficina
+     */
+    public function getOficina()
+    {
+        return $this->oficina;
+    }
 }

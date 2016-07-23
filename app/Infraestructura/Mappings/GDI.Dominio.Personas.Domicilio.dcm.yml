@@ -1,0 +1,36 @@
+GDI\Dominio\Personas\Domicilio:
+  type: entity
+  table: domicilio
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    calle:
+      type: string
+      length: 80
+      nullable: false
+      column: calle
+    numExterior:
+      type: string
+      length: 10
+      nullable: false
+      column: num_exterior
+    numInterior:
+      type: string
+      length: 10
+      nullable: false
+      column: num_interior
+    colonia:
+      type: string
+      length: 100
+      nullable: false
+      column: colonia
+  oneToOne:
+    unidadAdministrativa:
+      targetEntity: UnidadAdministrativa
+      joinColumn:
+        name: unidad_administrativa_id
+        referencedColumnName: id
+      cascade: ["persist"]

@@ -11,17 +11,56 @@
 |
 */
 
-Route::get('/', function () {
-    return view('principal');
+Route::group(['middleware' => 'usuarioAutenticado'], function() {
+    /**
+     * ruta principal del sistema
+     */
+    Route::get('/', function () {
+        return view('principal');
+    });
+
+    /**
+     * ruta para ver las pólizas registradas
+     */
+    Route::get('polizas', 'Polizas\PolizasController@index');
+
+    /**
+     * ruta para ver la vista de registro de nueva póliza
+     */
+    Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');
+
+    /**
+     * ruta para buscar vehiculos en la captura de pólizas
+     */
+    Route::post('polizas/vehiculos/buscar', 'Polizas\PolizasController@buscarVehiculos');
+
+    /**
+     * ruta para buscar asociados en la captura de pólizas
+     */
+    Route::post('polizas/asociados/buscar', 'Polizas\PolizasController@buscarAsociados');
+
+    /**
+     * ruta para registrar una nueva póliza
+     */
+    Route::post('polizas/registrar', [
+        'as' => 'poliza-registrar',
+        'use' => 'Polizas\PolizasController@registrar',
+    ]);
 });
 
-Route::get('polizas', 'Polizas\PolizasController@index');
-Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');
-Route::post('polizas/registrar', [
-    'as' => 'poliza-registrar',
-    'use' => 'Polizas\PolizasController@registrar',
-]);
-
+/**
+ * ruta para mostrar la vista de login
+ */
 Route::get('login', function () {
     return view('login');
 });
+
+/**
+ * ruta para loguear al usuario
+ */
+Route::post('login', 'LoginController@login');
+
+/**
+ * ruta para cerrar sesión del usuario
+ */
+Route::get('logout', 'LoginController@logout');

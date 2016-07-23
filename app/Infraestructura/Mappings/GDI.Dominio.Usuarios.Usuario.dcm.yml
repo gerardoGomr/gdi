@@ -1,0 +1,66 @@
+GDI\Dominio\Usuarios\Usuario:
+  type: entity
+  table: usuario
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    username:
+      type: string
+      length: 80
+      nullable: false
+      column: username
+    passwd:
+      type: string
+      length: 50
+      nullable: false
+      column: contrasenia
+    nombre:
+      type: string
+      length: 80
+      nullable: false
+      column: nombre
+    paterno:
+      type: string
+      length: 80
+      nullable: false
+      column: paterno
+    materno:
+      type: string
+      length: 80
+      nullable: false
+      column: materno
+    activo:
+      type: boolean
+      nullable: false
+      column: Activo
+    telefono:
+      type: string
+      length: 13
+      nullable: true
+      column: Telefono
+    celular:
+      type: string
+      length: 13
+      nullable: true
+      column: celular
+    email:
+      type: string
+      length: 80
+      nullable: true
+      column: email
+  oneToOne:
+    usuarioTipo:
+      targetEntity: UsuarioTipo
+      joinColumn:
+        name: usuario_tipo_id
+        referencedColumnName: id
+      cascade: ["persist"]
+    oficina:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id
+      cascade: ["persist"]

@@ -23,13 +23,16 @@ return [
     'managers'                  => [
         'default' => [
             'dev'        => env('APP_DEBUG'),
-            'meta'       => env('DOCTRINE_METADATA', 'annotations'),
-            'connection' => env('DB_CONNECTION', 'mysql'),
+            'meta'       => env('DOCTRINE_METADATA', 'yaml'),
+            'connection' => env('DB_CONNECTION', 'sqlsrv'),
             'namespaces' => [
-                'App'
+                'Usuarios'  => 'GDI\Dominio\Usuarios',
+                'Vehiculos' => 'GDI\Dominio\Vehiculos',
+                'Polizas'   => 'GDI\Dominio\Polizas',
             ],
             'paths'      => [
-                base_path('app')
+                base_path('app/Dominio'),
+                base_path('app/Infraestructura/Mappings')
             ],
             'repository' => Doctrine\ORM\EntityRepository::class,
             'proxies'    => [

@@ -1,0 +1,20 @@
+GDI\Dominio\Personas\UnidadAdministrativa:
+  type: entity
+  table: unidad_administrativa
+  id:
+    id:
+      type: integer
+      column: id
+  fields:
+    unidad:
+      type: string
+      length: 50
+      nullable: false
+      column: unidad
+  oneToOne:
+    unidadPadre:
+      targetEntity: UnidadAdministrativa
+      joinColumn:
+        name: unidad_padre_id
+        referencedColumnName: id
+      cascade: ["persist"]

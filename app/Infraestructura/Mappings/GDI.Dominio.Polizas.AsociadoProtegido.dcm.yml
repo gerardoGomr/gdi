@@ -1,0 +1,64 @@
+GDI\Dominio\Polizas\AsociadoProtegido:
+  type: entity
+  table: asociado_protegido
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    nombre:
+      type: string
+      length: 80
+      nullable: false
+      column: nombre
+    paterno:
+      type: string
+      length: 80
+      nullable: false
+      column: paterno
+    materno:
+      type: string
+      length: 80
+      nullable: false
+      column: materno
+    telefono:
+      type: string
+      length: 13
+      nullable: true
+      column: Telefono
+    celular:
+      type: string
+      length: 13
+      nullable: true
+      column: celular
+    email:
+      type: string
+      length: 80
+      nullable: true
+      column: email
+    razonSocial:
+      type: string
+      nullable: false
+      column: razon_social
+    rfc:
+      type: string
+      nullable: false
+      column: rfc
+    tipoPersona:
+      type: integer
+      nullable: false
+      column: tipo_persona
+  oneToOne:
+    usuarioTipo:
+      targetEntity: GDI\Dominio\Personas\Domicilio
+      joinColumn:
+        name: domicilio_id
+        referencedColumnName: id
+      cascade: ["persist"]
+    oficina:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id
+      cascade: ["persist"]

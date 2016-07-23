@@ -1,0 +1,20 @@
+GDI\Dominio\Vehiculos\Modalidad:
+  type: entity
+  table: modalidad
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    modalidad:
+      type: string
+      nullable: false
+      column: modalidad
+  oneToOne:
+    oficina:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id
+      cascade: ["persist"]

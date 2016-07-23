@@ -1,0 +1,13 @@
+GDI\Dominio\Usuarios\UsuarioTipo:
+  type: entity
+  table: usuario_tipo
+  id:
+    id:
+      type: integer
+      column: id
+  fields:
+    usuarioTipo:
+      type: string
+      length: 80
+      nullable: false
+      column: usuario_tipo

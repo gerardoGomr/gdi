@@ -1,0 +1,24 @@
+GDI\Dominio\Oficinas\Oficina:
+  type: entity
+  table: oficina
+  id:
+    id:
+      type: integer
+      column: id
+  fields:
+    nombre:
+      type: string
+      length: 80
+      nullable: false
+      column: nombre
+    activa:
+      type: boolean
+      nullable: false
+      column: activa
+  oneToOne:
+    domicilio:
+      targetEntity: GDI\Dominio\Personas\Domicilio
+      joinColumn:
+        name: domicilio_id
+        referencedColumnName: id
+      cascade: ["persist"]

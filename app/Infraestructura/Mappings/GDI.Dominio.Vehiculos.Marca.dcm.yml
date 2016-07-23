@@ -1,0 +1,13 @@
+GDI\Dominio\Vehiculos\Marca:
+  type: entity
+  table: marca
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    marca:
+      type: string
+      nullable: false
+      column: marca

@@ -18,16 +18,21 @@ class Modelo
     /**
      * @var string
      */
-    private $nombre;
+    private $modelo;
+
+    /**
+     * @var Marca
+     */
+    private $marca;
 
     /**
      * Modelo constructor.
-     * @param string $nombre
+     * @param string $modelo
      * @param int $id
      */
-    public function __construct($nombre = null, $id = 0)
+    public function __construct($modelo = null, $id = 0)
     {
-        $this->nombre = $nombre;
+        $this->modelo = $modelo;
         $this->id     = $id;
     }
 
@@ -40,10 +45,18 @@ class Modelo
     }
 
     /**
-     * @return string
+     * @return Modelo
      */
-    public function getNombre()
+    public function getModelo():Modelo
     {
-        return $this->nombre;
+        return $this->modelo;
+    }
+
+    /**
+     * @return Marca
+     */
+    public function getMarca():Marca
+    {
+        return $this->marca;
     }
 }

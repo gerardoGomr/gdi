@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Dominio\Vehiculos;
 
+use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Polizas\AsociadoProtegido;
 
 /**
@@ -21,11 +22,6 @@ class Vehiculo
      * @var Modelo
      */
     private $modelo;
-
-    /**
-     * @var Marca
-     */
-    private $marca;
 
     /**
      * @var int
@@ -53,9 +49,13 @@ class Vehiculo
     private $asociadoProtegido;
 
     /**
+     * @var Oficina
+     */
+    private $oficina;
+
+    /**
      * Vehiculo constructor.
      * @param Modelo $modelo
-     * @param Marca $marca
      * @param int $anio
      * @param string|null $numeroSerie
      * @param string|null $numeroMotor
@@ -63,15 +63,13 @@ class Vehiculo
      * @param AsociadoProtegido $asociadoProtegido
      * @param int $id
      */
-    public function __construct(Modelo $modelo = null, Marca $marca = null, $anio = 0, $numeroSerie = null, $numeroMotor = null, Modalidad $modalidad = null, AsociadoProtegido $asociadoProtegido = null, $id = 0)
+    public function __construct(Modelo $modelo = null, $anio = 0, $numeroSerie = null, $numeroMotor = null, Modalidad $modalidad = null, AsociadoProtegido $asociadoProtegido = null, $id = 0)
     {
         $this->modelo    = $modelo;
-        $this->marca     = $marca;
         $this->anio      = $anio;
         $this->modalidad = $modalidad;
         $this->asociadoProtegido = $asociadoProtegido;
     }
-
 
     /**
      * @return int
@@ -87,14 +85,6 @@ class Vehiculo
     public function getModelo()
     {
         return $this->modelo;
-    }
-
-    /**
-     * @return Marca
-     */
-    public function getMarca()
-    {
-        return $this->marca;
     }
 
     /**
@@ -119,5 +109,29 @@ class Vehiculo
     public function getAsociadoProtegido()
     {
         return $this->asociadoProtegido;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumeroSerie()
+    {
+        return $this->numeroSerie;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumeroMotor()
+    {
+        return $this->numeroMotor;
+    }
+
+    /**
+     * @return Oficina
+     */
+    public function getOficina()
+    {
+        return $this->oficina;
     }
 }

@@ -157,7 +157,10 @@ return [
         GDI\Providers\AuthServiceProvider::class,
         GDI\Providers\EventServiceProvider::class,
         GDI\Providers\RouteServiceProvider::class,
-
+        GDI\Providers\UsuariosRepositorioServiceProvider::class,
+        GDI\Providers\VehiculosRepositorioServiceProvider::class,
+        GDI\Providers\ModalidadesRepositorioServiceProvider::class,
+        GDI\Providers\AsociadosProtegidosRepositorioServiceProvider::class,
     ],
 
     /*

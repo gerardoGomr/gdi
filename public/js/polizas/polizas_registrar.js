@@ -4,61 +4,119 @@ $(document).ready(function() {
 		$datosVehiculo       = $('#datosVehiculo'),
 		$datosCobertura      = $('#datosCobertura'),
 		$busquedaVehiculo    = $('#busquedaVehiculo'),
-		$datoVehiculo        = $('#datoVehiculo'),
-		$datoAsociado        = $('#datoAsociado'),
+		$datoVehiculoBuscar  = $('#datoVehiculoBuscar'),
+		$capturarDatosVehiculo = $('#capturarDatosVehiculo'),
+		$datoAsociadoBuscar        = $('#datoAsociadoBuscar'),
 		$datosAsociadoAgente = $('#datosAsociadoAgente'),
 		$formPoliza          = $('#formPoliza'),
-		$registrarAsociado   = $('#registrarAsociado'),
 		$tipoPersona         = $formPoliza.find('input.persona'),
-		$polizaNueva		 = $('#polizaNueva'),
-		$asociadoNuevo		 = $('#asociadoNuevo'),
-		$vehiculoNuevo		 = $('#vehiculoNuevo'),
-		$coberturaNueva		 = $('#coberturaNueva'),
-		$buscarAsociado		 = $('#buscarAsociado'),
-		$asociadoElegido     = $('#asociadoElegido');
+		$buscarAsociado		 = $('#buscarAsociado');
+
+	// focus a primer elemento
+	setTimeout(function () {
+		$('#datoVehiculoBuscar').focus();
+	}, 500);
 
 	// evitar submit normal
-	$('#datoVehiculo, #datoAsociado').on('keypress', function(event) {
+	$('#datoVehiculoBuscar, #datoAsociadoBuscar').on('keypress', function(event) {
 		if (event === 13 || event.which === 13) {
 			return false;
 		}
 	});
 
 	// buscar vehículo mediante serie o motor
-	$datoVehiculo.on('keyup', function(event) {
-		if (event === 13 || event.which === 13) {
-			bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL VEHÍCULO.', function () {
-				//$busquedaVehiculo.addClass('hide');
-				//$datosAsociado.removeClass('hide');
-				//$datosAsociadoAgente.removeClass('hide');
-				$('#vehiculoNoEncontrado').text('NO SE ENCONTRARON COINCIDENCIAS DE NÚMERO DE SERIE O MOTOR " ' + $datoVehiculo.val() + ' "');
-				$('#vehiculoNoEncontrado').removeClass('hide');
-				$('#numSerie').val($datoVehiculo.val());
-				$('#numMotor').val($datoVehiculo.val());
-				$datoVehiculo.val('');
-				$datosVehiculo.removeClass('hide');
-				$datosCobertura.removeClass('hide');
-				//$('#acciones').find('.hide').removeClass('hide');
+	$datoVehiculoBuscar.on('keyup', function(event) {
+		var url = $(this).data('url');
 
-				// setTimeout(function () {
-				// 	$('#datoAsociado').focus();
-				// }, 500);
+		if (event === 13 || event.which === 13) {
+			$.ajax({
+				url:      url,
+				type:     'post',
+				dataType: 'json',
+				data:     { dato: $datoVehiculoBuscar.val(), _token: $formPoliza.find('input[name="_token"]').val() },
+				beforeSend: function() {
+					$('#loading').modal('show');
+				}
+
+			}).done(function (resultado) {
+				$('#loading').modal('hide');
+
+				if (resultado.estatus === 'fail') {
+					bootbox.alert('NO SE ENCONTRARON VEHÍCULOS QUE COINCIDAN CON EL PARÁMETRO: ' + $datoVehiculoBuscar.val() + ".\n\r POR FAVOR, REGISTRE LOS DATOS DEL VEHÍCULO.", function () {
+
+						$('#numSerie').val($datoVehiculoBuscar.val());
+						$('#numMotor').val($datoVehiculoBuscar.val());
+						$datoVehiculoBuscar.val('');
+						$busquedaVehiculo.addClass('hide');
+						$capturarDatosVehiculo.removeClass('hide');
+						$datosAsociado.removeClass('hide');
+					});
+				}
+
+			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				$('#loading').modal('hide');
+				console.log(textStatus + ': ' + errorThrown);
 			});
 		}
 	});
 
+	// buscar vehículo nuevamente
+	$('#botonBuscarVehiculoNuevamente').on('click', function () {
+		$busquedaVehiculo.removeClass('hide');
+		$datosVehiculo.addClass('hide');
+		$datosAsociado.addClass('hide');
+		$datosAsociadoAgente.addClass('hide');
+		$datosCobertura.addClass('hide');
+		$datoVehiculoBuscar.focus();
+	});
+
 	// buscar asociado mediante dato: nombre, RFC
-	$datoAsociado.on('keyup', function(event) {
+	$datoAsociadoBuscar.on('keyup', function(event) {
+		var url = $(this).data('url');
 		if (event === 13 || event.which === 13) {
-			/*bootbox.alert('NO SE ENCONTRARON COINCIDENCIAS CON EL PARÁMETRO ' + $(this).val() + '. POR FAVOR, REGISTRE LOS DATOS DEL ASOCIADO PROTEGIDO.', function () {
-				$registrarAsociado.removeClass('hide');
-				$buscarAsociado.val('1');
-			});*/
-			$('#resultadoAsociados').click();
+			$.ajax({
+				url:      url,
+				type:     'post',
+				dataType: 'json',
+				data:     { datoAsociado: $datoAsociadoBuscar.val(), _token: $formPoliza.find('input[name="_token"]').val() },
+				beforeSend: function () {
+					$('#loading').modal('show');
+				}
+
+			}).done(function (resultado) {
+				$('#loading').modal('hide');
+
+				if(resultado.estatus === 'fail') {
+					bootbox.alert('NO SE ENCONTRARON ASOCIADOS QUE COINCIDAN CON EL PARÁMETRO: ' + $datoAsociadoBuscar.val() + ".\n\r POR FAVOR, REGISTRE LOS DATOS DEL ASOCIADO.", function () {
+
+						$datoAsociadoBuscar.val('');
+						$('#busquedaAsociado').addClass('hide');
+						$('#capturarDatosAsociado').removeClass('hide');
+					});
+				}
+
+				if (resultado.estatus === 'OK') {
+
+				}
+
+			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				$('#loading').modal('hide');
+
+				console.log(textStatus + ': ' + errorThrown);
+			});
 		}
 	});
 
-	// click en tipo de persona	
+	// modalidad selección de otro
+	$('#modalidad').on('click', function() {
+		if ($(this).val() === '1') {
+			$('#especifiqueOtraModalidad').removeClass('hide').focus();
+		} else {
+			$('#especifiqueOtraModalidad').addClass('hide');
+		}
+	});
+
+	// click en tipo de persona
 	$tipoPersona.on('click', function () {
 		if ($(this).val() === '1') {
 			$formPoliza.find('div.fisica').removeClass('hide');
@@ -149,16 +207,11 @@ $(document).ready(function() {
 		if ($buscarAsociado.val() === '0') {
 			bootbox.alert('POR FAVOR, BUSQUE Y SELECCIONE A UN ASOCIADO PROTEGIDO.', function () {
 				setTimeout(function () {
-					$datoAsociado.focus();
+					$datoAsociadoBuscar.focus();
 				}, 500);
 			});
 
 			return false;
 		}
 	});
-
-	// focus a primer elemento
-	setTimeout(function () {
-		$('#datoVehiculo').focus();
-	}, 500);
 });

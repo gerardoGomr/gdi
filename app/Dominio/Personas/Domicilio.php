@@ -10,6 +10,11 @@ namespace GDI\Dominio\Personas;
 class Domicilio
 {
     /**
+     * @var int
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $calle;
@@ -17,52 +22,49 @@ class Domicilio
     /**
      * @var string
      */
-    private $noExterior;
+    private $numExterior;
 
     /**
      * @var string
      */
-    private $noInterior;
+    private $numInterior;
 
     /**
      * @var string
      */
-    private $localidadColonia;
+    private $colonia;
 
     /**
      * @var string
      */
-    private $ciudad;
+    private $cp;
 
     /**
-     * @var EntidadFederativa
+     * @var UnidadAdministrativa
      */
-    private $estado;
-
-    /**
-     * @var string
-     */
-    private $codigoPostal;
+    private $unidadAdministrativa;
 
     /**
      * Domicilio constructor.
      * @param string $calle
-     * @param string $noExterior
-     * @param string $noInterior
-     * @param string $localidadColonia
-     * @param string $codigoPostal
-     * @param null $ciudad
-     * @param EntidadFederativa $estado
+     * @param string $cp
+     * @param string $municipio
+     * @param int|null $id
      */
-    public function __construct($calle = null, $noExterior = null, $noInterior = null, $localidadColonia = null, $codigoPostal = null, $ciudad = null, EntidadFederativa $estado = null)
+    public function __construct($calle, $cp, $municipio, $id = null)
     {
-        $this->calle            = $calle;
-        $this->noExterior       = $noExterior;
-        $this->noInterior       = $noInterior;
-        $this->localidadColonia = $localidadColonia;
-        $this->codigoPostal     = $codigoPostal;
-        $this->ciudad           = $ciudad;
-        $this->estado           = $estado;
+        $this->id        = $id;
+        $this->calle = $calle;
+        $this->cp        = $cp;
+        $this->municipio = $municipio;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -76,219 +78,48 @@ class Domicilio
     /**
      * @return string
      */
-    public function getNoExterior()
+    public function getCp()
     {
-        return $this->noExterior;
+        return $this->cp;
     }
 
     /**
      * @return string
      */
-    public function getNoInterior()
+    public function getMunicipio()
     {
-        return $this->noInterior;
+        return $this->municipio;
     }
 
     /**
      * @return string
      */
-    public function getLocalidadColonia()
+    public function getNumExterior()
     {
-        return $this->localidadColonia;
+        return $this->numExterior;
     }
 
     /**
      * @return string
      */
-    public function getCodigoPostal()
+    public function getNumInterior()
     {
-        return $this->codigoPostal;
+        return $this->numInterior;
     }
 
     /**
      * @return string
      */
-    public function getCiudad()
+    public function getColonia()
     {
-        return $this->ciudad;
+        return $this->colonia;
     }
 
     /**
-     * @return EntidadFederativa
+     * @return UnidadAdministrativa
      */
-    public function getEstado()
+    public function getUnidadAdministrativa()
     {
-        return $this->estado;
-    }
-
-    /**
-     * retorna el domicilio completo del asociado protegido
-     * @return null|string
-     */
-    public function direccionCompleta()
-    {
-        $direccion = $this->calle;
-
-        if (strlen($this->noExterior)) {
-            $direccion .= ' ' . $this->noExterior;
-        }
-
-        if (strlen($this->noInterior)) {
-            $direccion .= ' ' . $this->noInterior;
-        }
-
-        if (strlen($this->localidadColonia)) {
-            $direccion .= ' ' . $this->localidadColonia;
-        }
-
-        if (strlen($this->codigoPostal)) {
-            $direccion .= ' C. P. ' . $this->codigoPostal;
-        }
-
-        if (strlen($this->ciudad)) {
-            $direccion .= ' ' . $this->ciudad;
-        }
-
-        if (!is_null($this->estado)) {
-            $direccion .= ', ' . $this->nombreEstado();
-        }
-
-        return $direccion;
-    }
-
-    /**
-     * comparar valor de estado y devolver su representación en cadena
-     * @return string
-     */
-    private function nombreEstado()
-    {
-        $nombre = '';
-        switch ($this->estado) {
-            case EntidadFederativa::AGUASCALIENTES:
-                $nombre = 'AGUASCALIENTES';
-            break;
-
-            case EntidadFederativa::BAJA_CALIFORNIA:
-                $nombre = 'BAJA CALIFORNIA';
-            break;
-
-            case EntidadFederativa::BAJA_CALIFORNIA_SUR:
-                $nombre = 'BAJA CALIFORNIA SUR';
-            break;
-
-            case EntidadFederativa::CAMPECHE:
-                $nombre = 'CAMPECHE';
-            break;
-
-            case EntidadFederativa::CHIAPAS:
-                $nombre = 'CHIAPAS';
-            break;
-
-            case EntidadFederativa::CHIHUAHUA:
-                $nombre = 'CHIHUAHUA';
-            break;
-
-            case EntidadFederativa::CIUDAD_DE_MEXICO:
-                $nombre = 'CIUDAD DE MÉXICO';
-            break;
-
-            case EntidadFederativa::COLIMA:
-                $nombre = 'COLIMA';
-            break;
-
-            case EntidadFederativa::DURANGO:
-                $nombre = 'DURANGO';
-            break;
-
-            case EntidadFederativa::ESTADO_DE_MEXICO:
-                $nombre = 'ESTADO DE MÉXICO';
-            break;
-
-            case EntidadFederativa::GUANAJUATO:
-                $nombre = 'GUANAJUATO';
-            break;
-
-            case EntidadFederativa::GUERRERO:
-                $nombre = 'GUERRERO';
-            break;
-
-            case EntidadFederativa::HIDALGO:
-                $nombre = 'HIDALGO';
-            break;
-
-            case EntidadFederativa::JALISCO:
-                $nombre = 'JALISCO';
-            break;
-
-            case EntidadFederativa::MICHOACAN:
-                $nombre = 'MICHOACÁN';
-            break;
-
-            case EntidadFederativa::MORELOS:
-                $nombre = 'MORELOS';
-            break;
-
-            case EntidadFederativa::NAYARIT:
-                $nombre = 'NAYARIT';
-            break;
-
-            case EntidadFederativa::NUEVO_LEON:
-                $nombre = 'NUEVO LEÓN';
-            break;
-
-            case EntidadFederativa::OAXACA:
-                $nombre = 'OAXACA';
-            break;
-
-            case EntidadFederativa::PUEBLA:
-                $nombre = 'PUEBLA';
-            break;
-
-            case EntidadFederativa::QUERETARO:
-                $nombre = 'QUERÉTARO';
-            break;
-
-            case EntidadFederativa::QUINTANA_ROO:
-                $nombre = 'QUINTANA ROO';
-            break;
-
-            case EntidadFederativa::SAN_LUIS_POTOSI:
-                $nombre = 'SAN_LUIS_POTOSÍ';
-            break;
-
-            case EntidadFederativa::SINALOA:
-                $nombre = 'SINALOA';
-            break;
-
-            case EntidadFederativa::SONORA:
-                $nombre = 'SONORA';
-            break;
-
-            case EntidadFederativa::TABASCO:
-                $nombre = 'TABASCO';
-            break;
-
-            case EntidadFederativa::TAMAULIPAS:
-                $nombre = 'TAMAULIPAS';
-            break;
-
-            case EntidadFederativa::TLAXCALA:
-                $nombre = 'TLAXCALA';
-            break;
-
-            case EntidadFederativa::VERACRUZ:
-                $nombre = 'VERACRUZ';
-            break;
-
-            case EntidadFederativa::YUCATAN:
-                $nombre = 'YUCATÁN';
-            break;
-
-            default:
-                $nombre = 'CHIAPAS';
-                break;
-        }
-
-        return $nombre;
+        return $this->unidadAdministrativa;
     }
 }

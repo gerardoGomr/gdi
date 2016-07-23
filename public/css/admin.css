@@ -1,16 +1,10 @@
 /* --- LOADING [less.variables] from assets/components/core/less/variables.less */
 /* --- LOADING [color template] from assets/components/core/less/colorTemplate.less */
 @font-face {
-  font-family: 'Nunito';
-  font-style: normal;
-  font-weight: 400;
-  src: url(../fonts/Nunito-Regular.ttf);
-}
-@font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: url(../fonts/RobotoCondensed-Regular.ttf);
+  src: url(../fonts/Roboto-Regular.ttf);
 }
 /* --- LOADING [less.mixins] from assets/components/core/less/mixins.less */
 /* --- LOADING [less.scaffolding] from assets/components/core/less/scaffolding.less */
@@ -852,6 +846,9 @@ li[class*="col-lg-"] {
 }
 .row-icons [class*="col"] span {
   padding-left: 5px;
+}
+.noUpperCase {
+  text-transform: none;
 }
 /* --- LOADING [less.layout] from assets/components/core/less/layout.less */
 .row {
