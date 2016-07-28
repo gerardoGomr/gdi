@@ -11,9 +11,10 @@ GDI\Dominio\Vehiculos\Modelo:
       type: string
       nullable: false
       column: modelo
-  oneToOne:
+  manyToOne:
     marca:
       targetEntity: Marca
+      inversedBy: modelos
       joinColumn:
         name: marca_id
         referencedColumnName: id

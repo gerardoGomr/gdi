@@ -1,5 +1,6 @@
 <?php
 namespace GDI\Dominio\Vehiculos;
+use GDI\Dominio\Oficinas\Oficina;
 
 /**
  * Class Modelo
@@ -26,6 +27,11 @@ class Modelo
     private $marca;
 
     /**
+     * @var Oficina
+     */
+    private $oficina;
+
+    /**
      * Modelo constructor.
      * @param string $modelo
      * @param int $id
@@ -45,9 +51,9 @@ class Modelo
     }
 
     /**
-     * @return Modelo
+     * @return string
      */
-    public function getModelo():Modelo
+    public function getModelo():string
     {
         return $this->modelo;
     }
@@ -58,5 +64,13 @@ class Modelo
     public function getMarca():Marca
     {
         return $this->marca;
+    }
+
+    /**
+     * @return Oficina
+     */
+    public function getOficina()
+    {
+        return $this->oficina;
     }
 }

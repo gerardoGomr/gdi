@@ -30,18 +30,20 @@ class DoctrineVehiculosRepositorio implements VehiculosRepositorio
     }
 
     /**
+     * @param int|null $oficinaId
      * @return array
      */
-    public function obtenerTodos()
+    public function obtenerTodos($oficinaId = null)
     {
         // TODO: Implement obtenerTodos() method.
     }
 
     /**
      * @param int $id
+     * @param int|null $oficinaId
      * @return mixed
      */
-    public function obtenerPorId($id)
+    public function obtenerPorId($id, $oficinaId = null)
     {
         // TODO: Implement obtenerPorId() method.
     }
@@ -49,16 +51,18 @@ class DoctrineVehiculosRepositorio implements VehiculosRepositorio
     /**
      * obtener una lista de vehiculos en base al dato
      * @param string $dato
+     * @param int $oficinaId
      * @return array
      */
-    public function obtenerPor($dato)
+    public function obtenerPor($dato, $oficinaId)
     {
         // TODO: Implement obtenerPor() method.
         $dato = str_replace(' ', '', $dato);
 
         try {
-            $query = $this->entityManager->createQuery('SELECT v, mo, mod FROM Vehiculos:Vehiculo v JOIN v.modelo mo JOIN v.modalidad mod WHERE v.numeroSerie = :dato OR v.numeroMotor = :dato')
-                ->setParameter('dato', $dato);
+            $query = $this->entityManager->createQuery('SELECT v, mo, mod, o FROM Vehiculos:Vehiculo v LEFT JOIN v.modelo mo LEFT JOIN v.modalidad mod JOIN v.oficina o WHERE v.numeroSerie = :dato OR v.numeroMotor = :dato AND o.id = :oficinaId')
+                ->setParameter('dato', $dato)
+                ->setParameter('oficinaId', $oficinaId);
             $usuarios = $query->getResult();
 
             if (count($usuarios) > 0) {

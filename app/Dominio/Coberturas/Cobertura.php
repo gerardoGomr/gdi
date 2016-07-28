@@ -23,7 +23,7 @@ class Cobertura
     private $nombre;
 
     /**
-     * @var CoberturaTipo
+     * @var int
      */
     private $coberturaTipo;
 
@@ -45,12 +45,13 @@ class Cobertura
     /**
      * Cobertura constructor.
      * @param string $nombre
-     * @param CoberturaTipo $coberturaTipo
+     * @param int $coberturaTipo
      * @param Servicio $servicio
      * @param IColeccion $responsabilidades
+     * @param IColeccion $costos
      * @param int $id
      */
-    public function __construct($nombre = null, CoberturaTipo $coberturaTipo = null, Servicio $servicio = null, IColeccion $responsabilidades = null, IColeccion $costos, $id = 0)
+    public function __construct($nombre = null, $coberturaTipo = null, Servicio $servicio = null, IColeccion $responsabilidades = null, IColeccion $costos, $id = 0)
     {
         $this->id                = $id;
         $this->nombre            = $nombre;
@@ -77,7 +78,7 @@ class Cobertura
     }
 
     /**
-     * @return CoberturaTipo
+     * @return int
      */
     public function getCoberturaTipo()
     {

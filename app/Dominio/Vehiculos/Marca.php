@@ -1,6 +1,8 @@
 <?php
 namespace GDI\Dominio\Vehiculos;
 
+use GDI\Dominio\Listas\IColeccion;
+
 /**
  * Class Marca
  * @package GDI\Dominio\Vehiculos
@@ -20,6 +22,16 @@ class Marca
     private $marca;
 
     /**
+     * @var IColeccion
+     */
+    private $modelos;
+
+    /**
+     * @var IColeccion
+     */
+    private $oficinas;
+
+    /**
      * @return int
      */
     public function getId()
@@ -33,5 +45,21 @@ class Marca
     public function getMarca()
     {
         return $this->marca;
+    }
+
+    /**
+     * @return IColeccion
+     */
+    public function getModelos()
+    {
+        return $this->modelos;
+    }
+
+    /**
+     * @return IColeccion
+     */
+    public function getOficinas()
+    {
+        return $this->oficinas;
     }
 }

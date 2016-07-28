@@ -4,17 +4,17 @@ namespace GDI\Infraestructura\Polizas;
 use GDI\Aplicacion\Logger;
 
 use Doctrine\ORM\EntityManager;
-use GDI\Dominio\Polizas\Repositorios\AsociadosProtegidosRepositorio;
+use GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
 
 /**
- * Class DoctrineAsociadosProtegidosRepositorio
+ * Class DoctrineAsociadosAgentesRepositorio
  * @package GDI\Infraestructura\Polizas
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class DoctrineAsociadosProtegidosRepositorio implements AsociadosProtegidosRepositorio
+class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 {
 	/**
 	 * @var EntityManager
@@ -64,21 +64,8 @@ class DoctrineAsociadosProtegidosRepositorio implements AsociadosProtegidosRepos
 	public function obtenerTodos($oficinaId = null)
 	{
 		// TODO: Implement obtenerTodos() method.
-	}
-
-	/**
-	 * @param $dato
-	 * @param int|null $oficinaId
-	 * @return array
-	 */
-	public function obtenerPor($dato, $oficinaId = null)
-	{
-		// TODO: Implement obtenerPor() method.
-		$dato = str_replace(' ', '', $dato);
-
 		try {
-			$query = $this->entityManager->createQuery("SELECT a, d, o FROM Polizas:AsociadoProtegido a JOIN a.domicilio d JOIN a.oficina o WHERE (CONCAT(a.nombre, a.paterno, a.materno)) = :dato OR (CONCAT(a.paterno, a.materno, a.nombre)) = :dato AND o.id = :oficinaId")
-					->setParameter('dato', $dato)
+			$query = $this->entityManager->createQuery("SELECT a, d, o FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId ORDER BY a.nombre")
 					->setParameter('oficinaId', $oficinaId);
 			$asociados = $query->getResult();
 

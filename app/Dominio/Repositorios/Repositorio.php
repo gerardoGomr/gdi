@@ -10,13 +10,15 @@ namespace GDI\Dominio\Repositorios;
 interface Repositorio
 {
     /**
+     * @param int|null $oficinaId
      * @return array
      */
-    public function obtenerTodos();
+    public function obtenerTodos($oficinaId = null);
 
     /**
      * @param int $id
+     * @param int|null $oficinaId
      * @return mixed
      */
-    public function obtenerPorId($id);
+    public function obtenerPorId($id, $oficinaId = null);
 }

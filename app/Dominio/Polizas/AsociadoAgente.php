@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Dominio\Polizas;
 
+use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Personas\Domicilio;
 use GDI\Dominio\Personas\Persona;
 
@@ -18,9 +19,29 @@ class AsociadoAgente extends Persona
     private $id;
 
     /**
+     * @var string
+     */
+    private $rfc;
+
+    /**
+     * @var float
+     */
+    private $porcentajeComision;
+
+    /**
+     * @var bool
+     */
+    private $reciboHonorarios;
+
+    /**
      * @var Domicilio
      */
     private $domicilio;
+
+    /**
+     * @var Oficina
+     */
+    private $oficina;
 
     /**
      * AsociadoAgente constructor.
@@ -47,10 +68,42 @@ class AsociadoAgente extends Persona
     }
 
     /**
+     * @return string
+     */
+    public function getRfc()
+    {
+        return $this->rfc;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPorcentajeComision()
+    {
+        return $this->porcentajeComision;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function reciboHonorarios()
+    {
+        return $this->reciboHonorarios;
+    }
+
+    /**
      * @return Domicilio
      */
     public function getDomicilio()
     {
         return $this->domicilio;
+    }
+
+    /**
+     * @return Oficina
+     */
+    public function getOficina()
+    {
+        return $this->oficina;
     }
 }

@@ -40,6 +40,11 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     Route::post('polizas/asociados/buscar', 'Polizas\PolizasController@buscarAsociados');
 
     /**
+     * ruta para buscar modelos de vehiculos dependiendo la marca
+     */
+    Route::post('polizas/modelos/buscar', 'Polizas\PolizasController@buscarModelos');
+
+    /**
      * ruta para registrar una nueva póliza
      */
     Route::post('polizas/registrar', [

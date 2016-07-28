@@ -19,10 +19,6 @@ class CoberturaConcepto
 	 */
 	private $concepto;
 
-	const RC_VIAJERO        = 'R.C. Viajero';
-	const DANIOS_MATERIALES = 'Daños Materiales';
-	const ROBO_TOTAL        = 'Robo Total';
-
 	/**
 	 * class CoberturaConcepto constructor
 	 * @param string $concepto

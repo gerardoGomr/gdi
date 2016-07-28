@@ -1,16 +1,16 @@
 $(document).ready(function() {
 	// variables
-	var $datosAsociado       = $('#datosAsociado'),
-		$datosVehiculo       = $('#datosVehiculo'),
-		$datosCobertura      = $('#datosCobertura'),
-		$busquedaVehiculo    = $('#busquedaVehiculo'),
-		$datoVehiculoBuscar  = $('#datoVehiculoBuscar'),
+	var $datosAsociado         = $('#datosAsociado'),
+		$datosVehiculo         = $('#datosVehiculo'),
+		$datosCobertura        = $('#datosCobertura'),
+		$busquedaVehiculo      = $('#busquedaVehiculo'),
+		$datoVehiculoBuscar    = $('#datoVehiculoBuscar'),
 		$capturarDatosVehiculo = $('#capturarDatosVehiculo'),
-		$datoAsociadoBuscar        = $('#datoAsociadoBuscar'),
-		$datosAsociadoAgente = $('#datosAsociadoAgente'),
-		$formPoliza          = $('#formPoliza'),
-		$tipoPersona         = $formPoliza.find('input.persona'),
-		$buscarAsociado		 = $('#buscarAsociado');
+		$datoAsociadoBuscar    = $('#datoAsociadoBuscar'),
+		$datosAsociadoAgente   = $('#datosAsociadoAgente'),
+		$formPoliza            = $('#formPoliza'),
+		$tipoPersona           = $formPoliza.find('input.persona'),
+		$buscarAsociado        = $('#buscarAsociado');
 
 	// focus a primer elemento
 	setTimeout(function () {
@@ -50,6 +50,8 @@ $(document).ready(function() {
 						$busquedaVehiculo.addClass('hide');
 						$capturarDatosVehiculo.removeClass('hide');
 						$datosAsociado.removeClass('hide');
+						$datosAsociadoAgente.removeClass('hide');
+						$datosCobertura.removeClass('hide');
 					});
 				}
 
@@ -102,6 +104,40 @@ $(document).ready(function() {
 			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
 				$('#loading').modal('hide');
 
+				console.log(textStatus + ': ' + errorThrown);
+			});
+		}
+	});
+
+	// cargar combo de modelos o mostrar el especifique en caso que sea = 1
+	$('#marca').on('change', function() {
+		var url     = $(this).data('url'),
+			marcaId = Number($(this).val());
+
+		if (marcaId === 1) {
+			$('#otraMarca, #otroModelo').removeClass('hide');
+			$('#modelo').addClass('hide');
+			$('#otraMarca').focus();
+		}
+
+		if (marcaId > 1) {
+			$.ajax({
+				url: url,
+				type: 'post',
+				dataType: 'json',
+				data: { marcaId: marcaId, _token: $formPoliza.find('input[name="_token"]').val() },
+				beforeSend: function() {
+					$('#loading').modal('show');
+				}
+
+			}).done(function (resultado) {
+				$('#loading').modal('hide');
+
+				$('#modelo').html(resultado.html).removeClass('hide');
+				$('#otraMarca, #otroModelo').addClass('hide');
+
+			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				$('#loading').modal('hide');
 				console.log(textStatus + ': ' + errorThrown);
 			});
 		}

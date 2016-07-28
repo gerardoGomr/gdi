@@ -11,3 +11,22 @@ GDI\Dominio\Vehiculos\Marca:
       type: string
       nullable: false
       column: marca
+  oneToMany:
+    modelos:
+      targetEntity: Modelo
+      joinColumn:
+        name: marca_id
+        referencedColumnName: id
+      mappedBy: marca
+      cascade: [persist]
+  manyToMany:
+    oficinas:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinTable:
+        name: marca_oficina
+        joinColumns:
+          marca_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          oficina_id:
+            referenceColumnName: id

@@ -1,6 +1,6 @@
-GDI\Dominio\Polizas\AsociadoProtegido:
+GDI\Dominio\Polizas\AsociadoAgente:
   type: entity
-  table: asociado_protegido
+  table: asociado_colaborador
   id:
     id:
       type: integer
@@ -37,18 +37,18 @@ GDI\Dominio\Polizas\AsociadoProtegido:
       length: 80
       nullable: true
       column: email
-    razonSocial:
-      type: string
-      nullable: false
-      column: razon_social
     rfc:
       type: string
       nullable: false
       column: rfc
-    tipoPersona:
-      type: integer
+    porcentajeComision:
+      type: float
       nullable: false
-      column: tipo_persona
+      column: porcentaje_comision
+    reciboHonorarios:
+      type: boolean
+      nullable: true
+      column: recibo_honorarios
   oneToOne:
     domicilio:
       targetEntity: GDI\Dominio\Personas\Domicilio

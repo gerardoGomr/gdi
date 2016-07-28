@@ -161,6 +161,8 @@ return [
         GDI\Providers\VehiculosRepositorioServiceProvider::class,
         GDI\Providers\ModalidadesRepositorioServiceProvider::class,
         GDI\Providers\AsociadosProtegidosRepositorioServiceProvider::class,
+        GDI\Providers\MarcasRepositorioServiceProvider::class,
+        GDI\Providers\AsociadosAgentesRepositorioServiceProvider::class,
     ],
 
     /*

@@ -30,81 +30,9 @@
                                             </div>
 
                                             <div class="innerAll hide" id="datosVehiculo">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="modalidad">MODALIDAD:</label>
-                                                    <div class="col-md-4">
 
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="servicio">SERVICIO:</label>
-                                                    <div class="col-md-4">
-                                                        <select class="form-control" name="servicio" id="servicio">
-                                                            <option value="">SELECCIONE</option>
-                                                            <option value="1">OTRO</option>
-                                                            <option value="2">ESTATAL</option>
-                                                            <option value="3">FEDERAL</option>
-                                                        </select>
-                                                        <div class="separator hide"></div>
-                                                        <input type="text" name="otroServicio" id="otroServicio" class="form-control hide" placeholder="ESCRIBA EL SERVICIO">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="marca">MARCA:</label>
-                                                    <div class="col-md-4">
-                                                        <select class="form-control" name="marca" id="marca">
-                                                            <option>SELECCIONE</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="modelo">MODELO:</label>
-                                                    <div class="col-md-4">
-                                                        <select class="form-control" name="modelo" id="modelo">
-                                                            <option value="">SELECCIONE</option>
-                                                            <option value="1">OTRO</option>
-                                                        </select>
-                                                        <div class="separator hide"></div>
-                                                        <input type="text" name="otroModelo" id="otroModelo" class="form-control hide" placeholder="ESCRIBA EL NUEVO MODELO">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="anio">AÑO:</label>
-                                                    <div class="col-md-2 col-lg-3">
-                                                        <input type="text" name="anio" id="anio" class="form-control" maxlength="4" placeholder="4 dígitos">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="numSerie">NUM. SERIE:</label>
-                                                    <div class="col-md-5">
-                                                        <input type="text" name="numSerie" id="numSerie" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="numMotor">NUM. MOTOR:</label>
-                                                    <div class="col-md-5">
-                                                        <input type="text" name="numMotor" id="numMotor" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3" for="capacidad">CAPACIDAD:</label>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group">
-                                                            <input type="text" name="capacidad" id="capacidad" class="form-control" placeholder="" maxlength="2">
-                                                            <span class="input-group-addon">PASAJEROS</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="innerAll hide" id="capturarDatosVehiculo">
-                                                <span class="text-danger text-small">VEHÍCULO NUEVO</span>
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="modalidad">MODALIDAD:</label>
                                                     <div class="col-md-4">
@@ -139,9 +67,14 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="marca">MARCA:</label>
                                                     <div class="col-md-4">
-                                                        <select class="form-control" name="marca" id="marca">
-                                                            <option>SELECCIONE</option>
+                                                        <select class="form-control" name="marca" id="marca" data-url="{{ url('polizas/modelos/buscar') }}">
+                                                            <option value="">SELECCIONE</option>
+                                                            @foreach($marcas as $marca)
+                                                                <option value="{{ $marca->getId() }}">{{ $marca->getMarca() }}</option>
+                                                            @endforeach
                                                         </select>
+                                                        <br>
+                                                        <input type="text" name="otraMarca" id="otraMarca" class="form-control hide" placeholder="ESCRIBA LA NUEVA MARCA">
                                                     </div>
                                                 </div>
 
@@ -149,10 +82,9 @@
                                                     <label class="control-label col-md-3" for="modelo">MODELO:</label>
                                                     <div class="col-md-4">
                                                         <select class="form-control" name="modelo" id="modelo">
-                                                            <option value="">SELECCIONE</option>
-                                                            <option value="1">OTRO</option>
+
                                                         </select>
-                                                        <div class="separator hide"></div>
+                                                        <br>
                                                         <input type="text" name="otroModelo" id="otroModelo" class="form-control hide" placeholder="ESCRIBA EL NUEVO MODELO">
                                                     </div>
                                                 </div>
@@ -223,21 +155,21 @@
 
                                                     <div class="form-group fisica hide">
                                                         <label class="control-label col-md-3" for="nombre">NOMBRE:</label>
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-5">
                                                             <input type="text" name="nombre" id="nombre" class="form-control">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group fisica hide">
                                                         <label class="control-label col-md-3" for="paterno">A. PATERNO:</label>
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-3">
                                                             <input type="text" name="paterno" id="paterno" class="form-control">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group fisica hide">
                                                         <label class="control-label col-md-3" for="materno">A. MATERNO:</label>
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-3">
                                                             <input type="text" name="materno" id="materno" class="form-control">
                                                         </div>
                                                     </div>
@@ -266,7 +198,9 @@
                                                 <div class="col-md-7">
                                                     <select class="form-control" name="asociadoAgente" id="asociadoAgente">
                                                         <option value="">SELECCIONE</option>
-                                                        <option value="1">OTRO</option>
+                                                        @foreach($asociadosAgentes as $asociadoAgente)
+                                                            <option value="{{ $asociadoAgente->getId() }}">{{ $asociadoAgente->nombreCompleto() }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -274,21 +208,21 @@
                                             <div id="datosCapturaAsociadoAgente" class="hide">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="nombreAgente">NOMBRE:</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-3">
                                                         <input type="text" name="nombreAgente" id="nombreAgente" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="paternoAgente">A. PATERNO:</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-3">
                                                         <input type="text" name="paternoAgente" id="paternoAgente" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="maternoAgente">A. MATERNO:</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-3">
                                                         <input type="text" name="maternoAgente" id="maternoAgente" class="form-control">
                                                     </div>
                                                 </div>
@@ -302,7 +236,7 @@
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="ciudadAgente">CIUDAD:</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-5">
                                                         <input type="text" name="ciudadAgente" id="ciudadAgente" class="form-control">
                                                     </div>
                                                 </div>
@@ -321,7 +255,7 @@
                                             <div class="innerAll">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="coberturaServicio">SERVICIO:</label>
-                                                    <div class="col-md-4"><span id="coberturaServicio"></span></div>
+                                                    <div class="col-md-4"><p class="form-control-static" id="coberturaServicio"></p></div>
                                                 </div>
 
                                                 <div class="form-group">

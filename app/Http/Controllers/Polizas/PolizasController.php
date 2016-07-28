@@ -1,7 +1,9 @@
 <?php
 namespace GDI\Http\Controllers\Polizas;
 
+use GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio;
 use GDI\Dominio\Polizas\Repositorios\AsociadosProtegidosRepositorio;
+use GDI\Dominio\Vehiculos\Repositorios\MarcasRepositorio;
 use GDI\Dominio\Vehiculos\Repositorios\ModalidadesRepositorio;
 use GDI\Dominio\Vehiculos\Repositorios\VehiculosRepositorio;
 use Illuminate\Http\Request;
@@ -16,6 +18,11 @@ use GDI\Http\Controllers\Controller;
 class PolizasController extends Controller
 {
     /**
+     * @var int
+     */
+    private $oficinaId;
+
+    /**
      * @var VehiculosRepositorio
      */
     private $vehiculosRepositorio;
@@ -26,14 +33,22 @@ class PolizasController extends Controller
     private $asociadosRepositorio;
 
     /**
+     * @var MarcasRepositorio
+     */
+    private $marcasRepositorio;
+
+    /**
      * PolizasController constructor.
      * @param VehiculosRepositorio $vehiculosRepositorio
      * @param AsociadosProtegidosRepositorio $asociadosRepositorio
+     * @param MarcasRepositorio $marcasRepositorio
      */
-    public function __construct(VehiculosRepositorio $vehiculosRepositorio, AsociadosProtegidosRepositorio $asociadosRepositorio)
+    public function __construct(VehiculosRepositorio $vehiculosRepositorio, AsociadosProtegidosRepositorio $asociadosRepositorio, MarcasRepositorio $marcasRepositorio)
     {
+        $this->oficinaId            = request()->session()->get('usuario')->getOficina()->getId();
         $this->vehiculosRepositorio = $vehiculosRepositorio;
         $this->asociadosRepositorio = $asociadosRepositorio;
+        $this->marcasRepositorio    = $marcasRepositorio;
     }
 
     /**
@@ -48,12 +63,16 @@ class PolizasController extends Controller
     /**
      * retornar la vista de registro de nueva póliza
      * @param ModalidadesRepositorio $modalidadesRepositorio
+     * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @internal param MarcasRepositorio $marcasRepositorio
      */
-    public function verFormRegistro(ModalidadesRepositorio $modalidadesRepositorio)
+    public function verFormRegistro(ModalidadesRepositorio $modalidadesRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio)
     {
-        $modalidades = $modalidadesRepositorio->obtenerTodos();
-        return view('polizas.polizas_registrar', compact('modalidades'));
+        $modalidades      = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
+        $marcas           = $this->marcasRepositorio->obtenerTodos($this->oficinaId);
+        $asociadosAgentes = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
+        return view('polizas.polizas_registrar', compact('modalidades', 'marcas', 'asociadosAgentes'));
     }
 
     /**
@@ -68,7 +87,7 @@ class PolizasController extends Controller
         $dato      = $request->get('dato');
         $respuesta = [];
 
-        $vehiculos = $this->vehiculosRepositorio->obtenerPor($dato);
+        $vehiculos = $this->vehiculosRepositorio->obtenerPor($dato, $this->oficinaId);
 
         if (is_null($vehiculos)) {
             $respuesta['estatus'] = 'fail';
@@ -76,6 +95,25 @@ class PolizasController extends Controller
             $respuesta['estatus'] = 'OK';
             $respuesta['html']    = view('')->render();
         }
+
+        return response()->json($respuesta);
+    }
+
+    /**
+     * buscar modelos dependiendo la marca
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function buscarModelos(Request $request)
+    {
+        $marcaId   = (int)$request->get('marcaId');
+        $marca     = $this->marcasRepositorio->obtenerPorId($marcaId, $this->oficinaId);
+        $respuesta = [];
+
+        $respuesta['estatus'] = 'OK';
+        $respuesta['html']    = view('polizas.polizas_resultado_modelos', compact('marca'))->render();
 
         return response()->json($respuesta);
     }
@@ -92,7 +130,7 @@ class PolizasController extends Controller
         $datoAsociado = $request->get('datoAsociado');
         $respuesta    = [];
 
-        $asociados = $this->asociadosRepositorio->obtenerPor($datoAsociado);
+        $asociados = $this->asociadosRepositorio->obtenerPor($datoAsociado, $this->oficinaId);
 
         if (is_null($asociados)) {
             $respuesta['estatus'] = 'fail';

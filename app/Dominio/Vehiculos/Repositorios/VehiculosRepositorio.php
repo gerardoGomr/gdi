@@ -14,7 +14,8 @@ interface VehiculosRepositorio extends Repositorio
     /**
      * obtener una lista de vehiculos en base al dato
      * @param string $dato
+     * @param int $oficinaId
      * @return array
      */
-    public function obtenerPor($dato);
+    public function obtenerPor($dato, $oficinaId);
 }

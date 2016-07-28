@@ -57,9 +57,10 @@ class DoctrineUsuariosRepositorio implements UsuariosRepositorio
 
 	/**
 	 * @param int $id
+	 * @param null $oficinaId
 	 * @return mixed
 	 */
-	public function obtenerPorId($id)
+	public function obtenerPorId($id, $oficinaId = null)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
@@ -82,9 +83,10 @@ class DoctrineUsuariosRepositorio implements UsuariosRepositorio
 	}
 
 	/**
+	 * @param null $oficinaId
 	 * @return array
 	 */
-	public function obtenerTodos()
+	public function obtenerTodos($oficinaId = null)
 	{
 		// TODO: Implement obtenerTodos() method.
 	}

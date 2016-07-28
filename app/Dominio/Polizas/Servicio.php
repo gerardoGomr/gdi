@@ -1,17 +1,37 @@
 <?php
 namespace GDI\Dominio\Polizas;
 
-use \SplEnum;
-
 /**
  * Class Servicio
  * @package GDI\Dominio\Polizas
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class Servicio extends SplEnum
+class Servicio
 {
-    const __default = self::ESTATAL;
-    const ESTATAL   = 1;
-    const FEDERAL   = 2;
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $servicio;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServicio()
+    {
+        return $this->servicio;
+    }
 }
