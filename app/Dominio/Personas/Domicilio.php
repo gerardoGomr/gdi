@@ -47,16 +47,20 @@ class Domicilio
     /**
      * Domicilio constructor.
      * @param string $calle
+     * @param $numExterior
+     * @param $numInterior
+     * @param $colonia
      * @param string $cp
-     * @param string $municipio
-     * @param int|null $id
+     * @param UnidadAdministrativa|null $unidadAdministrativa
      */
-    public function __construct($calle, $cp, $municipio, $id = null)
+    public function __construct($calle, $numExterior, $numInterior, $colonia, $cp, UnidadAdministrativa $unidadAdministrativa = null)
     {
-        $this->id        = $id;
-        $this->calle = $calle;
-        $this->cp        = $cp;
-        $this->municipio = $municipio;
+        $this->calle                = $calle;
+        $this->numExterior          = $numExterior;
+        $this->numInterior          = $numInterior;
+        $this->colonia              = $colonia;
+        $this->cp                   = $cp;
+        $this->unidadAdministrativa = $unidadAdministrativa;
     }
 
     /**
@@ -81,14 +85,6 @@ class Domicilio
     public function getCp()
     {
         return $this->cp;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMunicipio()
-    {
-        return $this->municipio;
     }
 
     /**

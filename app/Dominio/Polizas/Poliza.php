@@ -1,6 +1,13 @@
 <?php
-
 namespace GDI\Dominio\Polizas;
+
+use DateInterval;
+use DateTime;
+use GDI\Dominio\Coberturas\Cobertura;
+use GDI\Dominio\Coberturas\Costo;
+use GDI\Dominio\Oficinas\Oficina;
+use GDI\Dominio\Personas\Persona;
+use GDI\Dominio\Vehiculos\Vehiculo;
 
 /**
  * Class Poliza
@@ -33,20 +40,20 @@ class Poliza
     /**
      * @var DateTime
      */
-    private $fechaRegistro;
+    private $fechaEmision;
 
     /**
      * @var DateTime
      */
-    private $fechaInicioVigencia;
+    private $fechaVigencia;
 
     /**
-     * @var MedioPago
+     * @var int
      */
     private $medioPago;
 
     /**
-     * @var FormaPago
+     * @var int
      */
     private $formaPago;
 
@@ -56,27 +63,40 @@ class Poliza
     private $estaPagada;
 
     /**
-     * @var double
+     * @var Costo
      */
     private $costo;
+
+    /**
+     * @var Oficina
+     */
+    private $oficina;
+
+    /**
+     * @var PolizaPago
+     */
+    private $polizaPago;
 
     /**
      * Class Poliza Constructor
      * @param Vehiculo $vehiculo
      * @param Persona $asociadoAgente
      * @param Cobertura $cobertura
-     * @param DateTime $fechaInicioVigencia
+     * @param Costo $costo
+     * @param Oficina $oficina
      */
-    public function __construct(Vehiculo $vehiculo, Persona $asociadoAgente, Cobertura $cobertura, DateTime $fechaInicioVigencia)
+    public function __construct(Vehiculo $vehiculo, Persona $asociadoAgente, Cobertura $cobertura, Costo $costo, Oficina $oficina)
     {
-        $this->vehiculo            = $vehiculo;
-        $this->asociadoAgente      = $asociadoAgente;
-        $this->cobertura           = $cobertura;
-        $this->fechaInicioVigencia = $fechaInicioVigencia;
+        $this->vehiculo       = $vehiculo;
+        $this->asociadoAgente = $asociadoAgente;
+        $this->cobertura      = $cobertura;
+        $this->costo          = $costo;
+        $this->estaPagada     = false;
+        $this->oficina        = $oficina;
     }
 
     /**
-     * @return MedioPago
+     * @return int
      */
     public function getMedioPago()
     {
@@ -84,7 +104,7 @@ class Poliza
     }
 
     /**
-     * @return FormaPago
+     * @return int
      */
     public function getFormaPago()
     {
@@ -134,17 +154,17 @@ class Poliza
     /**
      * @return DateTime
      */
-    public function getFechaRegistro()
+    public function getFechaEmision()
     {
-        return $this->fechaRegistro;
+        return $this->fechaEmision;
     }
 
     /**
      * @return DateTime
      */
-    public function getFechaInicioVigencia()
+    public function getFechaVigencia()
     {
-        return $this->fechaInicioVigencia;
+        return $this->fechaVigencia;
     }
 
     /**
@@ -156,10 +176,54 @@ class Poliza
     }
 
     /**
-     * @return float
+     * @return Costo
      */
     public function getCosto()
     {
         return $this->costo;
+    }
+
+    /**
+     * @return Oficina
+     */
+    public function getOficina()
+    {
+        return $this->oficina;
+    }
+
+    /**
+     * calcular la vigencia de la póliza en base al costo seleccionado
+     */
+    public function generarVigencia()
+    {
+        $meses = (string)$this->costo->getVigencia()->getVigencia();
+        $this->fechaEmision  = new DateTime();
+        $this->fechaVigencia = new DateTime();
+        $this->fechaVigencia->add(new DateInterval("P$meses".'M'));
+    }
+
+    public function pagar($formaPago, $metodoPago, PolizaPago $polizaPago = null)
+    {
+        $this->formaPago = $formaPago;
+        $this->medioPago = $metodoPago;
+
+        if ($this->formaPago === FormaPago::CONTADO) {
+            $this->estaPagada = true;
+        }
+
+        if ($this->medioPago === MedioPago::EFECTIVO) {
+            $this->polizaPago = $polizaPago;
+            $this->polizaPago->calcularCambio($this->costo->getCosto());
+        }
+    }
+
+    public function sePuedeGenerarFormato()
+    {
+        return $this->estaPagada;
+    }
+
+    public function esPagoParcial()
+    {
+        return $this->formaPago === FormaPago::PARCIAL;
     }
 }

@@ -21,4 +21,4 @@ GDI\Dominio\Oficinas\Oficina:
       joinColumn:
         name: domicilio_id
         referencedColumnName: id
-      cascade: ["persist"]
+      cascade: [persist]

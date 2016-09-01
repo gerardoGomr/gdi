@@ -1,17 +1,37 @@
 <?php
 namespace GDI\Dominio\Coberturas;
 
-use \SplEnum;
-
 /**
  * Class Vigencia
  * @package GDI\Dominio\Coberturas
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class Vigencia extends SplEnum
+class Vigencia
 {
-    const SEIS_MESES = 1;
-    const DOCE_MESES = 2;
-    const __default  = self::DOCE_MESES;
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $vigencia;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVigencia()
+    {
+        return $this->vigencia;
+    }
 }

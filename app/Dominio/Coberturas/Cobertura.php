@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Dominio\Coberturas;
 
+use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Polizas\Servicio;
 use GDI\Dominio\Listas\IColeccion;
 
@@ -31,6 +32,11 @@ class Cobertura
      * @var Servicio
      */
     private $servicio;
+
+    /**
+     * @var Oficina
+     */
+    private $oficina;
 
     /**
      * @var IColeccion
@@ -91,6 +97,22 @@ class Cobertura
     public function getServicio()
     {
         return $this->servicio;
+    }
+
+    /**
+     * @return Oficina
+     */
+    public function getOficina()
+    {
+        return $this->oficina;
+    }
+
+    /**
+     * @return IColeccion
+     */
+    public function getCostos()
+    {
+        return $this->costos;
     }
 
     /**

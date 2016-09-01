@@ -35,7 +35,7 @@ class AsociadoProtegido extends Persona
     private $domicilio;
 
     /**
-     * @var TipoPersona
+     * @var int
      */
     private $tipoPersona;
 
@@ -46,19 +46,23 @@ class AsociadoProtegido extends Persona
 
     /**
      * AsociadoProtegido constructor.
-     * @param null $razonSocial
      * @param string $rfc
-     * @param Domicilio $domicilio
-     * @param TipoPersona $tipoPersona
-     * @param int $id
+     * @param int|string $tipoPersona
+     * @param string $telefono
+     * @param string $celular
+     * @param string $email
      */
-    public function __construct($razonSocial = null, $rfc = null, Domicilio $domicilio = null, TipoPersona $tipoPersona = null, $id = 0)
+    public function __construct($rfc = null, $tipoPersona = TipoPersona::PERSONA_FISICA, $telefono, $celular, $email)
     {
-        $this->id          = $id;
-        $this->razonSocial = $razonSocial;
+        if ($tipoPersona !== TipoPersona::PERSONA_FISICA && $tipoPersona !== TipoPersona::PERSONA_MORAL) {
+            throw new \InvalidArgumentException('DEBE ESPECIFICAR QUE SEA PERSONA FÍSICA O PERSONA MORAL.');
+        }
+
         $this->rfc         = $rfc;
-        $this->domicilio   = $domicilio;
         $this->tipoPersona = $tipoPersona;
+        $this->telefono    = $telefono;
+        $this->celular     = $celular;
+        $this->email       = $email;
 
         parent::__construct();
     }
@@ -88,7 +92,7 @@ class AsociadoProtegido extends Persona
     }
 
     /**
-     * @return TipoPersona
+     * @return int
      */
     public function getTipoPersona()
     {
@@ -122,6 +126,31 @@ class AsociadoProtegido extends Persona
             return parent::nombreCompleto();
         } else {
             return $this->razonSocial;
+        }
+    }
+
+    /**
+     * generar datos del asociado dependiendo del tipo de persona
+     * @param string $nombre
+     * @param string $paterno
+     * @param string $materno
+     * @param string $razonSocial
+     * @param Domicilio $domicilio
+     * @param Oficina $oficina
+     */
+    public function generar($nombre, $paterno, $materno, $razonSocial, Domicilio $domicilio, Oficina $oficina)
+    {
+        $this->domicilio = $domicilio;
+        $this->oficina   = $oficina;
+
+        if ($this->tipoPersona === TipoPersona::PERSONA_FISICA) {
+            $this->nombre  = $nombre;
+            $this->paterno = $paterno;
+            $this->materno = $materno;
+        }
+
+        if ($this->tipoPersona === TipoPersona::PERSONA_MORAL) {
+            $this->razonSocial = $razonSocial;
         }
     }
 }

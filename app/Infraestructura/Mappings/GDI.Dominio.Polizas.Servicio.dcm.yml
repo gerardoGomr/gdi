@@ -1,0 +1,13 @@
+GDI\Dominio\Polizas\Servicio:
+  type: entity
+  table: servicio
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    servicio:
+      type: string
+      nullable: false
+      column: servicio

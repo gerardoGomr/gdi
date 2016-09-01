@@ -21,6 +21,12 @@ GDI\Dominio\Vehiculos\Vehiculo:
       length: 50
       nullable: false
       column: num_motor
+    placas:
+      type: string
+      column: placas
+    capacidad:
+      type: integer
+      column: capacidad
   oneToOne:
     modelo:
       targetEntity: Modelo
@@ -39,4 +45,15 @@ GDI\Dominio\Vehiculos\Vehiculo:
       joinColumn:
         name: oficina_id
         referencedColumnName: id
-      cascade: ["persist"]
+    servicio:
+      targetEntity: GDI\Dominio\Polizas\Servicio
+      joinColumn:
+        name: servicio_id
+        referencedColumnName: id
+      cascade: [persist]
+    asociadoProtegido:
+      targetEntity: GDI\Dominio\Polizas\AsociadoProtegido
+      joinColumn:
+        name: asociado_protegido_id
+        referencedColumnName: id
+      cascade: [persist]

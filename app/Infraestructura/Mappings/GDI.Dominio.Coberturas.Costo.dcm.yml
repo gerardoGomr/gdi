@@ -1,0 +1,26 @@
+GDI\Dominio\Coberturas\Costo:
+  type: entity
+  table: costo
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    costo:
+      type: float
+      nullable: false
+      column: costo
+  oneToOne:
+    vigencia:
+      targetEntity: Vigencia
+      joinColumn:
+        name: vigencia_id
+        referencedColumnName: id
+      cascade: [persist]
+    modalidad:
+      targetEntity: GDI\Dominio\Vehiculos\Modalidad
+      joinColumn:
+        name: modalidad_id
+        referencedColumnName: id
+      cascase: [persist]

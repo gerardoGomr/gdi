@@ -1,0 +1,54 @@
+GDI\Dominio\Polizas\Poliza:
+  type: entity
+  table: poliza
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    estaPagada:
+      type: boolean
+      column: esta_pagada
+    fechaEmision:
+      type: date
+      column: fecha_emision
+    fechaVigencia:
+      type: date
+      column: fecha_vigencia
+    medioPago:
+      type: integer
+      column: medio_pago
+    formaPago:
+      type: integer
+      column: forma_pago
+  oneToOne:
+    asociadoAgente:
+      targetEntity: AsociadoAgente
+      joinColumn:
+        name: asociado_colaborador_id
+        referencedColumnName: id
+      cascade: [persist]
+    vehiculo:
+      targetEntity: GDI\Dominio\Vehiculos\Vehiculo
+      joinColumn:
+        name: vehiculo_id
+        referencedColumnName: id
+      cascade: [persist]
+    cobertura:
+      targetEntity: GDI\Dominio\Coberturas\Cobertura
+      joinColumn:
+        name: cobertura_id
+        referencedColumnName: id
+      cascade: [persist]
+    costo:
+      targetEntity: GDI\Dominio\Coberturas\Costo
+      joinColumn:
+        name: costo_id
+        referencedColumnName: id
+      cascade: [persist]
+    oficina:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id

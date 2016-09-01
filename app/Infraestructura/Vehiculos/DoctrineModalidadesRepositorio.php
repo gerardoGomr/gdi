@@ -61,6 +61,24 @@ class DoctrineModalidadesRepositorio implements ModalidadesRepositorio
     public function obtenerPorId($id, $oficinaId = null)
     {
         // TODO: Implement obtenerPorId() method.
+        try {
+            $query       = $this->entityManager->createQuery('SELECT m, o FROM Vehiculos:Modalidad m JOIN m.oficina o WHERE m.id = :id AND o.id = :oficinaId')
+                ->setParameter('id', $id)
+                ->setParameter('oficinaId', $oficinaId);
+
+            $modalidades = $query->getResult();
+
+            if (count($modalidades) > 0) {
+                return $modalidades[0];
+            }
+
+            return null;
+
+        } catch (\PDOException $e) {
+            $pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
+            $pdoLogger->log($e);
+            return null;
+        }
     }
 
     /**

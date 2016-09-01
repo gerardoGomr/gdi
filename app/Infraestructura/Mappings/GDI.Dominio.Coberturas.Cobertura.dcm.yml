@@ -1,0 +1,41 @@
+GDI\Dominio\Coberturas\Cobertura:
+  type: entity
+  table: cobertura
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    nombre:
+      type: string
+      nullable: false
+      column: nombre
+    coberturaTipo:
+      type: integer
+      column: cobertura_tipo
+  oneToOne:
+    servicio:
+      targetEntity: GDI\Dominio\Polizas\Servicio
+      joinColumn:
+        name: servicio_id
+        referencedColumnName: id
+      cascade: [persist]
+    oficina:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id
+      cascase: [persist]
+  manyToMany:
+    costos:
+      targetEntity: Costo
+      joinTable:
+        name: cobertura_costo
+        joinColumns:
+          cobertura_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          costo_id:
+            referencedColumnName: id
+            unique: true

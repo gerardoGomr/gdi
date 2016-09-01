@@ -62,7 +62,9 @@ class DoctrineMarcasRepositorio implements MarcasRepositorio
     {
         // TODO: Implement obtenerPorId() method.
         try {
-            $query  = $this->entityManager->createQuery('SELECT m, mo, o FROM Vehiculos:Marca m LEFT JOIN m.modelos mo JOIN m.oficina o WHERE m.id = :id AND o.id = :oficinaId')->setParameter('id', $id)->setParameter('oficinaId', $oficinaId);
+            $query  = $this->entityManager->createQuery('SELECT m, mo FROM Vehiculos:Marca m LEFT JOIN m.modelos mo JOIN mo.oficina o WHERE m.id = :id AND o.id = :oficinaId')
+                ->setParameter('id', $id)
+                ->setParameter('oficinaId', $oficinaId);
             $marcas = $query->getResult();
 
             if (count($marcas) > 0) {

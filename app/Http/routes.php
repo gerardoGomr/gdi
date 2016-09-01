@@ -11,6 +11,11 @@
 |
 */
 
+/**
+ * rutas agrupadas en el middleware de autenticación
+ * @author Gerardo Adrián Gómez Ruiz, <gerardo.gomr@gmail.com>
+ * @version 1.0
+ */
 Route::group(['middleware' => 'usuarioAutenticado'], function() {
     /**
      * ruta principal del sistema
@@ -45,12 +50,37 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     Route::post('polizas/modelos/buscar', 'Polizas\PolizasController@buscarModelos');
 
     /**
+     * ruta para buscar coberturas en base al servicio y tipo
+     */
+    Route::post('polizas/coberturas/buscar', 'Polizas\PolizasController@buscarCoberturas');
+
+    /**
+     * ruta para buscar vigencias de coberturas en base a la cobertura y la modalidad
+     */
+    Route::post('polizas/coberturas/vigencias/buscar', 'Polizas\PolizasController@buscarVigenciasCobertura');
+
+    /**
      * ruta para registrar una nueva póliza
      */
     Route::post('polizas/registrar', [
-        'as' => 'poliza-registrar',
-        'use' => 'Polizas\PolizasController@registrar',
+        'as'   => 'poliza-registrar',
+        'uses' => 'Polizas\PolizasController@registrar',
     ]);
+
+    /**
+     * ruta para construir vista de pago de pólizas
+     */
+    Route::get('polizas/pagar/{polizaId}', 'Polizas\PolizasController@verFormPago');
+
+    /**
+     * ruta para procesar pago de póliza
+     */
+    Route::post('polizas/pagar', 'Polizas\PolizasController@pagarPoliza');
+
+    /**
+     * ruta para generar el formato de la póliza
+     */
+    Route::get('polizas/formato/{polizaId}', 'Polizas\PolizasController@formato');
 });
 
 /**

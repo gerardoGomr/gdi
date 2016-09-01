@@ -1,8 +1,5 @@
 <?php
-
 namespace GDI\Dominio\Polizas;
-
-use \SplEnum;
 
 /**
  * Class FormaPago
@@ -10,10 +7,9 @@ use \SplEnum;
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class FormaPago extends SplEnum
+abstract class FormaPago
 {
     const CONTADO   = 1;
     const PARCIAL   = 2;
     const SEMESTRAL = 3;
-    const __default = self::CONTADO;
 }

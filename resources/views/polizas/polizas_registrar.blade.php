@@ -14,7 +14,7 @@
                                     {!! csrf_field() !!}
                                     <div class="innerAll">
                                         <span id="acciones">
-                                            <a href="" id="registrarPoliza" class="btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR PÓLIZA</a>
+                                            <button type="button" id="registrarPoliza" class="btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR PÓLIZA</button>
                                             <a href="{{ url('polizas') }}" class="btn btn-default" id="cancelar"><i class="fa fa-times"></i> CANCELAR REGISTRO</a>
                                         </span>
                                         <div class="separator"></div>
@@ -55,9 +55,9 @@
                                                     <div class="col-md-4">
                                                         <select class="form-control" name="servicio" id="servicio">
                                                             <option value="">SELECCIONE</option>
-                                                            <option value="1">OTRO</option>
-                                                            <option value="2">ESTATAL</option>
-                                                            <option value="3">FEDERAL</option>
+                                                            @foreach($servicios as $servicio)
+                                                                <option value="{{ $servicio->getId() }}">{{ $servicio->getServicio() }}</option>
+                                                            @endforeach
                                                         </select>
                                                         <div class="separator hide"></div>
                                                         <input type="text" name="otroServicio" id="otroServicio" class="form-control hide" placeholder="ESCRIBA EL SERVICIO">
@@ -98,15 +98,22 @@
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="numSerie">NUM. SERIE:</label>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-4">
                                                         <input type="text" name="numSerie" id="numSerie" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="numMotor">NUM. MOTOR:</label>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-4">
                                                         <input type="text" name="numMotor" id="numMotor" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3" for="numMotor">PLACAS:</label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" name="placas" id="placas" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -187,6 +194,63 @@
                                                             <input type="text" name="rfc" id="rfc" class="form-control">
                                                         </div>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="calleAsociado">CALLE:</label>
+                                                        <div class="col-md-5">
+                                                            <input type="text" name="calleAsociado" id="calleAsociado" class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="">NÚMEROS:</label>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="numExteriorAsociado" id="numExteriorAsociado" class="form-control" placeholder="Exterior">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="numInteriorAsociado" id="numInteriorAsociado" class="form-control" placeholder="Interior">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="coloniaAsociado">COLONIA:</label>
+                                                        <div class="col-md-5">
+                                                            <input type="text" name="coloniaAsociado" id="coloniaAsociado" class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="cpAsociado">C.P.:</label>
+                                                        <div class="col-md-2">
+                                                            <input type="text" name="cpAsociado" id="cpAsociado" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="calleAsociado">CIUDAD:</label>
+                                                        <div class="col-md-5">
+                                                            <select name="ciudadAsociado" id="ciudadAsociado" class="form-control">
+                                                                <option value="">SELECCIONE</option>
+                                                                <option value="1">TUXTLA GUTIÉRREZ</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="telefonoAsociado">TELÉFONO:</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="telefonoAsociado" id="telefonoAsociado" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="celularAsociado">CELULAR:</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="celularAsociado" id="celularAsociado" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3" for="emailAsociado">EMAIL:</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="emailAsociado" id="emailAsociado" class="form-control">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +259,7 @@
                                             <h5 class="innerAll border-bottom bg-gray">ASOCIADO AGENTE</h5>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3" for="asociadoAgente">NOMBRE:</label>
-                                                <div class="col-md-7">
+                                                <div class="col-md-5">
                                                     <select class="form-control" name="asociadoAgente" id="asociadoAgente">
                                                         <option value="">SELECCIONE</option>
                                                         @foreach($asociadosAgentes as $asociadoAgente)
@@ -255,16 +319,18 @@
                                             <div class="innerAll">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="coberturaServicio">SERVICIO:</label>
-                                                    <div class="col-md-4"><p class="form-control-static" id="coberturaServicio"></p></div>
+                                                    <div class="col-md-4">
+                                                        <p class="form-control-static" id="coberturaServicio"></p>
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="coberturaTipo">TIPO:</label>
                                                     <div class="col-md-4">
-                                                        <select class="form-control" name="coberturaTipo" id="coberturaTipo">
+                                                        <select class="form-control" name="coberturaTipo" id="coberturaTipo" data-url="{{ url('polizas/coberturas/buscar') }}">
                                                             <option value="">SELECCIONE</option>
                                                             <option value="1">LOCAL</option>
-                                                            <option value="2" selected="selected">BÁSICA</option>
+                                                            <option value="2">BÁSICA</option>
                                                             <option value="3">AMPLIA</option>
                                                         </select>
                                                     </div>
@@ -273,10 +339,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="cobertura">COBERTURA:</label>
                                                     <div class="col-md-4">
-                                                        <select class="form-control" name="cobertura" id="cobertura">
-                                                            <option value="">SELECCIONE</option>
-                                                            <option value="1">OTRA</option>
-                                                            <option value="2">LOCAL DEFAULT</option>
+                                                        <select class="form-control" name="cobertura" id="cobertura" data-url="{{ url('polizas/coberturas/vigencias/buscar') }}">
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -403,6 +467,7 @@
                                         <input type="hidden" name="vehiculoNuevo" id="vehiculoNuevo">
                                         <input type="hidden" name="coberturaNueva" id="coberturaNueva">
                                         <input type="hidden" id="buscarAsociado" value="0">
+                                        <input type="hidden" id="urlPago" value="{{ url('polizas/pagar/') }}">
                                     </div>
                                 </form>
                             </div>

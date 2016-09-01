@@ -12,6 +12,11 @@ use GDI\Dominio\Vehiculos\Modalidad;
 class Costo
 {
     /**
+     * @var int
+     */
+    private $id;
+
+    /**
      * @var double
      */
     private $costo;
@@ -37,6 +42,14 @@ class Costo
         $this->costo     = $costo;
         $this->vigencia  = $vigencia;
         $this->modalidad = $modalidad;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

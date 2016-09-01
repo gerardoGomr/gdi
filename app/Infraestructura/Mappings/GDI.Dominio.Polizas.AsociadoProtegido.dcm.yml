@@ -61,4 +61,3 @@ GDI\Dominio\Polizas\AsociadoProtegido:
       joinColumn:
         name: oficina_id
         referencedColumnName: id
-      cascade: [persist]

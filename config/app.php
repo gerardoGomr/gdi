@@ -163,6 +163,12 @@ return [
         GDI\Providers\AsociadosProtegidosRepositorioServiceProvider::class,
         GDI\Providers\MarcasRepositorioServiceProvider::class,
         GDI\Providers\AsociadosAgentesRepositorioServiceProvider::class,
+        GDI\Providers\CoberturasRepositorioServiceProvider::class,
+        GDI\Providers\ServiciosRepositorioServiceProvider::class,
+        GDI\Providers\ModelosRepositorioServiceProvider::class,
+        GDI\Providers\CostosRepositorioServiceProvider::class,
+        GDI\Providers\PolizasRepositorioServiceProvider::class,
+        GDI\Providers\UnidadesAdministrativasRepositorioServiceProvider::class
     ],
 
     /*

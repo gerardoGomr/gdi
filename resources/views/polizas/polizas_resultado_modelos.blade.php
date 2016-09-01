@@ -1,4 +1,4 @@
-@if(count($marca->getModelos()->getValues()))
+@if(!is_null($marca) && count($marca->getModelos()->getValues()) > 0)
     <option value="">SELECCIONE</option>
     <option value="1">OTRO</option>
     @foreach($marca->getModelos()->getValues() as $modelo)

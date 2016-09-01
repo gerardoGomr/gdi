@@ -17,6 +17,12 @@ $(document).ready(function() {
 		$('#datoVehiculoBuscar').focus();
 	}, 500);
 
+	// validación a formulario
+	init();
+	$formPoliza.validate();
+	agregaValidacionesElementos($formPoliza);
+	// =====================================================
+
 	// evitar submit normal
 	$('#datoVehiculoBuscar, #datoAsociadoBuscar').on('keypress', function(event) {
 		if (event === 13 || event.which === 13) {
@@ -87,6 +93,7 @@ $(document).ready(function() {
 
 			}).done(function (resultado) {
 				$('#loading').modal('hide');
+				$buscarAsociado.val('1');
 
 				if(resultado.estatus === 'fail') {
 					bootbox.alert('NO SE ENCONTRARON ASOCIADOS QUE COINCIDAN CON EL PARÁMETRO: ' + $datoAsociadoBuscar.val() + ".\n\r POR FAVOR, REGISTRE LOS DATOS DEL ASOCIADO.", function () {
@@ -212,16 +219,53 @@ $(document).ready(function() {
 		}
 	});
 
+	// change a cobertura tipo
+	$('#coberturaTipo').on('change', function() {
+		var url = $(this).data('url');
+
+		if ($(this).val() !== '' && $('#servicio').val() !== '') {
+			$.ajax({
+				url:      url,
+				type:     'post',
+				dataType: 'json',
+				data: { coberturaTipoId: $('#coberturaTipo').val(), servicioId: $('#servicio').val(), _token: $formPoliza.find('input[name="_token"]').val() },
+				beforeSend: function() {
+					$('#loading').modal('show');
+				}
+
+			}).done(function (resultado) {
+				$('#loading').modal('hide');
+				$('#cobertura').html(resultado.html);
+
+			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				$('#loading').modal('hide');
+				console.log(textStatus + ': ' + errorThrown);
+			});
+		}
+	});
+
 	// change a cobertura
 	$('#cobertura').on('change', function (event) {
-		if ($(this).val() === '1') {
-			$('#registroCobertura').removeClass('hide');
-			$('#vigenciaCobertura').addClass('hide');
-			$formPoliza.find('label.vigenciaCobertura').addClass('hide');
-		} else {
-			$('#registroCobertura').addClass('hide');
-			$('#vigenciaCobertura').removeClass('hide');
-			$formPoliza.find('label.vigenciaCobertura').removeClass('hide');
+		var url = $(this).data('url');
+
+		if ($(this).val() !== '') {
+			$.ajax({
+				url:      url,
+				type:     'post',
+				dataType: 'json',
+				data: { coberturaId: $('#cobertura').val(), modalidadId: $('#modalidad').val(), _token: $formPoliza.find('input[name="_token"]').val() },
+				beforeSend: function() {
+					$('#loading').modal('show');
+				}
+
+			}).done(function (resultado) {
+				$('#loading').modal('hide');
+				$('#vigenciaCobertura').html(resultado.html);
+
+			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				$('#loading').modal('hide');
+				console.log(textStatus + ': ' + errorThrown);
+			});
 		}
 	});
 
@@ -235,9 +279,11 @@ $(document).ready(function() {
 	});
 
 	// registrar póliza
-	$('#registrarPoliza').on('click', function (event) {
-		event.preventDefault();
+	$('#registrarPoliza').on('click', function () {
 		// validación de form de pólizas
+		if (!$formPoliza.valid()) {
+			return false;
+		}
 
 		// validación de búsqueda de asociado
 		if ($buscarAsociado.val() === '0') {
@@ -249,5 +295,34 @@ $(document).ready(function() {
 
 			return false;
 		}
+
+		$.ajax({
+			url:      $formPoliza.attr('action'),
+			type:     'post',
+			dataType: 'json',
+			data:     $formPoliza.serialize(),
+			beforeSend: function() {
+				$('#loading').modal('show');
+			}
+
+		}).done(function (respuesta) {
+			$('#loading').modal('hide');
+
+			if (respuesta.estatus === 'fail') {
+				bootbox.alert('OCURRIÓ UN ERROR AL GUARDAR LA PÓLIZA. POR FAVOR, INTENTE DE NUEVO.');
+			}
+
+			if (respuesta.estatus === 'OK') {
+				bootbox.alert('PÓLIZA GENERADA CON ÉXITO.', function() {
+					// redireccionar a pago de póliza
+					window.location.href = $('#urlPago').val() + '/' + respuesta.id;
+				});
+			}
+
+		}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+			console.log(textStatus + ': ' + errorThrown);
+			$('#loading').modal('hide');
+			bootbox.alert('OCURRIÓ UN ERROR AL GUARDAR LA PÓLIZA. POR FAVOR, INTENTE DE NUEVO.');
+		});
 	});
 });

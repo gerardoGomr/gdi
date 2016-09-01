@@ -213,17 +213,6 @@ class Domicilio extends \GDI\Dominio\Personas\Domicilio implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function getMunicipio()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMunicipio', []);
-
-        return parent::getMunicipio();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getNumExterior()
     {
 

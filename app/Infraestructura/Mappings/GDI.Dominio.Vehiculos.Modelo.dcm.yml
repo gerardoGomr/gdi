@@ -11,6 +11,13 @@ GDI\Dominio\Vehiculos\Modelo:
       type: string
       nullable: false
       column: modelo
+  oneToOne:
+    oficina:
+      targetEntity: GDI\Dominio\Oficinas\Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id
+      cascade: [persist]
   manyToOne:
     marca:
       targetEntity: Marca

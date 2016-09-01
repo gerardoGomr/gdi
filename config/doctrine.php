@@ -26,9 +26,12 @@ return [
             'meta'       => env('DOCTRINE_METADATA', 'yaml'),
             'connection' => env('DB_CONNECTION', 'sqlsrv'),
             'namespaces' => [
-                'Usuarios'  => 'GDI\Dominio\Usuarios',
-                'Vehiculos' => 'GDI\Dominio\Vehiculos',
-                'Polizas'   => 'GDI\Dominio\Polizas',
+                'Usuarios'   => 'GDI\Dominio\Usuarios',
+                'Vehiculos'  => 'GDI\Dominio\Vehiculos',
+                'Polizas'    => 'GDI\Dominio\Polizas',
+                'Coberturas' => 'GDI\Dominio\Coberturas',
+                'Oficinas'   => 'GDI\Dominio\Oficinas',
+                'Personas'   => 'GDI\Dominio\Personas'
             ],
             'paths'      => [
                 base_path('app/Dominio'),

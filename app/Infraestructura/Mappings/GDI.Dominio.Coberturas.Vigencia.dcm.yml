@@ -1,0 +1,13 @@
+GDI\Dominio\Coberturas\Vigencia:
+  type: entity
+  table: vigencia
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    vigencia:
+      type: string
+      nullable: false
+      column: vigencia

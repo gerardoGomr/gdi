@@ -2,8 +2,8 @@
 namespace GDI\Infraestructura\Polizas;
 
 use GDI\Aplicacion\Logger;
-
 use Doctrine\ORM\EntityManager;
+use GDI\Dominio\Polizas\AsociadoAgente;
 use GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
@@ -33,14 +33,15 @@ class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 	/**
 	 * @param int $id
 	 * @param int|null $oficinaId
-	 * @return array
+	 * @return AsociadoAgente
 	 */
 	public function obtenerPorId($id, $oficinaId = null)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT u, us, e FROM Usuarios:Usuario u JOIN u.usuarioTipo us JOIN u.especialidad e WHERE u.id = :id')
-					->setParameter('id', $id);
+			$query = $this->entityManager->createQuery('SELECT a, d FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId AND a.id = :id')
+					->setParameter('id', $id)
+					->setParameter('oficinaId', $oficinaId);
 
 			$usuario = $query->getResult();
 
