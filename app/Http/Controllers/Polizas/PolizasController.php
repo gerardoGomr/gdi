@@ -90,7 +90,8 @@ class PolizasController extends Controller
      */
     public function index()
     {
-        return view('polizas.polizas');
+        $polizas = $this->polizasRepositorio->obtenerTodos($this->oficinaId);
+        return view('polizas.polizas', compact('polizas'));
     }
 
     /**
@@ -377,7 +378,7 @@ class PolizasController extends Controller
 
     public function formato($polizaId)
     {
-        $polizaId = (int)base64_decode($polizaId));
+        $polizaId = (int)base64_decode($polizaId);
         $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
 
         // construcción de formato, usar TCPDF or Crystal Reports

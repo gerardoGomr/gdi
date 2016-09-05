@@ -68,11 +68,11 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query = $this->entityManager->createQuery("SELECT s FROM Polizas:Servicio s ORDER BY s.servicio");
-			$servicios = $query->getResult();
+			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m ORDER BY p.id');
+			$polizas = $query->getResult();
 
-			if (count($servicios) > 0) {
-				return $servicios;
+			if (count($polizas) > 0) {
+				return $polizas;
 			}
 
 			return null;

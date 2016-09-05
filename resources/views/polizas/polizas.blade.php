@@ -25,33 +25,32 @@
                                 <div class="col-separator-h"></div>
 
                                 <div class="innerAll">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr class="bg-primary">
-                                                <th>Asociado</th>
-                                                <th>Vehículo</th>
-                                                <th>Domicilio</th>
-                                                <th>Póliza</th>
-                                                <th>Servicio</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Asociado</td>
-                                                <td>Vehículo</td>
-                                                <td>Domicilio</td>
-                                                <td>Póliza</td>
-                                                <td>Servicio</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Asociado</td>
-                                                <td>Vehículo</td>
-                                                <td>Domicilio</td>
-                                                <td>Póliza</td>
-                                                <td>Servicio</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    @if(count($polizas) > 0)
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="bg-primary">
+                                                    <th>ASOCIADO</th>
+                                                    <th>VEHICULO</th>
+                                                    <th>COSTO</th>
+                                                    <th>VIGENCIA</th>
+                                                    <th>SERVICIO</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($polizas as $poliza)
+                                                    <tr>
+                                                        <td>{{ $poliza->getVehiculo()->getAsociadoProtegido()->nombreCompleto() }}</td>
+                                                        <td>{{ $poliza->getVehiculo()->detalles() }}</td>
+                                                        <td>${{ number_format($poliza->getCosto()->getCosto(), 2) }}</td>
+                                                        <td>{{ $poliza->getCosto()->getVigencia()->getVigencia() }} MESES</td>
+                                                        <td>{{ $poliza->getVehiculo()->getServicio()->getServicio() }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @else
+                                        <p class="text-medium center text-primary">SIN PÓLIZAS REGISTRADAS</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
