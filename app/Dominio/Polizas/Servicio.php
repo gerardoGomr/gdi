@@ -20,6 +20,16 @@ class Servicio
     private $servicio;
 
     /**
+     * Servicio constructor.
+     * @param string $servicio
+     */
+    public function __construct($servicio)
+    {
+        $this->servicio = $servicio;
+    }
+
+
+    /**
      * @return int
      */
     public function getId()

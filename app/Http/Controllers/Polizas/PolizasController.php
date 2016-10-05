@@ -1,8 +1,17 @@
 <?php
 namespace GDI\Http\Controllers\Polizas;
 
+use GDI\Aplicacion\Factories\CoberturasFactory;
+use GDI\Aplicacion\Factories\CostosFactory;
+use GDI\Aplicacion\Factories\ModalidadesFactory;
+use GDI\Aplicacion\Factories\ModelosFactory;
+use GDI\Aplicacion\Factories\ServiciosFactory;
+use GDI\Aplicacion\Factories\VigenciasFactory;
+use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
+use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
+use GDI\Dominio\Coberturas\Repositorios\VigenciasRepositorio;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Personas\Domicilio;
 use GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio;
@@ -76,7 +85,6 @@ class PolizasController extends Controller
     public function __construct(VehiculosRepositorio $vehiculosRepositorio, AsociadosProtegidosRepositorio $asociadosRepositorio, MarcasRepositorio $marcasRepositorio, ServiciosRepositorio $serviciosRepositorio, PolizasRepositorio $polizasRepositorio)
     {
         $this->oficinaId            = request()->session()->get('usuario')->getOficina()->getId();
-        //$this->oficina              = request()->session()->get('usuario')->getOficina();
         $this->vehiculosRepositorio = $vehiculosRepositorio;
         $this->asociadosRepositorio = $asociadosRepositorio;
         $this->marcasRepositorio    = $marcasRepositorio;
@@ -98,16 +106,20 @@ class PolizasController extends Controller
      * retornar la vista de registro de nueva póliza
      * @param ModalidadesRepositorio $modalidadesRepositorio
      * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param VigenciasRepositorio $vigenciasRepositorio
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @internal param MarcasRepositorio $marcasRepositorio
      */
-    public function verFormRegistro(ModalidadesRepositorio $modalidadesRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio)
+    public function verFormRegistro(ModalidadesRepositorio $modalidadesRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio)
     {
-        $modalidades      = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
-        $marcas           = $this->marcasRepositorio->obtenerTodos($this->oficinaId);
-        $asociadosAgentes = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
-        $servicios        = $this->serviciosRepositorio->obtenerTodos();
-        return view('polizas.polizas_registrar', compact('modalidades', 'marcas', 'asociadosAgentes', 'servicios'));
+        $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
+        $marcas              = $this->marcasRepositorio->obtenerTodos();
+        $asociadosAgentes    = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
+        $servicios           = $this->serviciosRepositorio->obtenerTodos();
+        $coberturasConceptos = $coberturasConceptosRepositorio->obtenerTodos();
+        $vigencias           = $vigenciasRepositorio->obtenerTodos();
+
+        return view('polizas.polizas_registrar', compact('modalidades', 'marcas', 'asociadosAgentes', 'servicios', 'coberturasConceptos', 'vigencias'));
     }
 
     /**
@@ -229,6 +241,8 @@ class PolizasController extends Controller
      * @param ModelosRepositorio $modelosRepositorio
      * @param CostosRepositorio $costosRepositorio
      * @param UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param VigenciasRepositorio $vigenciasRepositorio
      * @return \Illuminate\Http\JsonResponse
      */
     public function registrar(
@@ -238,7 +252,9 @@ class PolizasController extends Controller
         CoberturasRepositorio $coberturasRepositorio,
         ModelosRepositorio $modelosRepositorio,
         CostosRepositorio $costosRepositorio,
-        UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio
+        UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio,
+        CoberturasConceptosRepositorio $coberturasConceptosRepositorio,
+        VigenciasRepositorio $vigenciasRepositorio
     )
     {
         $respuesta = [];
@@ -247,9 +263,7 @@ class PolizasController extends Controller
         $this->oficina = $this->polizasRepositorio->obtenerOficinaPorId($this->oficinaId);
 
         // datos de vehículo
-        $modalidadId = (int)$request->get('modalidad');
-        $servicioId  = (int)$request->get('servicio');
-        $modeloId    = (int)$request->get('modelo');
+        //$servicioId  = (int)$request->get('servicio');
         $anio        = (int)$request->get('anio');
         $numeroSerie = $request->get('numSerie');
         $numeroMotor = $request->get('numMotor');
@@ -277,7 +291,6 @@ class PolizasController extends Controller
         $asociadoAgenteId = (int)$request->get('asociadoAgente');
 
         // datos de la cobertura
-        $coberturaId = (int)$request->get('cobertura');
         $costoId     = (int)$request->get('vigenciaCobertura');
 
         // ===========================================================================
@@ -293,16 +306,16 @@ class PolizasController extends Controller
         $asociadoProtegido->generar($nombre, $paterno, $materno, $razonSocial, $domicilio, $this->oficina);
 
         // vehículo
-        $modelo    = $modelosRepositorio->obtenerPorId($modeloId, $this->oficinaId);
-        $modalidad = $modalidadesRepositorio->obtenerPorId($modalidadId, $this->oficinaId);
-        $servicio  = $this->serviciosRepositorio->obtenerPorId($servicioId);
+        $modelo    = ModelosFactory::crear($this->oficina, $request, $this->marcasRepositorio, $modelosRepositorio);
+        $modalidad = ModalidadesFactory::crear($this->oficina, $request, $modalidadesRepositorio);
+        $servicio  = ServiciosFactory::crear($request, $this->serviciosRepositorio);
         $vehiculo  = new Vehiculo($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $servicio, $asociadoProtegido, $this->oficina);
 
         // coberturas
-        $cobertura = $coberturasRepositorio->obtenerPorId($coberturaId, $this->oficinaId, $modalidad);
+        $cobertura = CoberturasFactory::crear($request, $servicio, $modalidad, $this->oficina, $coberturasRepositorio, $coberturasConceptosRepositorio, $vigenciasRepositorio, $costosRepositorio, $this->polizasRepositorio);
 
         // costos
-        $costo = $costosRepositorio->obtenerPorId($costoId);
+        $costo = CostosFactory::crear($request, VigenciasFactory::crear($request, $this->polizasRepositorio), $modalidad, $costosRepositorio, $this->polizasRepositorio);
 
         // pólizas
         $poliza = new Poliza($vehiculo, $asociadoAgente, $cobertura, $costo, $this->oficina);
@@ -376,11 +389,20 @@ class PolizasController extends Controller
         return response()->json($respuesta);
     }
 
+    /**
+     * genera el formato de póliza en PDF
+     * @param string $polizaId
+     */
     public function formato($polizaId)
     {
         $polizaId = (int)base64_decode($polizaId);
         $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
 
-        // construcción de formato, usar TCPDF or Crystal Reports
+        $formatoPoliza = new FormatoPoliza($poliza);
+        $formatoPoliza->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $formatoPoliza->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $formatoPoliza->SetAutoPageBreak(true);
+        $formatoPoliza->SetMargins(15, 55);
+        $formatoPoliza->generar();
     }
 }

@@ -1,0 +1,12 @@
+GDI\Dominio\Coberturas\CoberturaConcepto:
+  type: entity
+  table: cobertura_concepto
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    concepto:
+      type: string
+      column: concepto

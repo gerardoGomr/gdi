@@ -10,6 +10,11 @@ namespace GDI\Dominio\Coberturas;
 class ResponsabilidadCobertura
 {
 	/**
+	 * @var int
+	 */
+	private $id;
+
+	/**
 	 * ejemplo: Daños Materiales
 	 * @var CoberturaConcepto
 	 */
@@ -39,6 +44,13 @@ class ResponsabilidadCobertura
 		$this->cuotaExtraordinaria   = $cuotaExtraordinaria;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
     /**
      * @return CoberturaConcepto

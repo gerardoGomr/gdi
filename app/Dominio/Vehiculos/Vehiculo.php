@@ -179,8 +179,16 @@ class Vehiculo
     /**
      * @return string
      */
+    public function getPlacas()
+    {
+        return $this->placas;
+    }
+
+    /**
+     * @return string
+     */
     public function detalles()
     {
-        return $this->modelo->getMarca()->getMarca() . ' ' .$this->anio;
+        return !is_null($this->modelo->getMarca()) ? $this->modelo->getMarca()->getMarca() . ' ' .$this->anio : '--';
     }
 }

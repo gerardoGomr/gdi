@@ -38,6 +38,7 @@
                                                     <div class="col-md-4">
                                                         <select class="form-control" name="modalidad" id="modalidad">
                                                             <option value="">SELECCIONE</option>
+                                                            <option value="-1">OTRO</option>
                                                             @foreach($modalidades as $modalidad)
                                                                 <option value="{{ $modalidad->getId() }}">{{ $modalidad->getModalidad() }}</option>
                                                             @endforeach
@@ -224,7 +225,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3" for="calleAsociado">CIUDAD:</label>
+                                                        <label class="control-label col-md-3" for="ciudadAsociado">CIUDAD:</label>
                                                         <div class="col-md-5">
                                                             <select name="ciudadAsociado" id="ciudadAsociado" class="form-control">
                                                                 <option value="">SELECCIONE</option>
@@ -345,19 +346,24 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3 vigenciaCobertura" for="vigenciaCobertura">VIGENCIA:</label>
-                                                    <div class="col-md-4">
-                                                        <select class="form-control vigenciaCobertura" name="vigenciaCobertura" id="vigenciaCobertura">
-                                                            <option value="">SELECCIONE</option>
-                                                        </select>
+                                                <div id="seleccionCobertura">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3 vigenciaCobertura" for="vigenciaCobertura">VIGENCIA:</label>
+                                                        <div class="col-md-4">
+                                                            <select class="form-control vigenciaCobertura" name="vigenciaCobertura" id="vigenciaCobertura">
+                                                                <option value="">SELECCIONE</option>
+                                                                <option value="-1">OTRO</option>
+                                                                @foreach($vigencias as $vigencia)
+                                                                    <option value="{{ $vigencia->getId() }}">{{ $vigencia->getVigencia() }} MESES</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-
                                                 <div class="hide" id="registroCobertura">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">NOMBRE:</label>
+                                                        <label for="nombreCobertura" class="control-label col-md-3">NOMBRE:</label>
                                                         <div class="col-md-7">
                                                             <input type="text" name="nombreCobertura" id="nombreCobertura" class="form-control">
                                                         </div>
@@ -368,16 +374,15 @@
                                                         <div class="col-md-4">
                                                             <select class="form-control" name="vigencias" id="vigencias">
                                                                 <option value="">SELECCIONE</option>
-                                                                <option value="1">OTRA</option>
-                                                                <option value="2">6 MESES</option>
-                                                                <option value="3">12 MESES</option>
-                                                                <option value="4">13 MESES</option>
-                                                                <option value="5">18 MESES</option>
+                                                                <option value="-1">OTRO</option>
+                                                                @foreach($vigencias as $vigencia)
+                                                                    <option value="{{ $vigencia->getId() }}">{{ $vigencia->getVigencia() }} MESES</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group nuevaVigencia">
+                                                    <div class="form-group nuevaVigencia hide">
                                                         <label for="nuevaVigencia" class="control-label col-md-3">NUEVA VIGENCIA</label>
                                                         <div class="col-md-4">
                                                             <div class="input-group">
@@ -389,7 +394,7 @@
 
                                                     <div class="form-group">
                                                         <label for="nuevoCosto" class="control-label col-md-3">NUEVO COSTO:</label>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-2">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
                                                                 <input type="text" name="nuevoCosto" id="nuevoCosto" class="form-control">
@@ -398,17 +403,17 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">CONCEPTO:</label>
+                                                        <label for="conceptoCobertura" class="control-label col-md-3">CONCEPTO:</label>
                                                         <div class="col-md-4">
                                                             <div class="input-group">
                                                                 <select class="form-control" name="conceptoCobertura" id="conceptoCobertura">
                                                                     <option value="">SELECCIONE</option>
-                                                                    <option value="1">OTRO</option>
-                                                                    <option value="2">R.C. VIAJERO</option>
-                                                                    <option value="2">ROBO TOTAL</option>
+                                                                    @foreach($coberturasConceptos as $coberturaConcepto)
+                                                                        <option value="{{ $coberturaConcepto->getId() }}">{{ $coberturaConcepto->getConcepto() }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                                 <div class="input-group-btn">
-                                                                    <button id="agregarConceptoCobertura" class="btn btn-default" data-toggle="tooltip" data-original-title="AGREGAR A RESPONSABILIDADES" data-placement="top"><i class="fa fa-plus-square"></i></button>
+                                                                    <button type="button" id="agregarConceptoCobertura" class="btn btn-primary" data-toggle="tooltip" data-original-title="AGREGAR A RESPONSABILIDADES" data-placement="top"><i class="fa fa-plus-square"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -422,12 +427,8 @@
                                                                 <th>CUOTA EXTRAORDINARIA</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><input type="text" name="concepto[]" value="R.C. VIAJERO" class="form-control"></td>
-                                                                <td><input type="text" name="limResponsabilidad[]" value="HASTA 19D" class="form-control"></td>
-                                                                <td><input type="text" name="cuotaExtraordinaria[]" value="-" class="form-control"></td>
-                                                            </tr>
+                                                        <tbody id="responsabilidadDesglose">
+
                                                         </tbody>
                                                     </table>
                                                 </div>

@@ -9,6 +9,7 @@ use GDI\Dominio\Polizas\Servicio;
 use GDI\Dominio\Vehiculos\Modalidad;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineCoberturasRepositorio
@@ -54,7 +55,7 @@ class DoctrineCoberturasRepositorio implements CoberturasRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;
@@ -93,7 +94,7 @@ class DoctrineCoberturasRepositorio implements CoberturasRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;

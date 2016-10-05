@@ -147,4 +147,56 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 			return false;
 		}
 	}
+
+	/**
+	 * obtener una Vigencia por su id
+	 * @param int $vigenciaId
+	 * @return Vigencia
+	 */
+	public function obtenerVigenciaPorId($vigenciaId)
+	{
+		try {
+			$query = $this->entityManager->createQuery('SELECT v FROM Coberturas:Vigencia v WHERE v.id = :vigenciaId')
+					->setParameter('vigenciaId', $vigenciaId);
+
+			$vigencia = $query->getResult();
+
+			if (count($vigencia) > 0) {
+				return $vigencia[0];
+			}
+
+			return null;
+
+		} catch (PDOException $e) {
+			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
+			$pdoLogger->log($e);
+			return null;
+		}
+	}
+
+	/**
+	 * obtener costo por Id
+	 * @param int $costoId
+	 * @return Costo
+	 */
+	public function obtenerCostoPorId($costoId)
+	{
+		try {
+			$query = $this->entityManager->createQuery('SELECT c, v, m FROM Coberturas:Costo c JOIN c.vigencia v JOIN c.modalidad m WHERE c.id = :costoId')
+					->setParameter('costoId', $id);
+
+			$costo = $query->getResult();
+
+			if (count($costo) > 0) {
+				return $costo[0];
+			}
+
+			return null;
+
+		} catch (PDOException $e) {
+			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
+			$pdoLogger->log($e);
+			return null;
+		}
+	}
 }

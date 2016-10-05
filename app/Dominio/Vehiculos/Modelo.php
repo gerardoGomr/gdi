@@ -34,12 +34,14 @@ class Modelo
     /**
      * Modelo constructor.
      * @param string $modelo
-     * @param int $id
+     * @param Marca $marca
+     * @param Oficina $oficina
      */
-    public function __construct($modelo = null, $id = 0)
+    public function __construct($modelo = null, Marca $marca = null, Oficina $oficina = null)
     {
-        $this->modelo = $modelo;
-        $this->id     = $id;
+        $this->modelo  = $modelo;
+        $this->marca   = $marca;
+        $this->oficina = $oficina;
     }
 
     /**
@@ -61,7 +63,7 @@ class Modelo
     /**
      * @return Marca
      */
-    public function getMarca():Marca
+    public function getMarca()
     {
         return $this->marca;
     }

@@ -37,7 +37,7 @@ class DoctrineMarcasRepositorio implements MarcasRepositorio
     {
         // TODO: Implement obtenerTodos() method.
         try {
-            $query       = $this->entityManager->createQuery('SELECT m, o FROM Vehiculos:Marca m JOIN m.oficinas o WHERE o.id = :id')->setParameter('id', $oficinaId);
+            $query       = $this->entityManager->createQuery('SELECT m, o FROM Vehiculos:Marca m JOIN m.oficinas o');
             $modalidades = $query->getResult();
 
             if (count($modalidades) > 0) {
@@ -62,9 +62,9 @@ class DoctrineMarcasRepositorio implements MarcasRepositorio
     {
         // TODO: Implement obtenerPorId() method.
         try {
-            $query  = $this->entityManager->createQuery('SELECT m, mo FROM Vehiculos:Marca m LEFT JOIN m.modelos mo JOIN mo.oficina o WHERE m.id = :id AND o.id = :oficinaId')
-                ->setParameter('id', $id)
-                ->setParameter('oficinaId', $oficinaId);
+            $query  = $this->entityManager->createQuery('SELECT m, mo FROM Vehiculos:Marca m LEFT JOIN m.modelos mo WHERE m.id = :id')
+                ->setParameter('id', $id);
+
             $marcas = $query->getResult();
 
             if (count($marcas) > 0) {

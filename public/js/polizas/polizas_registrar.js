@@ -185,7 +185,7 @@ $(document).ready(function() {
 
 	// change a modelo de carro
 	$('#modelo').on('change', function (event) {
-		if ($(this).val() === '1') {
+		if ($(this).val() === '-1') {
 			$('#otroModelo').removeClass('hide');
 			$('#otroModelo').siblings('div.separator').removeClass('hide');
 			$('#otroModelo').focus();
@@ -248,30 +248,41 @@ $(document).ready(function() {
 	$('#cobertura').on('change', function (event) {
 		var url = $(this).data('url');
 
-		if ($(this).val() !== '') {
-			$.ajax({
-				url:      url,
-				type:     'post',
-				dataType: 'json',
-				data: { coberturaId: $('#cobertura').val(), modalidadId: $('#modalidad').val(), _token: $formPoliza.find('input[name="_token"]').val() },
-				beforeSend: function() {
-					$('#loading').modal('show');
-				}
+		if ($(this).val() === '-1') {
+			$('#registroCobertura').removeClass('hide');
+			$('#seleccionCobertura').addClass('hide');
 
-			}).done(function (resultado) {
-				$('#loading').modal('hide');
-				$('#vigenciaCobertura').html(resultado.html);
-
-			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-				$('#loading').modal('hide');
-				console.log(textStatus + ': ' + errorThrown);
-			});
+			return false;
 		}
+
+		if ($(this).val() === '') {
+			bootbox.alert('SELECCIONE UNA COBERTURA');
+
+			return false;
+		}
+
+		$.ajax({
+			url:      url,
+			type:     'post',
+			dataType: 'json',
+			data: { coberturaId: $('#cobertura').val(), modalidadId: $('#modalidad').val(), _token: $formPoliza.find('input[name="_token"]').val() },
+			beforeSend: function() {
+				$('#loading').modal('show');
+			}
+
+		}).done(function (resultado) {
+			$('#loading').modal('hide');
+			$('#vigencias').html(resultado.html);
+
+		}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+			$('#loading').modal('hide');
+			console.log(textStatus + ': ' + errorThrown);
+		});
 	});
 
 	// change a nueva vigencia
 	$('#vigencias').on('change', function (event) {
-		if ($(this).val() === '1') {
+		if ($(this).val() === '-1') {
 			$formPoliza.find('div.nuevaVigencia').removeClass('hide');
 		} else {
 			$formPoliza.find('div.nuevaVigencia').addClass('hide');
@@ -324,5 +335,31 @@ $(document).ready(function() {
 			$('#loading').modal('hide');
 			bootbox.alert('OCURRIÓ UN ERROR AL GUARDAR LA PÓLIZA. POR FAVOR, INTENTE DE NUEVO.');
 		});
+	});
+
+	$('#agregarConceptoCobertura').on('click', function(event) {
+		var concepto = $('#conceptoCobertura option:selected').text(),
+			agregado = false;
+
+		$('#responsabilidadDesglose').find('input.concepto').each(function() {
+			if ($(this).val() === $('#conceptoCobertura').val()) {
+				agregado = true;
+			}
+		});
+
+		if (agregado) {
+			bootbox.alert('ESTE CONCEPTO YA HA SIDO AGREGADO.');
+			return false;
+		}
+
+		if ($('#conceptoCobertura').val() !== '') {
+			var html = '<tr>' +
+				'<td>' + concepto + '<input type="hidden" class="concepto" name="concepto[]" value="' + $('#conceptoCobertura').val() + '"></td>'+
+				'<td><input type="text" name="limResponsabilidad[]" class="form-control"></td>'+
+				'<td><input type="text" name="cuotaExtraordinaria[]" class="form-control"></td>'+
+				'</tr>';
+
+			$('#responsabilidadDesglose').append(html);
+		}
 	});
 });

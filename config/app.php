@@ -150,6 +150,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
 
+
         /*
          * Application Service Providers...
          */
@@ -168,7 +169,9 @@ return [
         GDI\Providers\ModelosRepositorioServiceProvider::class,
         GDI\Providers\CostosRepositorioServiceProvider::class,
         GDI\Providers\PolizasRepositorioServiceProvider::class,
-        GDI\Providers\UnidadesAdministrativasRepositorioServiceProvider::class
+        GDI\Providers\UnidadesAdministrativasRepositorioServiceProvider::class,
+        GDI\Providers\CoberturasConceptosRepositorioServiceProvider::class,
+        GDI\Providers\VigenciasRepositorioServiceProvider::class
     ],
 
     /*
@@ -183,7 +186,6 @@ return [
     */
 
     'aliases' => [
-
         'App'           => Illuminate\Support\Facades\App::class,
         'Artisan'       => Illuminate\Support\Facades\Artisan::class,
         'Auth'          => Illuminate\Support\Facades\Auth::class,
@@ -217,6 +219,6 @@ return [
         'EntityManager' => LaravelDoctrine\ORM\Facades\EntityManager::class,
         'Registry'      => LaravelDoctrine\ORM\Facades\Registry::class,
         'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
-    ],
 
+    ]
 ];

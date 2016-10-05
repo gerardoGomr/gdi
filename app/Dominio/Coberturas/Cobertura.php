@@ -53,16 +53,18 @@ class Cobertura
      * @param string $nombre
      * @param int $coberturaTipo
      * @param Servicio $servicio
+     * @param Oficina $oficina
      * @param IColeccion $responsabilidades
      * @param IColeccion $costos
      * @param int $id
      */
-    public function __construct($nombre = null, $coberturaTipo = null, Servicio $servicio = null, IColeccion $responsabilidades = null, IColeccion $costos, $id = 0)
+    public function __construct($nombre = null, $coberturaTipo = null, Servicio $servicio = null, Oficina $oficina, IColeccion $responsabilidades = null, IColeccion $costos, $id = 0)
     {
         $this->id                = $id;
         $this->nombre            = $nombre;
         $this->coberturaTipo     = $coberturaTipo;
         $this->servicio          = $servicio;
+        $this->oficina           = $oficina;
         $this->responsabilidades = $responsabilidades;
         $this->costos            = $costos;
     }

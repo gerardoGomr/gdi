@@ -1,0 +1,22 @@
+GDI\Dominio\Coberturas\ResponsabilidadCobertura:
+  type: entity
+  table: responsabilidad
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    limiteResponsabilidad:
+      type: string
+      column: limite_responsabilidad
+    cuotaExtraordinaria:
+      type: string
+      column: cuota_extraordinaria
+  oneToOne:
+    coberturaConcepto:
+      targetEntity: CoberturaConcepto
+      joinColumn:
+        name: cobertura_concepto_id
+        referencedColumnName: id
+      cascade: [persist]

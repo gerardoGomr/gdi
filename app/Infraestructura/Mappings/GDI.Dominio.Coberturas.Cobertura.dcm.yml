@@ -39,3 +39,16 @@ GDI\Dominio\Coberturas\Cobertura:
           costo_id:
             referencedColumnName: id
             unique: true
+      cascade: [persist]
+    responsabilidades:
+      targetEntity: ResponsabilidadCobertura
+      joinTable:
+        name: cobertura_responsabilidad
+        joinColumns:
+          cobertura_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          responsabilidad_id:
+            referencedColumnName: id
+            unique: true
+      cascade: [persist]

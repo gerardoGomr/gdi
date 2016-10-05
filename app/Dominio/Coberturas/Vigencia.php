@@ -20,6 +20,16 @@ class Vigencia
     private $vigencia;
 
     /**
+     * Vigencia constructor.
+     * @param string $vigencia
+     */
+    public function __construct($vigencia)
+    {
+        $this->vigencia = $vigencia;
+    }
+
+
+    /**
      * @return int
      */
     public function getId()
