@@ -12,8 +12,8 @@
                         <div class="col-app col-unscrollable">
                             <div class="col-app">
                                 <div class="innerAll">
-                                    <a href="{{ url('polizas/registrar') }}" class="pull-right btn btn-primary"><i class="fa fa-plus-square"></i> Registrar nueva póliza</a>
-                                    <br>
+                                    <a href="{{ url('polizas/registrar') }}" class="btn btn-primary"><i class="fa fa-plus-square"></i> Registrar nueva póliza</a>
+                                    <div class="separator bottom"></div>
                                     @if(count($polizas) > 0)
                                         <table class="table table-bordered">
                                             <thead>
@@ -48,4 +48,8 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('js')
+    <script src="{{ asset('js/polizas.js') }}"></script>
 @stop

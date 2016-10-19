@@ -18,9 +18,11 @@ GDI\Dominio\Coberturas\Costo:
         name: vigencia_id
         referencedColumnName: id
       cascade: [persist]
+      fetch: EAGER
     modalidad:
       targetEntity: GDI\Dominio\Vehiculos\Modalidad
       joinColumn:
         name: modalidad_id
         referencedColumnName: id
-      cascase: [persist]
+      cascade: [persist]
+      fetch: EAGER

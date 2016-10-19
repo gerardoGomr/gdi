@@ -2,7 +2,6 @@
 
 namespace GDI\Providers;
 
-use App;
 use GDI\Infraestructura\Personas\DoctrineUnidadesAdministrativasRepositorio;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,8 +24,8 @@ class UnidadesAdministrativasRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio', function() {
-            return new DoctrineUnidadesAdministrativasRepositorio(App::make('Doctrine\ORM\EntityManagerInterface'));
+        $this->app->bind('GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio', function($app) {
+            return new DoctrineUnidadesAdministrativasRepositorio($app['em']);
         });
     }
 }

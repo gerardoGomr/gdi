@@ -45,18 +45,17 @@ class AsociadoAgente extends Persona
 
     /**
      * AsociadoAgente constructor.
-     * @param int $id
-     * @param Domicilio $domicilio
-     * @param null $nombre
-     * @param null $paterno
-     * @param null $materno
+     * @param string $rfc
+     * @param string $telefono
+     * @param $celular
+     * @param $email
      */
-    public function __construct($id = 0, Domicilio $domicilio = null, $nombre = null, $paterno = null, $materno = null)
+    public function __construct($rfc, $telefono, $celular, $email)
     {
-        $this->id        = $id;
-        $this->domicilio = $domicilio;
-
-        parent::__construct($nombre, $paterno, $materno);
+        $this->rfc       = $rfc;
+        $this->telefono  = $telefono;
+        $this->celular   = $celular;
+        $this->email     = $email;
     }
 
     /**
@@ -105,5 +104,22 @@ class AsociadoAgente extends Persona
     public function getOficina()
     {
         return $this->oficina;
+    }
+
+    /**
+     * complementar la creación de un agente
+     * @param $nombreAgente
+     * @param $paternoAgente
+     * @param $maternoAgente
+     * @param Domicilio $domicilio
+     * @param Oficina $oficina
+     */
+    public function generar($nombreAgente, $paternoAgente, $maternoAgente, Domicilio $domicilio, Oficina $oficina)
+    {
+        $this->nombre    = $nombreAgente;
+        $this->paterno   = $paternoAgente;
+        $this->materno   = $maternoAgente;
+        $this->domicilio = $domicilio;
+        $this->oficina   = $oficina;
     }
 }

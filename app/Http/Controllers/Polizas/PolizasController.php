@@ -1,23 +1,20 @@
 <?php
 namespace GDI\Http\Controllers\Polizas;
 
-use GDI\Aplicacion\Factories\CoberturasFactory;
-use GDI\Aplicacion\Factories\CostosFactory;
+use GDI\Aplicacion\Factories\AsociadosAgentesFactory;
 use GDI\Aplicacion\Factories\ModalidadesFactory;
-use GDI\Aplicacion\Factories\ModelosFactory;
+use GDI\Aplicacion\Factories\PolizasFactory;
 use GDI\Aplicacion\Factories\ServiciosFactory;
-use GDI\Aplicacion\Factories\VigenciasFactory;
+use GDI\Aplicacion\Factories\VehiculosFactory;
 use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\VigenciasRepositorio;
 use GDI\Dominio\Oficinas\Oficina;
-use GDI\Dominio\Personas\Domicilio;
+use GDI\Dominio\Oficinas\Repositorios\OficinasRepositorio;
 use GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio;
-use GDI\Dominio\Polizas\AsociadoProtegido;
 use GDI\Dominio\Polizas\MedioPago;
-use GDI\Dominio\Polizas\Poliza;
 use GDI\Dominio\Polizas\PolizaPago;
 use GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio;
 use GDI\Dominio\Polizas\Repositorios\AsociadosProtegidosRepositorio;
@@ -27,7 +24,6 @@ use GDI\Dominio\Vehiculos\Repositorios\MarcasRepositorio;
 use GDI\Dominio\Vehiculos\Repositorios\ModalidadesRepositorio;
 use GDI\Dominio\Vehiculos\Repositorios\ModelosRepositorio;
 use GDI\Dominio\Vehiculos\Repositorios\VehiculosRepositorio;
-use GDI\Dominio\Vehiculos\Vehiculo;
 use Illuminate\Http\Request;
 use GDI\Http\Controllers\Controller;
 
@@ -112,6 +108,7 @@ class PolizasController extends Controller
      */
     public function verFormRegistro(ModalidadesRepositorio $modalidadesRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio)
     {
+
         $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
         $marcas              = $this->marcasRepositorio->obtenerTodos();
         $asociadosAgentes    = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
@@ -224,8 +221,14 @@ class PolizasController extends Controller
         $coberturaId = (int)$request->get('coberturaId');
         $modalidadId = (int)$request->get('modalidadId');
 
-        $modalidad = $modalidadesRepositorio->obtenerPorId($modalidadId, $this->oficinaId);
-        $cobertura = $coberturasRepositorio->obtenerPorId($coberturaId, $this->oficinaId, $modalidad);
+        if ($modalidadId === '-1') {
+            // se registrará nueva modalidad
+            $cobertura = $coberturasRepositorio->obtenerPorId($coberturaId, $this->oficinaId);
+
+        } else {
+            $modalidad = $modalidadesRepositorio->obtenerPorId($modalidadId, $this->oficinaId);
+            $cobertura = $coberturasRepositorio->obtenerPorId($coberturaId, $this->oficinaId, $modalidad);
+        }
 
         $respuesta['html'] = view('polizas.polizas_resultado_vigencias', compact('cobertura'))->render();
 
@@ -239,86 +242,30 @@ class PolizasController extends Controller
      * @param ModalidadesRepositorio $modalidadesRepositorio
      * @param CoberturasRepositorio $coberturasRepositorio
      * @param ModelosRepositorio $modelosRepositorio
-     * @param CostosRepositorio $costosRepositorio
      * @param UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio
      * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param OficinasRepositorio $oficinasRepositorio
      * @param VigenciasRepositorio $vigenciasRepositorio
+     * @param CostosRepositorio $costosRepositorio
+     * @param AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registrar(
-        Request $request,
-        AsociadosAgentesRepositorio $asociadosAgentesRepositorio,
-        ModalidadesRepositorio $modalidadesRepositorio,
-        CoberturasRepositorio $coberturasRepositorio,
-        ModelosRepositorio $modelosRepositorio,
-        CostosRepositorio $costosRepositorio,
-        UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio,
-        CoberturasConceptosRepositorio $coberturasConceptosRepositorio,
-        VigenciasRepositorio $vigenciasRepositorio
-    )
+    public function registrar(Request $request, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio, ModelosRepositorio $modelosRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, OficinasRepositorio $oficinasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio)
     {
         $respuesta = [];
 
         // oficina
-        $this->oficina = $this->polizasRepositorio->obtenerOficinaPorId($this->oficinaId);
-
-        // datos de vehículo
-        //$servicioId  = (int)$request->get('servicio');
-        $anio        = (int)$request->get('anio');
-        $numeroSerie = $request->get('numSerie');
-        $numeroMotor = $request->get('numMotor');
-        $placas      = $request->get('placas');
-        $capacidad   = (int)$request->get('capacidad');
-
-        // datos de asociado protegido
-        $tipoPersona         = (int)$request->get('tipoPersona');
-        $nombre              = $request->get('nombre');
-        $paterno             = $request->get('paterno');
-        $materno             = $request->get('materno');
-        $razonSocial         = $request->get('razonSocial');
-        $rfc                 = $request->get('rfc');
-        $calleAsociado       = $request->get('calleAsociado');
-        $numExteriorAsociado = $request->get('numExteriorAsociado');
-        $numInteriorAsociado = $request->get('numInteriorAsociado');
-        $coloniaAsociado     = $request->get('coloniaAsociado');
-        $cpAsociado          = $request->get('cpAsociado');
-        $ciudadAsociadoId    = (int)$request->get('ciudadAsociado');
-        $telefonoAsociado    = $request->get('telefonoAsociado');
-        $celularAsociado     = $request->get('celularAsociado');
-        $emailAsociado       = $request->get('emailAsociado');
-
-        // datos de asociado agente
-        $asociadoAgenteId = (int)$request->get('asociadoAgente');
-
-        // datos de la cobertura
-        $costoId     = (int)$request->get('vigenciaCobertura');
+        $this->oficina = $oficinasRepositorio->obtenerPorId($this->oficinaId);
 
         // ===========================================================================
         // constructing and saving
-        $asociadoAgente = $asociadosAgentesRepositorio->obtenerPorId($asociadoAgenteId, $this->oficinaId);
+        $asociadoAgente = AsociadosAgentesFactory::crear($request, $this->oficina, $asociadosAgentesRepositorio, $unidadesAdministrativasRepositorio);
+        $modalidad      = ModalidadesFactory::crear($this->oficina, $request, $modalidadesRepositorio);
+        $servicio       = ServiciosFactory::crear($request, $this->serviciosRepositorio);
+        $vehiculo       = VehiculosFactory::crear($request, $unidadesAdministrativasRepositorio, $this->marcasRepositorio, $modelosRepositorio, $asociadosProtegidosRepositorio, $this->oficina, $modalidad, $servicio);
 
-        // unidad administrativa y domicilio
-        $unidadAdministrativa = $unidadesAdministrativasRepositorio->obtenerPorId($ciudadAsociadoId);
-        $domicilio = new Domicilio($calleAsociado, $numExteriorAsociado, $numInteriorAsociado, $coloniaAsociado, $cpAsociado, $unidadAdministrativa);
+        $poliza = PolizasFactory::crear($request, $coberturasConceptosRepositorio, $coberturasRepositorio, $vigenciasRepositorio, $costosRepositorio, $modalidad, $servicio, $this->oficina, $vehiculo, $asociadoAgente);
 
-        // asociado protegido
-        $asociadoProtegido = new AsociadoProtegido($rfc, $tipoPersona, $telefonoAsociado, $celularAsociado, $emailAsociado);
-        $asociadoProtegido->generar($nombre, $paterno, $materno, $razonSocial, $domicilio, $this->oficina);
-
-        // vehículo
-        $modelo    = ModelosFactory::crear($this->oficina, $request, $this->marcasRepositorio, $modelosRepositorio);
-        $modalidad = ModalidadesFactory::crear($this->oficina, $request, $modalidadesRepositorio);
-        $servicio  = ServiciosFactory::crear($request, $this->serviciosRepositorio);
-        $vehiculo  = new Vehiculo($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $servicio, $asociadoProtegido, $this->oficina);
-
-        // coberturas
-        $cobertura = CoberturasFactory::crear($request, $servicio, $modalidad, $this->oficina, $coberturasRepositorio, $coberturasConceptosRepositorio, $vigenciasRepositorio, $costosRepositorio, $this->polizasRepositorio);
-
-        // costos
-        $costo = CostosFactory::crear($request, VigenciasFactory::crear($request, $this->polizasRepositorio), $modalidad, $costosRepositorio, $this->polizasRepositorio);
-
-        // pólizas
-        $poliza = new Poliza($vehiculo, $asociadoAgente, $cobertura, $costo, $this->oficina);
         $poliza->generarVigencia();
         // ===========================================================================
         // persistir poliza

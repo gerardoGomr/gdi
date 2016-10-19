@@ -1,7 +1,6 @@
 <?php
 namespace GDI\Providers;
 
-use App;
 use GDI\Infraestructura\Usuarios\DoctrineUsuariosRepositorio;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,8 +23,8 @@ class UsuariosRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Usuarios\Repositorios\UsuariosRepositorio', function() {
-            return new DoctrineUsuariosRepositorio(App::make('Doctrine\ORM\EntityManagerInterface'));
+        $this->app->bind('GDI\Dominio\Usuarios\Repositorios\UsuariosRepositorio', function($app) {
+            return new DoctrineUsuariosRepositorio($app['em']);
         });
     }
 }

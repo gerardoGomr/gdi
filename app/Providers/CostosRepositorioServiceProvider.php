@@ -2,7 +2,6 @@
 
 namespace GDI\Providers;
 
-use App;
 use GDI\Infraestructura\Coberturas\DoctrineCostosRepositorio;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,8 +24,8 @@ class CostosRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Coberturas\Repositorios\CostosRepositorio', function() {
-            return new DoctrineCostosRepositorio(App::make('Doctrine\ORM\EntityManagerInterface'));
+        $this->app->bind('GDI\Dominio\Coberturas\Repositorios\CostosRepositorio', function($app) {
+            return new DoctrineCostosRepositorio($app['em']);
         });
     }
 }

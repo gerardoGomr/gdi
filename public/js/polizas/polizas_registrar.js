@@ -58,7 +58,13 @@ $(document).ready(function() {
 						$datosAsociado.removeClass('hide');
 						$datosAsociadoAgente.removeClass('hide');
 						$datosCobertura.removeClass('hide');
+						$('#vehiculoNuevo').val('1');
 					});
+				}
+
+				if (resultado.estatus === 'OK') {
+					// mostrar coincidencias en un modal y al dar click sobre alguna coincidencia, pasar a la siguiente etapa
+					// de la captura
 				}
 
 			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
@@ -152,7 +158,7 @@ $(document).ready(function() {
 
 	// modalidad selección de otro
 	$('#modalidad').on('click', function() {
-		if ($(this).val() === '1') {
+		if ($(this).val() === '-1') {
 			$('#especifiqueOtraModalidad').removeClass('hide').focus();
 		} else {
 			$('#especifiqueOtraModalidad').addClass('hide');
@@ -272,7 +278,7 @@ $(document).ready(function() {
 
 		}).done(function (resultado) {
 			$('#loading').modal('hide');
-			$('#vigencias').html(resultado.html);
+			$('#vigenciaCobertura').html(resultado.html);
 
 		}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
 			$('#loading').modal('hide');

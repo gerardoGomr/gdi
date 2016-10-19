@@ -25,8 +25,8 @@ class PolizasRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Polizas\Repositorios\PolizasRepositorio', function() {
-            return new DoctrinePolizasRepositorio(App::make('Doctrine\ORM\EntityManagerInterface'));
+        $this->app->bind('GDI\Dominio\Polizas\Repositorios\PolizasRepositorio', function($app) {
+            return new DoctrinePolizasRepositorio($app['em']);
         });
     }
 }

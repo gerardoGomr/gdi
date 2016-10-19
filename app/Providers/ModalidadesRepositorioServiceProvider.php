@@ -2,7 +2,6 @@
 
 namespace GDI\Providers;
 
-use App;
 use GDI\Infraestructura\Vehiculos\DoctrineModalidadesRepositorio;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,8 +24,8 @@ class ModalidadesRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Vehiculos\Repositorios\ModalidadesRepositorio', function() {
-            return new DoctrineModalidadesRepositorio(App::make('Doctrine\ORM\EntityManagerInterface'));
+        $this->app->bind('GDI\Dominio\Vehiculos\Repositorios\ModalidadesRepositorio', function($app) {
+            return new DoctrineModalidadesRepositorio($app['em']);
         });
     }
 }

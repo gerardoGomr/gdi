@@ -2,10 +2,11 @@
 
 namespace GDI\Providers;
 
-use GDI\Infraestructura\Polizas\DoctrineAsociadosProtegidosRepositorio;
+use GDI\Dominio\Oficinas\Repositorios\OficinasRepositorio;
+use GDI\Infraestructura\Oficinas\DoctrineOficinasRepositorio;
 use Illuminate\Support\ServiceProvider;
 
-class AsociadosProtegidosRepositorioServiceProvider extends ServiceProvider
+class OficinasRepositorioServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -24,8 +25,8 @@ class AsociadosProtegidosRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Polizas\Repositorios\AsociadosProtegidosRepositorio', function($app) {
-            return new DoctrineAsociadosProtegidosRepositorio($app['em']);
+        $this->app->bind(OficinasRepositorio::class, function ($app) {
+            return new DoctrineOficinasRepositorio($app['em']);
         });
     }
 }

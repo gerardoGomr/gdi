@@ -43,9 +43,20 @@ class DoctrineCoberturasRepositorio implements CoberturasRepositorio
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT c, o, s, co FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s JOIN c.costos co JOIN co.modalidad m WHERE c.id = :id AND m.id = :modalidadId')
-					->setParameter('id', $id)
-					->setParameter('modalidadId', $modalidad->getId());
+			$query = '';
+
+			if (is_null($modalidad)) {
+				$query = 'SELECT c, o, s FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s WHERE c.id = :id';
+			} else {
+				$query = 'SELECT c, o, s, co FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s JOIN c.costos co JOIN co.modalidad m WHERE c.id = :id AND m.id = :modalidadId';
+			}
+
+			$query = $this->entityManager->createQuery($query)
+				->setParameter('id', $id);
+
+			if (!is_null($modalidad)) {
+				$query->setParameter('modalidadId', $modalidad->getId());
+			}
 
 			$cobertura = $query->getResult();
 

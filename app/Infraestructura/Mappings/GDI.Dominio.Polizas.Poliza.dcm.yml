@@ -46,6 +46,7 @@ GDI\Dominio\Polizas\Poliza:
       joinColumn:
         name: costo_id
         referencedColumnName: id
+      cascade: [merge]
     oficina:
       targetEntity: GDI\Dominio\Oficinas\Oficina
       joinColumn:

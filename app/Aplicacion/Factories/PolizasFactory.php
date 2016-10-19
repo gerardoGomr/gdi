@@ -7,39 +7,44 @@ use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\VigenciasRepositorio;
-use GDI\Dominio\Polizas\Repositorios\PolizasRepositorio;
 use GDI\Dominio\Coberturas\ResponsabilidadCobertura;
 use GDI\Dominio\Oficinas\Oficina;
+use GDI\Dominio\Polizas\AsociadoAgente;
+use GDI\Dominio\Polizas\Poliza;
 use GDI\Dominio\Polizas\Servicio;
 use GDI\Dominio\Vehiculos\Modalidad;
+use GDI\Dominio\Vehiculos\Vehiculo;
 use Illuminate\Http\Request;
 
 /**
- * Class CoberturasFactory
+ * Class PolizasFactory
  * @package GDI\Aplicacion\Factories
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class CoberturasFactory
+class PolizasFactory
 {
     /**
-     * crear una nueva instancia de Cobertura
+     * Se crea un nuevo objeto poliza dependiendo de la cobertura seleccionada por el cliente
+     *
      * @param Request $request
-     * @param Servicio $servicio
-     * @param Modalidad $modalidad
-     * @param Oficina $oficina
-     * @param CoberturasRepositorio $coberturasRepositorio
      * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param CoberturasRepositorio $coberturasRepositorio
      * @param VigenciasRepositorio $vigenciasRepositorio
      * @param CostosRepositorio $costosRepositorio
-     * @param PolizasRepositorio $polizasRepositorio
-     * @return Cobertura
+     * @param Modalidad $modalidad
+     * @param Servicio $servicio
+     * @param Oficina $oficina
+     * @param Vehiculo $vehiculo
+     * @param AsociadoAgente $asociadoAgente
+     * @return Poliza
      */
-    public static function crear(Request $request, Servicio $servicio, Modalidad $modalidad, Oficina $oficina, CoberturasRepositorio $coberturasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, PolizasRepositorio $polizasRepositorio)
+    public static function crear(Request $request, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, CoberturasRepositorio $coberturasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, Modalidad $modalidad, Servicio $servicio, Oficina $oficina, Vehiculo $vehiculo, AsociadoAgente $asociadoAgente)
     {
         if ($request->get('cobertura') === '-1') {
-            // es un nuevo modelo, crear
-            // obtener responsabilidades
+            $vigencia = VigenciasFactory::crear($request, $vigenciasRepositorio);
+            $costo    = CostosFactory::crear($request, $vigencia, $modalidad, $costosRepositorio);
+
             $responsabilidades = new Coleccion();
             $costos            = new Coleccion();
 
@@ -53,19 +58,18 @@ class CoberturasFactory
                 $responsabilidades->add($responsabilidadCobertura);
             }
 
-            $vigencia = VigenciasFactory::crear($request, $polizasRepositorio);
-            $costo    = CostosFactory::crear($request, $vigencia, $modalidad, $costosRepositorio, $polizasRepositorio);
-
             $costos->add($costo);
-
             $cobertura = new Cobertura($request->get('nombreCobertura'), (int)$request->get('coberturaTipo'), $servicio, $oficina, $responsabilidades, $costos);
-
+        
         } else {
-            // leer del repositorio
             $coberturaId = (int)$request->get('servicio');
             $cobertura   = $coberturasRepositorio->obtenerPorId($coberturaId);
+
+            $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));
         }
 
-        return $cobertura;
+        $poliza = new Poliza($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);
+
+        return $poliza;
     }
 }

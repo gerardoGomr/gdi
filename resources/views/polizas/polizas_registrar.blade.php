@@ -21,6 +21,8 @@
                                         <div class="box-generic padding-none animated fadeInUp">
                                             <h5 class="innerAll border-bottom bg-gray">VEHÍCULOS</h5>
                                             <div class="innerAll" id="busquedaVehiculo">
+                                                <p class="text-muted">Es necesario que escriba el número de serie o motor del vehículo para buscarlo dentro del sistema. Una vez que lo escriba, presione enter.</p>
+                                                <div class="separator bottom"></div>
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="datoVehiculoBuscar">NUM. SERIE O MOTOR:</label>
                                                     <div class="col-md-5">
@@ -291,25 +293,68 @@
                                                         <input type="text" name="maternoAgente" id="maternoAgente" class="form-control">
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-3" for="domicilioAgente">DOMICILIO:</label>
-                                                    <div class="col-md-7">
-                                                        <input type="text" name="domicilioAgente" id="domicilioAgente" class="form-control">
+                                                    <label class="control-label col-md-3" for="rfcAgente">RFC:</label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" name="rfcAgente" id="rfcAgente" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
+                                                    <label class="control-label col-md-3" for="calleAgente">CALLE:</label>
+                                                    <div class="col-md-5">
+                                                        <input type="text" name="calleAgente" id="calleAgente" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3" for="">NÚMEROS:</label>
+                                                    <div class="col-md-1">
+                                                        <input type="text" name="numExteriorAgente" id="numExteriorAgente" class="form-control" placeholder="Exterior">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <input type="text" name="numInteriorAgente" id="numInteriorAgente" class="form-control" placeholder="Interior">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3" for="coloniaAgente">COLONIA:</label>
+                                                    <div class="col-md-5">
+                                                        <input type="text" name="coloniaAgente" id="coloniaAgente" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3" for="cpAgente">C.P.:</label>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="cpAgente" id="cpAgente" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label class="control-label col-md-3" for="ciudadAgente">CIUDAD:</label>
                                                     <div class="col-md-5">
-                                                        <input type="text" name="ciudadAgente" id="ciudadAgente" class="form-control">
+                                                        <select name="ciudadAgente" id="ciudadAgente" class="form-control">
+                                                            <option value="">SELECCIONE</option>
+                                                            <option value="1">TUXTLA GUTIÉRREZ</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="telefonoAgente">TELÉFONO:</label>
                                                     <div class="col-md-3">
-                                                        <input type="text" name="telefonoAgente" id="telefonoAgente" class="form-control" placeholder="961 196 5858">
+                                                        <input type="text" name="telefonoAgente" id="telefonoAgente" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3" for="celularAgente">CELULAR:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" name="celularAgente" id="celularAgente" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3" for="emailAgente">EMAIL:</label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" name="emailAgente" id="emailAgente" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -465,6 +510,7 @@
                                     <div class="form-group">
                                         <input type="hidden" name="polizaNueva" id="polizaNueva">
                                         <input type="hidden" name="asociadoNuevo" id="asociadoNuevo">
+                                        <input type="hidden" name="asociadoProtegidoId" id="asociadoProtegidoId">
                                         <input type="hidden" name="vehiculoNuevo" id="vehiculoNuevo">
                                         <input type="hidden" name="coberturaNueva" id="coberturaNueva">
                                         <input type="hidden" id="buscarAsociado" value="0">

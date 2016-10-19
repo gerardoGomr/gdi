@@ -21,15 +21,15 @@ class CostosFactory
      * @param Vigencia $vigencia
      * @param Modalidad $modalidad
      * @param CostosRepositorio $costosRepositorio
-     * @return Costo|mixed
+     * @return Costo
      */
-    public static function crear(Request $request, Vigencia $vigencia, Modalidad $modalidad, CostosRepositorio $costosRepos, PolizasRepositorio $costosRepositorio)
+    public static function crear(Request $request, Vigencia $vigencia, Modalidad $modalidad, CostosRepositorio $costosRepositorio)
     {
         if ($request->get('cobertura') === '-1') {
             $costo = new Costo((double)$request->get('nuevoCosto'), $vigencia, $modalidad);
 
         } else {
-            $costo = $costosRepositorio->obtenerCostoPorId((int)$request->get('vigenciaCobertura'));
+            $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));
         }
 
         return $costo;

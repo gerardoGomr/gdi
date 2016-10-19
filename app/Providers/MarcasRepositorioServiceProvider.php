@@ -2,7 +2,6 @@
 
 namespace GDI\Providers;
 
-use App;
 use GDI\Infraestructura\Vehiculos\DoctrineMarcasRepositorio;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,8 +24,8 @@ class MarcasRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Vehiculos\Repositorios\MarcasRepositorio', function() {
-            return new DoctrineMarcasRepositorio(App::make('Doctrine\ORM\EntityManagerInterface'));
+        $this->app->bind('GDI\Dominio\Vehiculos\Repositorios\MarcasRepositorio', function($app) {
+            return new DoctrineMarcasRepositorio($app['em']);
         });
     }
 }

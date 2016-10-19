@@ -1,8 +1,7 @@
 <?php
 namespace GDI\Aplicacion\Factories;
 
-use GDI\Dominio\Polizas\Repositorios\PolizasRepositorio;
-use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
+use GDI\Dominio\Coberturas\Repositorios\VigenciasRepositorio;
 use GDI\Dominio\Coberturas\Vigencia;
 use Illuminate\Http\Request;
 
@@ -14,14 +13,21 @@ use Illuminate\Http\Request;
  */
 class VigenciasFactory
 {
-    public static function crear(Request $request, PolizasRepositorio $vigenciasRepositorio)
+    /**
+     * crear un objeto vigencia
+     * 
+     * @param Request $request
+     * @param VigenciasRepositorio $vigenciasRepositorio
+     * @return Vigencia
+     */
+    public static function crear(Request $request, VigenciasRepositorio $vigenciasRepositorio)
     {
         if ($request->get('vigencias') === '-1') {
             // otra vigencia
             $vigencia = new Vigencia($request->get('nuevaVigencia'));
 
         } else {
-            $vigencia = $vigenciasRepositorio->obtenerVigenciaPorId((int)$request->get('vigencias'));
+            $vigencia = $vigenciasRepositorio->obtenerPorId((int)$request->get('vigencias'));
         }
 
         return $vigencia;

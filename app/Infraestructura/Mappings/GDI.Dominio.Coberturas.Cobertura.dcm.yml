@@ -40,6 +40,7 @@ GDI\Dominio\Coberturas\Cobertura:
             referencedColumnName: id
             unique: true
       cascade: [persist]
+      fetch: EAGER
     responsabilidades:
       targetEntity: ResponsabilidadCobertura
       joinTable:
@@ -50,5 +51,4 @@ GDI\Dominio\Coberturas\Cobertura:
         inverseJoinColumns:
           responsabilidad_id:
             referencedColumnName: id
-            unique: true
       cascade: [persist]

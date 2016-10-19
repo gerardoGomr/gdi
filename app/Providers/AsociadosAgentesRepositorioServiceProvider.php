@@ -2,7 +2,6 @@
 
 namespace GDI\Providers;
 
-use App;
 use GDI\Infraestructura\Polizas\DoctrineAsociadosAgentesRepositorio;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,8 +24,8 @@ class AsociadosAgentesRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio', function() {
-            return new DoctrineAsociadosAgentesRepositorio(App::make('Doctrine\ORM\EntityManagerInterface'));
+        $this->app->bind('GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio', function($app) {
+            return new DoctrineAsociadosAgentesRepositorio($app['em']);
         });
     }
 }
