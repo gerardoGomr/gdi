@@ -75,4 +75,13 @@ class Costo
     {
         return $this->modalidad;
     }
+
+    /**
+     * costo a 2 decimales
+     * @return string
+     */
+    public function costoFormateado()
+    {
+        return '$' . number_format($this->costo, 2);
+    }
 }

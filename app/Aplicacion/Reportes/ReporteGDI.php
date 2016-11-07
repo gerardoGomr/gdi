@@ -20,7 +20,7 @@ abstract class ReporteGDI extends TCPDF
         $this->Cell(0, 10, 'CERTIFICADO DE ACEPTACIÓN', false, true, 'R');
         $this->Cell(0, 10, 'CT NO.55 B', false, true, 'R');
         // imagen
-        $this->Image(asset('public/img/logo.png'), 10, 10, 75);
+        $this->Image(asset('img/logo.png'), 10, 10, 75);
         $this->Ln(25);
     }
 

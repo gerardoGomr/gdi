@@ -202,6 +202,37 @@ class Poliza
         $this->fechaVigencia->add(new DateInterval("P$meses".'M'));
     }
 
+    /**
+     * evalua la forma de pago y devuelve su representación en cadena
+     * @return string
+     */
+    public function formaPago()
+    {
+        $formaPago = '';
+
+        switch ($this->formaPago) {
+            case FormaPago::CONTADO:
+                $formaPago = 'CONTADO';
+                break;
+
+            case FormaPago::PARCIAL:
+                $formaPago = 'PAGO PARCIAL';
+                break;
+
+            case FormaPago::SEMESTRAL:
+                $formaPago = 'PAGO SEMESTRAL';
+                break;
+        }
+
+        return $formaPago;
+    }
+
+    /**
+     * registrar el pago de la póliza
+     * @param $formaPago
+     * @param $metodoPago
+     * @param PolizaPago|null $polizaPago
+     */
     public function pagar($formaPago, $metodoPago, PolizaPago $polizaPago = null)
     {
         $this->formaPago = $formaPago;

@@ -19,7 +19,7 @@
                                                     <dt>COBERTURA:</dt>
                                                     <dd>{{ $poliza->getCobertura()->getNombre() }}</dd>
                                                     <dt>COSTO:</dt>
-                                                    <dd>${{ number_format($poliza->getCosto()->getCosto(), 2) }}</dd>
+                                                    <dd>{{ $poliza->getCosto()->costoFormateado() }}</dd>
                                                     <dt>VIGENCIA:</dt>
                                                     <dd>{{ $poliza->getCosto()->getVigencia()->getVigencia() }} MESES</dd>
                                                     <dt>VEHÍCULO:</dt>
@@ -30,7 +30,7 @@
                                         <div class="col-md-8">
                                             <div class="box-generic padding-none">
                                                 <h4 class="innerAll border-bottom bg-gray">PAGO</h4>
-                                                <p class="strong innerAll text-medium">Total a pagar: <span class="text-primary">${{ number_format($poliza->getCosto()->getCosto(), 2) }}</span></p>
+                                                <p class="strong innerAll text-medium">Total a pagar: <span class="text-primary">{{ $poliza->getCosto()->costoFormateado() }}</span></p>
                                                 <form action="{{ url('polizas/pagar') }}" class="form-horizontal" role="form" id="formPago">
                                                     {!! csrf_field() !!}
                                                     <div class="form-group">
@@ -71,7 +71,7 @@
                                                             <div class="col-md-3">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">$</span>
-                                                                    <input type="text" name="cambio" id="cambio" class="form-control">
+                                                                    <input type="text" name="cambio" id="cambio" class="form-control" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -68,6 +68,9 @@ class PolizasFactory
             if ($request->get('vigenciaCobertura') === '-1') {
                 $vigencia = VigenciasFactory::crear($request, $vigenciasRepositorio);
                 $costo    = CostosFactory::crear($request, $vigencia, $modalidad, $costosRepositorio);
+
+                // asignar el nuevo costo a la cobertura actual
+                $cobertura->agregarNuevoCosto($costo);
                 
             } else {
                 $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));

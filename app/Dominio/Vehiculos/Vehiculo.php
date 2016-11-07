@@ -189,6 +189,6 @@ class Vehiculo
      */
     public function detalles()
     {
-        return !is_null($this->modelo->getMarca()) ? $this->modelo->getMarca()->getMarca() . ' ' .$this->anio : '--';
+        return !is_null($this->modelo->getMarca()) ? $this->modelo->getMarca()->getMarca() . ' ' . $this->getModelo()->getModelo() . ' ' . $this->anio : '--';
     }
 }

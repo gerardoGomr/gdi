@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Dominio\Coberturas;
 
+use Exception;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Polizas\Servicio;
 use GDI\Dominio\Listas\IColeccion;
@@ -140,13 +141,21 @@ class Cobertura
             }
         }
 
-
         if ($this->coberturaTipo == CoberturaTipo::BASICA) {
             if ($responsabilidad->getCoberturaConcepto()->getConcepto() == CoberturaConcepto::DANIOS_MATERIALES || $responsabilidad->getCoberturaConcepto()->getConcepto() == CoberturaConcepto::ROBO_TOTAL) {
-                throw new \Exception('No se aceptan resposabilidades iguales ' . CoberturaConcepto::DANIOS_MATERIALES . ' o ' . CoberturaConcepto::ROBO_TOTAL . ' en cobertura de tipo Básica');
+                throw new Exception('No se aceptan resposabilidades iguales ' . CoberturaConcepto::DANIOS_MATERIALES . ' o ' . CoberturaConcepto::ROBO_TOTAL . ' en cobertura de tipo Básica');
             }   
         }
 
         $this->responsabilidades->add($responsabilidad);
+    }
+
+    /**
+     * se agrega un nuevo costo a la cobertura
+     * @param Costo $costo
+     */
+    public function agregarNuevoCosto(Costo $costo)
+    {
+        $this->costos->add($costo);
     }
 }

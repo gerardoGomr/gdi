@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Aplicacion\Factories;
 
+use GDI\Aplicacion\ConvertidorMayusculas;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Personas\Domicilio;
 use GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio;
@@ -28,14 +29,14 @@ class AsociadosAgentesFactory
     {
         if ($request->get('asociadoAgente') === '1') {
             // nuevo
-            $nombreAgente      = $request->get('nombreAgente');
-            $paternoAgente     = $request->get('paternoAgente');
-            $maternoAgente     = $request->get('maternoAgente');
-            $rfc               = $request->get('rfcAgente');
-            $calleAgente       = $request->get('calleAgente');
-            $numExteriorAgente = $request->get('numExteriorAgente');
-            $numInteriorAgente = $request->get('numInteriorAgente');
-            $coloniaAgente     = $request->get('coloniaAgente');
+            $nombreAgente      = ConvertidorMayusculas::convertir($request->get('nombreAgente'));
+            $paternoAgente     = ConvertidorMayusculas::convertir($request->get('paternoAgente'));
+            $maternoAgente     = ConvertidorMayusculas::convertir($request->get('maternoAgente'));
+            $rfc               = ConvertidorMayusculas::convertir($request->get('rfcAgente'));
+            $calleAgente       = ConvertidorMayusculas::convertir($request->get('calleAgente'));
+            $numExteriorAgente = ConvertidorMayusculas::convertir($request->get('numExteriorAgente'));
+            $numInteriorAgente = ConvertidorMayusculas::convertir($request->get('numInteriorAgente'));
+            $coloniaAgente     = ConvertidorMayusculas::convertir($request->get('coloniaAgente'));
             $cpAgente          = $request->get('cpAgente');
             $ciudadAgenteId    = (int)$request->get('ciudadAgente');
             $telefonoAgente    = $request->get('telefonoAgente');

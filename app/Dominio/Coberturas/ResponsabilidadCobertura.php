@@ -73,6 +73,6 @@ class ResponsabilidadCobertura
      */
     public function getCuotaExtraordinaria()
     {
-        return $this->cuotaExtraordinaria;
+        return strlen($this->cuotaExtraordinaria) ? $this->cuotaExtraordinaria : '----';
     }
 }

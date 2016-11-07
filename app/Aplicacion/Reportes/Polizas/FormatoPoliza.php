@@ -138,7 +138,7 @@ class FormatoPoliza extends ReporteGDI
                             <table>
                                 <tr>
                                     <td><strong>FORMA DE PAGO:</strong></td>
-                                    <td>' . $this->poliza->getFormaPago() . '</td>
+                                    <td>' . $this->poliza->formaPago() . '</td>
                                 </tr>
                             </table>
                         </td>
@@ -199,59 +199,71 @@ class FormatoPoliza extends ReporteGDI
      */
     private function generarEstructuraCobertura()
     {
+        $this->SetFont('helvetica', 'B', 6);
+
+        $this->Cell(50, 5, 'CONCEPTO', 'L', false, '');
+        $this->Cell(35, 5, 'LIMITE DE RESPONSABILIDAD', false, false, '');
+        $this->Cell(35, 5, 'CUOTA EXTRAORDINARIA', 'R', true);
+
         $this->SetFont('helvetica', '', 6);
-        $this->Cell(50, 5, 'DAÑOS MATERIALES:', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, 'COSTO:', false, false);
-        $this->Cell(40, 5, '', 'R', true);
 
-        $this->Cell(50, 5, 'ROBO TOTAL:', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, '', false, false);
-        $this->Cell(40, 5, '', 'R', true);
-
-        $this->Cell(50, 5, 'R. C. DAÑOS A TERCEROS:', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, 'RECARGOS:', false, false);
-        $this->Cell(40, 5, '', 'R', true);
-
-        $this->Cell(50, 5, 'GASTOS MÉDICOS DEL COND. POR ACC. AUT.:', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, '', false, false);
-        $this->Cell(40, 5, '', 'R', true);
-
-        $this->Cell(50, 5, 'RESP. CIVIL VIAJERO EN ACC. AUT.:', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, 'TOTAL A PAGAR:', false, false);
-        $this->Cell(40, 5, '', 'R', true);
-
-        $this->Cell(50, 5, 'MUERTE AL COND. POR ACC. AUTOM.:', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, '', false, false);
-        $this->Cell(40, 5, '', 'R', true);
-
-        $this->Cell(50, 5, 'DEFENSA JURÍDICA:', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, '1er PAGO', false, false);
-        $this->Cell(40, 5, '', 'R', true);
-
-        $this->Cell(50, 5, '', 'L', false, '');
-        $this->Cell(35, 5, '', false, false, '');
-        $this->Cell(35, 5, '', 'R', false, '');
-        $this->Cell(20, 5, '', false, false);
-        $this->Cell(40, 5, '', 'R', true);
-
-        $this->Cell(50, 5, '', 'LB', false, '');
-        $this->Cell(35, 5, '', 'B', false, '');
-        $this->Cell(35, 5, '', 'BR', false, '');
-        $this->Cell(20, 5, '2o PAGO', 'B', false);
-        $this->Cell(40, 5, '', 'RB', true);
+        foreach ($this->poliza->getCobertura()->getResponsabilidades() as $responsabilidades) {
+            $this->Cell(50, 5, $responsabilidades->getCoberturaConcepto()->getConcepto(), 'L', false, '');
+            $this->Cell(35, 5, $responsabilidades->getLimiteResponsabilidad(), false, false, '');
+            $this->Cell(35, 5, $responsabilidades->getCuotaExtraordinaria(), 'R', true);
+        }
+//        $this->Cell(50, 5, 'DAÑOS MATERIALES:', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, 'COSTO:', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, 'ROBO TOTAL:', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, '', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, 'R. C. DAÑOS A TERCEROS:', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, 'RECARGOS:', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, 'GASTOS MÉDICOS DEL COND. POR ACC. AUT.:', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, '', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, 'RESP. CIVIL VIAJERO EN ACC. AUT.:', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, 'TOTAL A PAGAR:', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, 'MUERTE AL COND. POR ACC. AUTOM.:', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, '', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, 'DEFENSA JURÍDICA:', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, '1er PAGO', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, '', 'L', false, '');
+//        $this->Cell(35, 5, '', false, false, '');
+//        $this->Cell(35, 5, '', 'R', false, '');
+//        $this->Cell(20, 5, '', false, false);
+//        $this->Cell(40, 5, '', 'R', true);
+//
+//        $this->Cell(50, 5, '', 'LB', false, '');
+//        $this->Cell(35, 5, '', 'B', false, '');
+//        $this->Cell(35, 5, '', 'BR', false, '');
+//        $this->Cell(20, 5, '2o PAGO', 'B', false);
+//        $this->Cell(40, 5, '', 'RB', true);
     }
 }

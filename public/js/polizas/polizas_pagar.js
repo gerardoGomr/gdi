@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	var costo = Number($('#costo').val());
+
 	init();
 
 	$('#formPago').validate();
@@ -13,7 +15,7 @@ $(document).ready(function() {
 					min: Number($('#costo').val()),
 					messages: {
 						required: 'Campo obligatorio',
-						min: 'Ingrese una cantidad igual o mayor a ' + $('#costo').val()
+						min: 'Ingrese una cantidad igual o mayor a ' + costo
 					}
 				});
 
@@ -34,6 +36,13 @@ $(document).ready(function() {
 				$('#cambio').rules('remove');
 				break;
 		}
+	});
+
+	// pago cambio
+	$('#montoPago').on('keyup', function(event) {
+		var cambio = Number($(this).val()) - costo;
+
+		$('#cambio').val(cambio);
 	});
 
 	// procesar pago
