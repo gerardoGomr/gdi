@@ -107,6 +107,7 @@ $(document).ready(function() {
 						$datoAsociadoBuscar.val('');
 						$('#busquedaAsociado').addClass('hide');
 						$('#capturarDatosAsociado').removeClass('hide');
+						$('#asociadoNuevo').val('1');
 					});
 				}
 
@@ -256,9 +257,14 @@ $(document).ready(function() {
 
 		if ($(this).val() === '-1') {
 			$('#registroCobertura').removeClass('hide');
+			$('div.vigencias').removeClass('hide');
 			$('#seleccionCobertura').addClass('hide');
 
 			return false;
+		} else {
+			$('#registroCobertura').addClass('hide');
+			$('div.vigencias').removeClass('hide');
+			$('#seleccionCobertura').removeClass('hide');
 		}
 
 		if ($(this).val() === '') {
@@ -284,6 +290,15 @@ $(document).ready(function() {
 			$('#loading').modal('hide');
 			console.log(textStatus + ': ' + errorThrown);
 		});
+	});
+
+	// change a nueva vigencia
+	$('#vigenciasCobertura').on('change', function (event) {
+		if ($(this).val() === '-1') {
+			$('div.vigencias').removeClass('hide');
+		} else {
+			$('div.vigencias').addClass('hide');
+		}
 	});
 
 	// change a nueva vigencia

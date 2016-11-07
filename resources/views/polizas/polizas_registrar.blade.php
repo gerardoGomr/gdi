@@ -393,7 +393,7 @@
 
                                                 <div id="seleccionCobertura">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3 vigenciaCobertura" for="vigenciaCobertura">VIGENCIA:</label>
+                                                        <label class="control-label col-md-3 vigenciaCobertura" for="vigenciaCobertura">COSTOS:</label>
                                                         <div class="col-md-4">
                                                             <select class="form-control vigenciaCobertura" name="vigenciaCobertura" id="vigenciaCobertura">
                                                                 <option value="">SELECCIONE</option>
@@ -413,7 +413,9 @@
                                                             <input type="text" name="nombreCobertura" id="nombreCobertura" class="form-control">
                                                         </div>
                                                     </div>
+                                                </div>
 
+                                                <div class="vigencias hide">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3" for="vigencias">VIGENCIAS:</label>
                                                         <div class="col-md-4">
@@ -532,5 +534,5 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('public/js/polizas/polizas_registrar.js') }}"></script>
+    <script src="{{ asset('js/polizas/polizas_registrar.js') }}"></script>
 @stop

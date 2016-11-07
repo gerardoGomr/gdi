@@ -42,7 +42,10 @@ elixir(function(mix) {
 				'components/common/forms/elements/select2/assets/lib/js/select2.js',
 				'components/common/forms/elements/fuelux-radio/fuelux-radio.js',
 				'components/common/forms/elements/fuelux-checkbox/fuelux-checkbox.js',
-				'components/common/forms/validaciones.js'
+				'components/common/forms/validaciones.js',
+				'components/common/tables/datatables/1.10.12/js/jquery.dataTables.min.js',
+				'components/common/tables/datatables/1.10.12/js/dataTables.bootstrap.min.js',
+				'components/common/tables/datatables/1.10.12/js/datatables.js',
 			],
 			'public/js/base-scripts.js',
 			'resources/assets'
@@ -71,6 +74,7 @@ elixir(function(mix) {
 				'components/library/icons/glyphicons/assets/css/glyphicons_social.css',
 				'components/library/icons/pictoicons/css/picto.css',
 				'components/library/icons/pictoicons/css/picto-foundry-general.css',
+				'components/common/tables/datatables/1.10.12/css/dataTables.bootstrap.min.css',
 				],
 			'public/css/base-styles.css',
 			'resources/assets'

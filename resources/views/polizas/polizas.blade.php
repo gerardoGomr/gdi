@@ -14,8 +14,9 @@
                                 <div class="innerAll">
                                     <a href="{{ url('polizas/registrar') }}" class="btn btn-primary"><i class="fa fa-plus-square"></i> Registrar nueva póliza</a>
                                     <div class="separator bottom"></div>
+                                    <div class="separator bottom"></div>
                                     @if(count($polizas) > 0)
-                                        <table class="table table-bordered">
+                                        <table class="table table-bordered" id="tablaPolizas">
                                             <thead>
                                                 <tr class="bg-primary">
                                                     <th>ASOCIADO</th>
@@ -51,5 +52,5 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('js/polizas.js') }}"></script>
+    <script src="{{ asset('js/polizas/polizas.js') }}"></script>
 @stop

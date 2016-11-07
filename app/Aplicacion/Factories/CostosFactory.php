@@ -29,7 +29,12 @@ class CostosFactory
             $costo = new Costo((double)$request->get('nuevoCosto'), $vigencia, $modalidad);
 
         } else {
-            $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));
+            if ($request->get('vigenciaCobertura') === '-1') {
+                $costo = new Costo((double)$request->get('nuevoCosto'), $vigencia, $modalidad);
+                
+            } else {
+                $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));
+            }
         }
 
         return $costo;

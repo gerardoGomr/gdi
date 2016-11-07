@@ -62,10 +62,16 @@ class PolizasFactory
             $cobertura = new Cobertura($request->get('nombreCobertura'), (int)$request->get('coberturaTipo'), $servicio, $oficina, $responsabilidades, $costos);
         
         } else {
-            $coberturaId = (int)$request->get('servicio');
+            $coberturaId = (int)$request->get('cobertura');
             $cobertura   = $coberturasRepositorio->obtenerPorId($coberturaId);
 
-            $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));
+            if ($request->get('vigenciaCobertura') === '-1') {
+                $vigencia = VigenciasFactory::crear($request, $vigenciasRepositorio);
+                $costo    = CostosFactory::crear($request, $vigencia, $modalidad, $costosRepositorio);
+                
+            } else {
+                $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));
+            }
         }
 
         $poliza = new Poliza($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);

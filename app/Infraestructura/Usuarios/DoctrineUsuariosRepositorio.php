@@ -6,6 +6,7 @@ use GDI\Dominio\Usuarios\Repositorios\UsuariosRepositorio;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineUsuariosRepositorio
@@ -48,7 +49,7 @@ class DoctrineUsuariosRepositorio implements UsuariosRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
             $pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
             $pdoLogger->log($e);
             return null;
@@ -64,7 +65,7 @@ class DoctrineUsuariosRepositorio implements UsuariosRepositorio
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT u, us, e FROM Usuarios:Usuario u JOIN u.usuarioTipo us JOIN u.especialidad e WHERE u.id = :id')
+			$query = $this->entityManager->createQuery('SELECT u, us, o FROM Usuarios:Usuario u JOIN u.usuarioTipo us JOIN u.oficina o WHERE u.id = :id')
 					->setParameter('id', $id);
 
 			$usuario = $query->getResult();
@@ -75,7 +76,7 @@ class DoctrineUsuariosRepositorio implements UsuariosRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;

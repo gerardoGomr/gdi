@@ -266,7 +266,6 @@ class PolizasController extends Controller
 
         $poliza = PolizasFactory::crear($request, $coberturasConceptosRepositorio, $coberturasRepositorio, $vigenciasRepositorio, $costosRepositorio, $modalidad, $servicio, $this->oficina, $vehiculo, $asociadoAgente);
 
-        $poliza->generarVigencia();
         // ===========================================================================
         // persistir poliza
         $respuesta['estatus'] = 'OK';

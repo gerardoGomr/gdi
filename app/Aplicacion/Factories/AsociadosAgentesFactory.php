@@ -46,7 +46,7 @@ class AsociadosAgentesFactory
             $unidadAdministrativa = $unidadesAdministrativasRepositorio->obtenerPorId($ciudadAgenteId);
             $domicilio            = new Domicilio($calleAgente, $numExteriorAgente, $numInteriorAgente, $coloniaAgente, $cpAgente, $unidadAdministrativa);
             
-            $asociadoAgente = new AsociadoAgente($rfc, $domicilio, $telefonoAgente, $celularAgente, $emailAgente);
+            $asociadoAgente = new AsociadoAgente($rfc, $telefonoAgente, $celularAgente, $emailAgente);
             $asociadoAgente->generar($nombreAgente, $paternoAgente, $maternoAgente, $domicilio, $oficina);
             
         } else {

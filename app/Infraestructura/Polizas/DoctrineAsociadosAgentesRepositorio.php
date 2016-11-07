@@ -7,6 +7,7 @@ use GDI\Dominio\Polizas\AsociadoAgente;
 use GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineAsociadosAgentesRepositorio
@@ -51,7 +52,7 @@ class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;
@@ -76,7 +77,7 @@ class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;

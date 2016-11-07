@@ -1,4 +1,3 @@
 $(document).ready(function() {
-    generarDatatable();
-
+    datatables('#tablaPolizas');
 });

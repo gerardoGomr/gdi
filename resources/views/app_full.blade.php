@@ -14,9 +14,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
 
 		<!-- CSS DEFINITION -->
-		<link rel="shortcut icon" href="{{ asset('public/img/logo.png') }}">
-		<link rel="stylesheet" type="text/css" href="{{ asset('public/css/base-styles.css') }}" />
-		<link rel="stylesheet" type="text/css" href="{{ asset('public/css/admin.css') }}" />
+		<link rel="shortcut icon" href="{{ asset('img/logo.png') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/base-styles.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}" />
 		@yield('css')
 
 		<script type="text/javascript">
@@ -70,7 +70,7 @@
 			var themerPrimaryColor = primaryColor;
 		</script>
 
-		<script src="{{ asset('public/js/base-scripts.js') }}"></script>
+		<script src="{{ asset('js/base-scripts.js') }}"></script>
 		@yield('js')
 	</body>
 </html>

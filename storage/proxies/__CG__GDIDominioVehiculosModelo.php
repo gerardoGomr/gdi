@@ -202,7 +202,7 @@ class Modelo extends \GDI\Dominio\Vehiculos\Modelo implements \Doctrine\ORM\Prox
     /**
      * {@inheritDoc}
      */
-    public function getMarca(): \GDI\Dominio\Vehiculos\Marca
+    public function getMarca()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMarca', []);

@@ -101,5 +101,5 @@
 @include('loading')
 
 @section('js')
-    <script src="{{ asset('public/js/polizas/polizas_pagar.js') }}"></script>
+    <script src="{{ asset('js/polizas/polizas_pagar.js') }}"></script>
 @stop

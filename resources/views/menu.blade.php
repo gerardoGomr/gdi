@@ -3,7 +3,7 @@
 	<div id="sidebar-fusion-wrapper">
 		<div id="brandWrapper" class="custom-logo">
 			 <a href="{{ url('/') }}" class="display-block-inline pull-left">
-			 	<img src="{{ asset('public/img/logo.png') }}" class="border-none" alt="GDI" style="width: 100px">
+			 	<img src="{{ asset('img/logo.png') }}" class="border-none" alt="GDI" style="width: 100px">
 			 </a>
 		</div>
 		<div id="logoWrapper">

@@ -9,7 +9,7 @@
 					<div class="col-app col-unscrollable">
 						<div class="col-app">
 							<div class="login">
-								<div class="placeholder text-center"><img src="{{ asset('public/img/logo.png') }}" style="width:300px;"></div>
+								<div class="placeholder text-center"><img src="{{ asset('img/logo.png') }}" style="width:300px;"></div>
 								<div class="panel panel-default col-sm-6 col-sm-offset-3">
 									<div class="panel-body">
 										@if(isset($error))
@@ -44,5 +44,5 @@
 @stop
 
 @section('js')
-	<script src="{{ asset('public/js/login.js') }}"></script>
+	<script src="{{ asset('js/login.js') }}"></script>
 @stop
