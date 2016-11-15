@@ -81,6 +81,11 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
      * ruta para generar el formato de la póliza
      */
     Route::get('polizas/formato/{polizaId}', 'Polizas\PolizasController@formato');
+
+    /**
+     * ruta para generar el formato parcial de la póliza
+     */
+    Route::get('polizas/formato-parcial/{polizaId}', 'Polizas\PolizasController@formatoParcial');
 });
 
 /**

@@ -6,7 +6,9 @@ use GDI\Aplicacion\Factories\ModalidadesFactory;
 use GDI\Aplicacion\Factories\PolizasFactory;
 use GDI\Aplicacion\Factories\ServiciosFactory;
 use GDI\Aplicacion\Factories\VehiculosFactory;
+use GDI\Aplicacion\Factories\PolizasPagosFactory;
 use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
+use GDI\Aplicacion\Coleccion;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
@@ -308,10 +310,11 @@ class PolizasController extends Controller
         $cambio     = (double)$request->get('cambio');
         $respuesta  = [];
 
-        $poliza     = $this->polizasRepositorio->obtenerPorId($polizaId);dd($poliza);
-        $polizaPago = PolizasPagosFactory::crear($formaPago, $metodoPago, $abono, $pago, $cambio, $poliza->costo()->getCosto());
+        $poliza     = $this->polizasRepositorio->obtenerPorId($polizaId);
+        $polizaPago = PolizasPagosFactory::crear($formaPago, $metodoPago, $abono, $pago, $cambio, $poliza->getCosto()->getCosto());
 
-        $poliza->pagar($polizaPago);
+        $poliza->inicializarPagos(new Coleccion());
+        $poliza->pagar($formaPago, $metodoPago, $polizaPago);
 
         if ($poliza->sePuedeGenerarFormato()) {
             $respuesta['sePuedeGenerarFormato'] = 'OK';
@@ -338,6 +341,23 @@ class PolizasController extends Controller
      * @param string $polizaId
      */
     public function formato($polizaId)
+    {
+        $polizaId = (int)base64_decode($polizaId);
+        $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
+
+        $formatoPoliza = new FormatoPoliza($poliza);
+        $formatoPoliza->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $formatoPoliza->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $formatoPoliza->SetAutoPageBreak(true);
+        $formatoPoliza->SetMargins(15, 55);
+        $formatoPoliza->generar();
+    }
+
+    /**
+     * generar el formato parcial de póliza en PDF
+     * @param string $polizaId
+     */
+    public function formatoParcial($polizaId)
     {
         $polizaId = (int)base64_decode($polizaId);
         $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);

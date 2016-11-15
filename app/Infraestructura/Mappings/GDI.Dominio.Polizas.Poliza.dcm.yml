@@ -52,3 +52,8 @@ GDI\Dominio\Polizas\Poliza:
       joinColumn:
         name: oficina_id
         referencedColumnName: id
+  oneToMany:
+    pagos:
+      targetEntity: GDI\Dominio\Polizas\Pagos\PolizaPago
+      mappedBy: poliza
+      cascade: [persist]

@@ -91,7 +91,7 @@
                                                         <input type="hidden" name="polizaId" value="{{ base64_encode($poliza->getId()) }}">
                                                         <input type="hidden" id="urlPrincipal" value="{{ url('polizas') }}">
                                                         <input type="hidden" id="urlFormato" value="{{ url('polizas/formato/' . base64_encode($poliza->getId())) }}">
-                                                        <input type="hidden" id="urlFormatoParcial" value="{{ url('polizas/formato/parcial/' . base64_encode($poliza->getId())) }}">
+                                                        <input type="hidden" id="urlFormatoParcial" value="{{ url('polizas/formato-parcial/' . base64_encode($poliza->getId())) }}">
                                                         <button type="button" id="realizarCobro" class="btn btn-primary"><i class="fa fa-credit-card"></i> REALIZAR COBRO</button>
                                                     </div>
                                                 </form>

@@ -2,6 +2,7 @@
 namespace GDI\Aplicacion\Factories;
 
 use GDI\Dominio\Polizas\FormaPago;
+use GDI\Dominio\Polizas\MedioPago;
 use GDI\Dominio\Polizas\Pagos\PolizaPagoContadoEfectivo;
 use GDI\Dominio\Polizas\Pagos\PolizaPagoContadoTarjetaCheque;
 use GDI\Dominio\Polizas\Pagos\PolizaPagoParcialEfectivo;

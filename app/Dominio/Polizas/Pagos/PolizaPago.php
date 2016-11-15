@@ -1,14 +1,27 @@
 <?php
 namespace GDI\Dominio\Polizas\Pagos;
 
+use DateTime;
+use GDI\Dominio\Polizas\Poliza;
+
 /**
  * Class PolizaPago
  * @package GDI\Dominio\Polizas\Pagos
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-abstract class PolizaPago
+class PolizaPago
 {
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var DateTime
+     */
+    protected $fechaPago;
+
     /**
      * @var double
      */
@@ -30,6 +43,16 @@ abstract class PolizaPago
     protected $cambio;
 
     /**
+     * @var double
+     */
+    protected $minimoCosto;
+
+    /**
+     * @var Poliza
+     */
+    protected $poliza;
+
+    /**
      * PolizaPago constructor.
      * @param double $abono
      * @param double $pago
@@ -40,6 +63,30 @@ abstract class PolizaPago
         $this->abono  = $abono;
         $this->pago   = $pago;
         $this->cambio = $cambio;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFechaPago()
+    {
+        return $this->fechaPago->format('d/m/Y');
+    }
+
+    /**
+     * @return float
+     */
+    public function getCosto()
+    {
+        return $this->costo;
     }
 
     /**
@@ -66,5 +113,30 @@ abstract class PolizaPago
         return $this->cambio;
     }
 
-    public abstract function registrarPago();
+    /**
+     * @return float
+     */
+    public function getMinimoCosto()
+    {
+        return $this->minimoCosto;
+    }
+
+    /**
+     * @return Poliza
+     */
+    public function getPoliza()
+    {
+        return $this->poliza;
+    }
+
+    /**
+     * asignar pago a poliza
+     * @param Poliza $poliza
+     * @param DateTime $fechaPago
+     */
+    public function asignadoA(Poliza $poliza, DateTime $fechaPago)
+    {
+        $this->poliza    = $poliza;
+        $this->fechaPago = $fechaPago;
+    }
 }

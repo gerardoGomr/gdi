@@ -1,19 +1,16 @@
 <?php
 namespace GDI\Dominio\Polizas\Pagos;
 
+use GDI\Exceptions\AbonoAPolizaEsMenorAAbonoMinimoEnPagoParcialException;
+
 /**
  * Class PolizaPagoParcialTarjetaCheque
  * @package GDI\Dominio\Polizas\Pagos
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class PolizaPagoParcialTarjetaCheque extends PolizaPago
+class PolizaPagoParcialTarjetaCheque extends PolizaPago implements IPolizaPago
 {
-    /**
-     * @var float
-     */
-    private $minimoCosto;
-
     /**
      * PolizaPagoParcialTarjetaCheque constructor.
      * @param float $costo

@@ -9,13 +9,8 @@ use GDI\Exceptions\AbonoAPolizaEsMenorAAbonoMinimoEnPagoParcialException;
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class PolizaPagoParcialEfectivo extends PolizaPago
+class PolizaPagoParcialEfectivo extends PolizaPago implements IPolizaPago
 {
-    /**
-     * @var double
-     */
-    private $minimoCosto;
-
     /**
      * PolizaPagoParcialEfectivo constructor.
      * @param float $costo

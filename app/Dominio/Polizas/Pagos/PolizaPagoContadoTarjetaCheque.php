@@ -7,7 +7,7 @@ namespace GDI\Dominio\Polizas\Pagos;
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class PolizaPagoContadoTarjetaCheque extends PolizaPago
+class PolizaPagoContadoTarjetaCheque extends PolizaPago implements IPolizaPago
 {
     /**
      * PolizaPagoContadoTarjetaCheque constructor.

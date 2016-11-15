@@ -1,0 +1,32 @@
+GDI\Dominio\Polizas\Pagos\PolizaPago:
+  type: mappedSuperclass
+  table: poliza_pago
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    fechaPago:
+      type: date
+      column: fecha_pago
+    costo:
+      type: float
+      column: costo
+    abono:
+      type: float
+      column: abono
+    pago:
+      type: float
+      column: pago
+    cambio:
+      type: float
+      column: cambio
+  manyToOne:
+    poliza:
+      targetEntity: GDI\Dominio\Polizas\Poliza
+      inversedBy: pagos
+      joinColumn:
+        name: poliza_id
+        referencedColumnName: id
+      cascade: [persist]

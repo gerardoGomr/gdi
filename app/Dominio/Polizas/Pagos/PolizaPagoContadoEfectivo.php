@@ -3,7 +3,13 @@ namespace GDI\Dominio\Polizas\Pagos;
 
 use GDI\Exceptions\PagoEsMenorACostoEnPagoDeContadoEfectivoException;
 
-class PolizaPagoContadoEfectivo extends PolizaPago
+/**
+ * Class PolizaPagoContadoEfectivo
+ * @package GDI\Dominio\Polizas\Pagos
+ * @author Gerardo Adrián Gómez Ruiz
+ * @version 1.0
+ */
+class PolizaPagoContadoEfectivo extends PolizaPago implements IPolizaPago
 {
     /**
      * PolizaPagoContadoEfectivo constructor.

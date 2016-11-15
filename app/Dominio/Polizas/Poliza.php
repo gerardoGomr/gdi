@@ -7,7 +7,9 @@ use GDI\Dominio\Coberturas\Cobertura;
 use GDI\Dominio\Coberturas\Costo;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Personas\Persona;
+use GDI\Dominio\Polizas\Pagos\IPolizaPago;
 use GDI\Dominio\Vehiculos\Vehiculo;
+use GDI\Dominio\Listas\IColeccion;
 
 /**
  * Class Poliza
@@ -73,9 +75,9 @@ class Poliza
     private $oficina;
 
     /**
-     * @var PolizaPago
+     * @var IColeccion
      */
-    private $polizaPago;
+    private $pagos;
 
     /**
      * Class Poliza Constructor
@@ -228,22 +230,52 @@ class Poliza
     }
 
     /**
+     * inicializar pagos
+     * @param IColeccion $pagos
+     */
+    public function inicializarPagos(IColeccion $pagos)
+    {
+        if(is_null($this->pagos)) {
+            $this->pagos = $pagos;
+        }
+    }
+
+    /**
+     * verifica si tiene activo el pago parcial
+     * @return bool
+     */
+    public function tienePagoParcial()
+    {
+        if (!$this->estaPagada) {
+            if ($this->formaPago === FormaPago::PARCIAL) {
+                if ($this->pagos->count() > 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * registrar el pago de la póliza
      * @param int $formaPago
      * @param int $metodoPago
-     * @param PolizaPago $polizaPago
+     * @param IPolizaPago $polizaPago
      */
-    public function pagar($formaPago, $metodoPago, PolizaPago $polizaPago)
+    public function pagar($formaPago, $metodoPago, IPolizaPago $polizaPago)
     {
         $this->formaPago  = $formaPago;
         $this->medioPago  = $metodoPago;
-        $this->polizaPago = $polizaPago;
 
-        $this->polizaPago->registrarPago();
+        $polizaPago->asignadoA($this, new DateTime());
+        $polizaPago->registrarPago();
 
         if ($this->formaPago === FormaPago::CONTADO) {
             $this->estaPagada = true;
         }
+
+        $this->pagos->add($polizaPago);
     }
 
     /**
@@ -255,6 +287,10 @@ class Poliza
         return $this->estaPagada;
     }
 
+    /**
+     * verifica que sea de tipo pago parcial
+     * @return bool
+     */
     public function esPagoParcial()
     {
         return $this->formaPago === FormaPago::PARCIAL;
