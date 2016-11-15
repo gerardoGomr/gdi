@@ -42,7 +42,7 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m WHERE p.id = :id')
+			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m, ma FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN m.marca ma WHERE p.id = :id')
 				->setParameter('id', $id);
 
 			$cobertura = $query->getResult();

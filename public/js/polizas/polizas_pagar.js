@@ -1,48 +1,19 @@
 $(document).ready(function() {
-	var costo = Number($('#costo').val());
+	var costo       = Number($('#costo').val()),
+		$formaPago  = $('#formaPago'),
+		$metodoPago = $('#metodoPago');
 
 	init();
 
 	$('#formPago').validate();
 
-	$('#metodoPago').on('change', function() {
-		switch ($(this).val()) {
-			case '1':
-				// efectivo
-				$('#cobroEfectivo').removeClass('hide');
-				$('#montoPago').rules('add', {
-					required: true,
-					min: Number($('#costo').val()),
-					messages: {
-						required: 'Campo obligatorio',
-						min: 'Ingrese una cantidad igual o mayor a ' + costo
-					}
-				});
-
-				$('#cambio').rules('add', {
-					required: true,
-					min: 0,
-					messages: {
-						required: 'Campo obligatorio',
-						min: 'Ingrese una cantidad igual o mayor a 0'
-					}
-				});
-				break;
-
-			case '2':
-			case '3':
-				$('#cobroEfectivo').addClass('hide');
-				$('#montoPago').rules('remove');
-				$('#cambio').rules('remove');
-				break;
-		}
+	// forma de pago
+	$formaPago.on('change', function () {
+		evaluarMetodoYFormaPago();
 	});
 
-	// pago cambio
-	$('#montoPago').on('keyup', function(event) {
-		var cambio = Number($(this).val()) - costo;
-
-		$('#cambio').val(cambio);
+	$metodoPago.on('change', function() {
+		evaluarMetodoYFormaPago();
 	});
 
 	// procesar pago
@@ -89,5 +60,137 @@ $(document).ready(function() {
 				bootbox.alert('OCURRIÓ UN ERROR AL REGISTRAR EL PAGO DE LA PÓLIZA. INTENTE DE NUEVO');
 			});
 		}
-	})
+	});
+	
+	// funcion para evaluar el medio y forma de pago
+	function evaluarMetodoYFormaPago () {
+		if ($formaPago.val() === '') {
+			bootbox.alert('Por favor, seleccione la forma de pago');
+			return false;
+		}
+
+		if ($metodoPago.val() === '') {
+			bootbox.alert('Por favor, seleccione el método de pago');
+			return false;
+		}
+
+		if ($formaPago.val() === '1') {
+			// de contado
+			if ($metodoPago.val() === '1') {
+				// en efectivo
+				$('#cobroEfectivo').removeClass('hide');
+				$('#abono').addClass('hide');
+				$('#cantidadAAbonar').rules('remove');
+				$('#montoPago').rules('add', {
+					required: true,
+					min: Number($('#costo').val()),
+					messages: {
+						required: 'Campo obligatorio',
+						min: 'Ingrese una cantidad igual o mayor a ' + costo
+					}
+				});
+
+				$('#cambio').rules('add', {
+					required: true,
+					min: 0,
+					messages: {
+						required: 'Campo obligatorio',
+						min: 'Ingrese una cantidad igual o mayor a 0'
+					}
+				});
+
+			} else {
+				$('#cobroEfectivo').addClass('hide');
+				$('#montoPago').rules('remove');
+				$('#cambio').rules('remove');
+			}
+		}
+
+		// parcial
+		if ($formaPago.val() === '2') {
+			// calcular el costo minimo a cubrir
+			var costoMinimo = costo * 0.5;
+
+			if ($metodoPago.val() === '1') {
+				// en efectivo
+				$('#abono').removeClass('hide');
+				$('#cobroEfectivo').removeClass('hide');
+				$('#cantidadAAbonar').rules('add', {
+					required: true,
+					min: costoMinimo,
+					max: costo,
+					messages: {
+						required: 'Campo obligatorio',
+						min: 'Ingrese una cantidad igual o mayor a ' + costoMinimo,
+						max: 'Ingrese una cantidad menor a ' + costo
+					}
+				});
+
+				$('#montoPago').rules('add', {
+					required: true,
+					messages: {
+						required: 'Campo obligatorio'
+					}
+				});
+
+				$('#cambio').rules('add', {
+					required: true,
+					messages: {
+						required: 'Campo obligatorio'
+					}
+				});
+
+			} else {
+				$('#cobroEfectivo').addClass('hide');
+				$('#montoPago').rules('remove');
+				$('#cambio').rules('remove');
+
+				// tarjeta de crédito
+				$('#abono').removeClass('hide');
+
+				$('#cantidadAAbonar').rules('add', {
+					required: true,
+					min: costoMinimo,
+					max: costo,
+					messages: {
+						required: 'Campo obligatorio',
+						min: 'Ingrese una cantidad igual o mayor a ' + costoMinimo,
+						max: 'Ingrese una cantidad menor a ' + costo
+					}
+				});
+			}
+		}
+	}
+
+	// agregando la validación de cantidad a abonar cuando es pago parcial o semestral
+	$('#cantidadAAbonar').on('keyup', function () {
+		var cantidad = Number($(this).val());
+
+		$('#montoPago').rules('add', {
+			min: cantidad,
+			messages: {
+				min: 'Ingrese una cantidad igual o mayor a ' + cantidad
+			}
+		});
+	});
+
+	// pago cambio
+	$('#montoPago').on('keyup', function(event) {
+		var cambio;
+		if ($formaPago.val() === '1') {
+			if ($metodoPago.val() === '1') {
+				// efectivo de contado
+				cambio = Number($(this).val()) - costo;
+				$('#cambio').val(cambio);
+			}
+		}
+
+		if ($formaPago.val() === '2') {
+			if ($metodoPago.val() === '1') {
+				// efectivo parcial
+				cambio = Number($(this).val()) - $('#cantidadAAbonar').val();
+				$('#cambio').val(cambio);
+			}
+		}
+	});
 });

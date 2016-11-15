@@ -229,25 +229,27 @@ class Poliza
 
     /**
      * registrar el pago de la póliza
-     * @param $formaPago
-     * @param $metodoPago
-     * @param PolizaPago|null $polizaPago
+     * @param int $formaPago
+     * @param int $metodoPago
+     * @param PolizaPago $polizaPago
      */
-    public function pagar($formaPago, $metodoPago, PolizaPago $polizaPago = null)
+    public function pagar($formaPago, $metodoPago, PolizaPago $polizaPago)
     {
-        $this->formaPago = $formaPago;
-        $this->medioPago = $metodoPago;
+        $this->formaPago  = $formaPago;
+        $this->medioPago  = $metodoPago;
+        $this->polizaPago = $polizaPago;
+
+        $this->polizaPago->registrarPago();
 
         if ($this->formaPago === FormaPago::CONTADO) {
             $this->estaPagada = true;
         }
-
-        if ($this->medioPago === MedioPago::EFECTIVO) {
-            $this->polizaPago = $polizaPago;
-            $this->polizaPago->calcularCambio($this->costo->getCosto());
-        }
     }
 
+    /**
+     * verifica si se puede generar el formato de póliza
+     * @return bool
+     */
     public function sePuedeGenerarFormato()
     {
         return $this->estaPagada;

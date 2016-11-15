@@ -24,6 +24,7 @@
                                                     <th>COSTO</th>
                                                     <th>VIGENCIA</th>
                                                     <th>SERVICIO</th>
+                                                    <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -31,9 +32,16 @@
                                                     <tr>
                                                         <td>{{ $poliza->getVehiculo()->getAsociadoProtegido()->nombreCompleto() }}</td>
                                                         <td>{{ $poliza->getVehiculo()->detalles() }}</td>
-                                                        <td>${{ number_format($poliza->getCosto()->getCosto(), 2) }}</td>
+                                                        <td>{{ $poliza->getCosto()->costoFormateado() }}</td>
                                                         <td>{{ $poliza->getCosto()->getVigencia()->getVigencia() }} MESES</td>
                                                         <td>{{ $poliza->getVehiculo()->getServicio()->getServicio() }}</td>
+                                                        <td>
+                                                            @if($poliza->sePuedeGenerarFormato())
+                                                                <a href="" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Imprimir formato"><i class="fa fa-print"></i></a>
+                                                            @else
+                                                                <a href="{{ url('polizas/pagar/' . base64_encode($poliza->getId())) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Pagar póliza"><i class="fa fa-dollar"></i></a>
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

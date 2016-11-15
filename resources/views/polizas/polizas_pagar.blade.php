@@ -56,6 +56,15 @@
                                                             </select>
                                                         </div>
                                                     </div>
+                                                    <div id="abono" class="form-group hide">
+                                                        <label for="cantidadAAbonar" class="control-label col-md-3">CANTIDAD A ABONAR:</label>
+                                                        <div class="col-md-3">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">$</span>
+                                                                <input type="text" id="cantidadAAbonar" name="cantidadAAbonar" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div id="cobroEfectivo" class="hide">
                                                         <div class="form-group">
                                                             <label for="montoPago" class="control-label col-md-3">PAGO:</label>
@@ -78,11 +87,12 @@
                                                     </div>
                                                     <div class="text-center border-top innerTB">
                                                         <input type="hidden" id="costo" value="{{ $poliza->getCosto()->getCosto() }}">
+                                                        <input type="hidden" id="costoParcial" value="">
                                                         <input type="hidden" name="polizaId" value="{{ base64_encode($poliza->getId()) }}">
                                                         <input type="hidden" id="urlPrincipal" value="{{ url('polizas') }}">
                                                         <input type="hidden" id="urlFormato" value="{{ url('polizas/formato/' . base64_encode($poliza->getId())) }}">
                                                         <input type="hidden" id="urlFormatoParcial" value="{{ url('polizas/formato/parcial/' . base64_encode($poliza->getId())) }}">
-                                                        <button type="button" id="realizarCobro" class="btn btn-primary">REALIZAR COBRO</button>
+                                                        <button type="button" id="realizarCobro" class="btn btn-primary"><i class="fa fa-credit-card"></i> REALIZAR COBRO</button>
                                                     </div>
                                                 </form>
                                             </div>

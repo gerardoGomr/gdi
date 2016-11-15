@@ -292,7 +292,9 @@ class PolizasController extends Controller
     }
 
     /**
-     * pagar la póliza
+     * pagar la póliza - registrar el pago de la poliza dependiendo el medio de pago
+     * y la forma de pago.
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -301,19 +303,15 @@ class PolizasController extends Controller
         $formaPago  = (int)$request->get('formaPago');
         $metodoPago = (int)$request->get('metodoPago');
         $polizaId   = (int)base64_decode($request->get('polizaId'));
+        $abono      = (double)$request->get('cantidadAAbonar');
+        $pago       = (double)$request->get('montoPago');
+        $cambio     = (double)$request->get('cambio');
         $respuesta  = [];
 
-        $poliza = $this->polizasRepositorio->obtenerPorId($polizaId);
+        $poliza     = $this->polizasRepositorio->obtenerPorId($polizaId);dd($poliza);
+        $polizaPago = PolizasPagosFactory::crear($formaPago, $metodoPago, $abono, $pago, $cambio, $poliza->costo()->getCosto());
 
-        if ($metodoPago === MedioPago::EFECTIVO) {
-            $pago   = (double)$request->get('montoPago');
-            $cambio = (double)$request->get('cambio');
-            $poliza->pagar($formaPago, $metodoPago, new PolizaPago($pago, $cambio));
-
-        } else {
-            $poliza->pagar($formaPago, $metodoPago);
-
-        }
+        $poliza->pagar($polizaPago);
 
         if ($poliza->sePuedeGenerarFormato()) {
             $respuesta['sePuedeGenerarFormato'] = 'OK';
