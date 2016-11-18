@@ -52,12 +52,12 @@ class Poliza
     /**
      * @var int
      */
-    private $medioPago;
+    private $formaPago;
 
     /**
-     * @var int
+     * @var DateTime
      */
-    private $formaPago;
+    private $fechaProximoPago;
 
     /**
      * @var bool
@@ -95,14 +95,6 @@ class Poliza
         $this->costo          = $costo;
         $this->estaPagada     = false;
         $this->oficina        = $oficina;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMedioPago()
-    {
-        return $this->medioPago;
     }
 
     /**
@@ -167,6 +159,14 @@ class Poliza
     public function getFechaVigencia()
     {
         return $this->fechaVigencia;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFechaProximoPago()
+    {
+        return $this->fechaProximoPago->format('d/m/Y');
     }
 
     /**
@@ -241,13 +241,13 @@ class Poliza
     }
 
     /**
-     * verifica si tiene activo el pago parcial
+     * verifica si tiene activo el pago parcial o semestral
      * @return bool
      */
     public function tienePagoParcial()
     {
         if (!$this->estaPagada) {
-            if ($this->formaPago === FormaPago::PARCIAL) {
+            if ($this->formaPago === FormaPago::PARCIAL || $this->formaPago === FormaPago::SEMESTRAL) {
                 if ($this->pagos->count() > 0) {
                     return true;
                 }
@@ -259,20 +259,41 @@ class Poliza
 
     /**
      * registrar el pago de la póliza
-     * @param int $formaPago
-     * @param int $metodoPago
      * @param IPolizaPago $polizaPago
+     * @param int|null $formaPago
      */
-    public function pagar($formaPago, $metodoPago, IPolizaPago $polizaPago)
+    public function pagar(IPolizaPago $polizaPago, $formaPago = null)
     {
-        $this->formaPago  = $formaPago;
-        $this->medioPago  = $metodoPago;
+        if (!is_null($formaPago)) {
+            $this->formaPago  = $formaPago;
+        }
 
         $polizaPago->asignadoA($this, new DateTime());
         $polizaPago->registrarPago();
 
+        // se marca la poliza como pagada si es de contado
         if ($this->formaPago === FormaPago::CONTADO) {
             $this->estaPagada = true;
+        }
+
+        if ($this->tienePagoParcial()) {
+            $this->estaPagada = true;
+
+        } else {
+            // calcular la fecha del siguiente pago
+            if ($this->formaPago === FormaPago::PARCIAL) {
+                $this->fechaProximoPago = new DateTime();
+
+                // 30 DÍAS
+                $this->fechaProximoPago->add(new DateInterval('P30D'));
+            }
+
+            if ($this->formaPago === FormaPago::SEMESTRAL) {
+                $this->fechaProximoPago = new DateTime();
+
+                // 6 MESES
+                $this->fechaProximoPago->add(new DateInterval('P6M'));
+            }
         }
 
         $this->pagos->add($polizaPago);
@@ -288,11 +309,45 @@ class Poliza
     }
 
     /**
-     * verifica que sea de tipo pago parcial
+     * verifica que sea de tipo pago parcial o semestral
      * @return bool
      */
     public function esPagoParcial()
     {
-        return $this->formaPago === FormaPago::PARCIAL;
+        return $this->formaPago === FormaPago::PARCIAL || $this->formaPago === FormaPago::SEMESTRAL;
+    }
+
+    /**
+     * @return IColeccion
+     */
+    public function getPagos()
+    {
+        return $this->pagos;
+    }
+
+    /**
+     * devuelve el saldo a pagar
+     * @return double
+     */
+    public function obtenerSaldo()
+    {
+        $saldo = $this->costo->getCosto();
+
+        if ($this->esPagoParcial()) {
+            foreach ($this->pagos as $polizaPago) {
+                $saldo -= $polizaPago->getAbono();
+            }
+
+            return $saldo;
+        }
+    }
+
+    /**
+     * saldo a pagar formateado
+     * @return string
+     */
+    public function saldoFormateado()
+    {
+        return '$' . number_format($this->obtenerSaldo(), 2);
     }
 }

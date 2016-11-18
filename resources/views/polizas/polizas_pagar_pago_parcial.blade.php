@@ -26,23 +26,43 @@
                                                     <dd>{{ $poliza->getVehiculo()->detalles() }}</dd>
                                                 </dl>
                                             </div>
+                                            <div class="separator border-bottom"></div>
+                                            <div class="separator"></div>
+                                            <div class="box-generic">
+                                                <table class="table text-small">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Fecha Pago</th>
+                                                            <th>Medio Pago</th>
+                                                            <th>Abono</th>
+                                                            <th>Pago</th>
+                                                            <th>Cambio</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($poliza->getPagos() as $polizaPago)
+                                                            <tr>
+                                                                <td>{{ $polizaPago->getFechaPago() }}</td>
+                                                                <td>{{ $polizaPago->medioPago() }}</td>
+                                                                <td>{{ $polizaPago->getAbono() }}</td>
+                                                                <td>{{ $polizaPago->getPago() }}</td>
+                                                                <td>{{ $polizaPago->getCambio() }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="box-generic padding-none">
                                                 <h4 class="innerAll border-bottom bg-gray">PAGO</h4>
-                                                <p class="strong innerAll text-medium">Total a pagar:<span class="text-primary">{{ $poliza->getCosto()->costoFormateado() }}</span>
-                                                </p>
-                                                <form action="{{ url('polizas/pagar') }}" class="form-horizontal" role="form" id="formPago">
+                                                <p class="strong innerAll text-medium">Total a pagar: <span class="text-primary">{{ $poliza->saldoFormateado() }}</span></p>
+                                                <form action="{{ url('polizas/pagar/parcial') }}" class="form-horizontal" role="form" id="formPago">
                                                     {!! csrf_field() !!}
                                                     <div class="form-group">
                                                         <label for="formaPago" class="control-label col-md-3">FORMA DE PAGO:</label>
                                                         <div class="col-md-5">
-                                                            <select name="formaPago" id="formaPago" class="form-control required">
-                                                                <option value="">SELECCIONE</option>
-                                                                <option value="{{ GDI\Dominio\Polizas\FormaPago::CONTADO }}">CONTADO</option>
-                                                                <option value="{{ GDI\Dominio\Polizas\FormaPago::PARCIAL }}">PARCIAL</option>
-                                                                <option value="{{ GDI\Dominio\Polizas\FormaPago::SEMESTRAL }}">SEMESTRAL</option>
-                                                            </select>
+                                                            <p class="form-control-static">{{ $poliza->formaPago() }}</p>
                                                         </div>
                                                     </div>
 
@@ -87,9 +107,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="text-center border-top innerTB">
-                                                        <input type="hidden" id="costo" value="{{ $poliza->getCosto()->getCosto() }}">
-                                                        <input type="hidden" id="tipoVigencia" value="{{ $poliza->getCosto()->getVigencia()->getVigencia() }}">
-                                                        <input type="hidden" id="tipoCobertura" value="{{ $poliza->getCobertura()->getCoberturaTipo() }}">
+                                                        <input type="hidden" id="costo" value="{{ $poliza->obtenerSaldo() }}">
                                                         <input type="hidden" id="costoParcial" value="">
                                                         <input type="hidden" name="polizaId" value="{{ base64_encode($poliza->getId()) }}">
                                                         <input type="hidden" id="urlPrincipal" value="{{ url('polizas') }}">
@@ -114,5 +132,5 @@
 @include('loading')
 
 @section('js')
-    <script src="{{ asset('js/polizas/polizas_pagar.js') }}"></script>
+    <script src="{{ asset('js/polizas/polizas_pagar_pago_parcial.js') }}"></script>
 @stop

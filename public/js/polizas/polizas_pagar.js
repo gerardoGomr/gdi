@@ -108,6 +108,17 @@ $(document).ready(function() {
 
 		// parcial
 		if ($formaPago.val() === '2') {
+
+			if (evaluarVigencia()) {
+				bootbox.alert('SÓLO SE PERMITEN PAGOS DE CONTADO PARA VIGENCIAS DE 6 MESES.');
+				return false;
+			}
+
+			if (evaluarTipoCobertura()) {
+				bootbox.alert('SÓLO SE PERMITEN PAGOS DE CONTADO PARA COBERTURAS LOCALES.');
+				return false;
+			}
+
 			// calcular el costo minimo a cubrir
 			var costoMinimo = costo * 0.5;
 
@@ -160,6 +171,84 @@ $(document).ready(function() {
 				});
 			}
 		}
+
+		// semestral
+		if ($formaPago.val() === '3') {
+
+			if (evaluarVigencia()) {
+				bootbox.alert('SÓLO SE PERMITEN PAGOS DE CONTADO PARA VIGENCIAS DE 6 MESES.');
+				return false;
+			}
+
+			if (evaluarTipoCobertura()) {
+				bootbox.alert('SÓLO SE PERMITEN PAGOS DE CONTADO PARA COBERTURAS LOCALES.');
+				return false;
+			}
+
+			// calcular el costo minimo a cubrir
+			var costoMinimo = (costo * 0.5) + (costo * 0.085);
+
+			if ($metodoPago.val() === '1') {
+				// en efectivo
+				$('#abono').removeClass('hide');
+				$('#cobroEfectivo').removeClass('hide');
+				$('#cantidadAAbonar').rules('add', {
+					required: true,
+					min: costoMinimo,
+					max: costo,
+					messages: {
+						required: 'Campo obligatorio',
+						min: 'Ingrese una cantidad igual o mayor a ' + costoMinimo,
+						max: 'Ingrese una cantidad menor a ' + costo
+					}
+				});
+
+				$('#montoPago').rules('add', {
+					required: true,
+					messages: {
+						required: 'Campo obligatorio'
+					}
+				});
+
+				$('#cambio').rules('add', {
+					required: true,
+					messages: {
+						required: 'Campo obligatorio'
+					}
+				});
+
+			} else {
+				$('#cobroEfectivo').addClass('hide');
+				$('#montoPago').rules('remove');
+				$('#cambio').rules('remove');
+
+				// tarjeta de crédito
+				$('#abono').removeClass('hide');
+
+				$('#cantidadAAbonar').rules('add', {
+					required: true,
+					min: costoMinimo,
+					max: costo,
+					messages: {
+						required: 'Campo obligatorio',
+						min: 'Ingrese una cantidad igual o mayor a ' + costoMinimo,
+						max: 'Ingrese una cantidad menor a ' + costo
+					}
+				});
+			}
+		}
+	}
+
+	// función para evaluar la vigencia
+	function evaluarVigencia()
+	{
+		return $('#tipoVigencia').val() === '6';
+	}
+
+	// función para evaluar el tipo de cobertura
+	function evaluarTipoCobertura()
+	{
+		return $('#tipoCobertura').val() === '1';
 	}
 
 	// agregando la validación de cantidad a abonar cuando es pago parcial o semestral
@@ -186,6 +275,14 @@ $(document).ready(function() {
 		}
 
 		if ($formaPago.val() === '2') {
+			if ($metodoPago.val() === '1') {
+				// efectivo parcial
+				cambio = Number($(this).val()) - $('#cantidadAAbonar').val();
+				$('#cambio').val(cambio);
+			}
+		}
+
+		if ($formaPago.val() === '3') {
 			if ($metodoPago.val() === '1') {
 				// efectivo parcial
 				cambio = Number($(this).val()) - $('#cantidadAAbonar').val();

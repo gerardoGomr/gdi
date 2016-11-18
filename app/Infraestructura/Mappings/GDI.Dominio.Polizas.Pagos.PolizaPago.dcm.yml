@@ -22,6 +22,9 @@ GDI\Dominio\Polizas\Pagos\PolizaPago:
     cambio:
       type: float
       column: cambio
+    metodoPago:
+      type: integer
+      column: metodo_pago
   manyToOne:
     poliza:
       targetEntity: GDI\Dominio\Polizas\Poliza

@@ -7,6 +7,8 @@ use GDI\Dominio\Polizas\Pagos\PolizaPagoContadoEfectivo;
 use GDI\Dominio\Polizas\Pagos\PolizaPagoContadoTarjetaCheque;
 use GDI\Dominio\Polizas\Pagos\PolizaPagoParcialEfectivo;
 use GDI\Dominio\Polizas\Pagos\PolizaPagoParcialTarjetaCheque;
+use GDI\Dominio\Polizas\Pagos\PolizaPagoSemestralEfectivo;
+use GDI\Dominio\Polizas\Pagos\PolizaPagoSemestralTarjetaCheque;
 
 /**
  * Class PolizasPagosFactory
@@ -22,11 +24,10 @@ class PolizasPagosFactory
      * @param int $metodoPago
      * @param double $abono
      * @param double $pago
-     * @param double $cambio
      * @param double $costoReal
      * @return PolizaPagoParcialTarjetaCheque|PolizaPagoContadoEfectivo|PolizaPagoContadoTarjetaCheque|PolizaPagoParcialEfectivo|null
      */
-    public static function crear($formaPago, $metodoPago, $abono, $pago, $cambio, $costoReal)
+    public static function crear($formaPago, $metodoPago, $abono, $pago, $costoReal)
     {
         $polizaPago = null;
         
@@ -36,7 +37,7 @@ class PolizasPagosFactory
             }
 
             if ($metodoPago === MedioPago::TARJETA_CREDITO || $metodoPago === MedioPago::CHEQUE) {
-                $polizaPago = new PolizaPagoContadoTarjetaCheque($costoReal);
+                $polizaPago = new PolizaPagoContadoTarjetaCheque($metodoPago, $costoReal);
             }
         }
 
@@ -46,7 +47,17 @@ class PolizasPagosFactory
             }
 
             if ($metodoPago === MedioPago::TARJETA_CREDITO || $metodoPago === MedioPago::CHEQUE) {
-                $polizaPago = new PolizaPagoParcialTarjetaCheque($costoReal, $abono, $minimoCosto = 0.5);
+                $polizaPago = new PolizaPagoParcialTarjetaCheque($metodoPago, $costoReal, $abono, $minimoCosto = 0.5);
+            }
+        }
+
+        if ($formaPago === FormaPago::SEMESTRAL) {
+            if ($metodoPago === MedioPago::EFECTIVO) {
+                $polizaPago = new PolizaPagoSemestralEfectivo($costoReal, $abono, $pago, $minimoCosto = 0.5);
+            }
+
+            if ($metodoPago === MedioPago::TARJETA_CREDITO || $metodoPago === MedioPago::CHEQUE) {
+                $polizaPago = new PolizaPagoSemestralTarjetaCheque($metodoPago, $costoReal, $abono, $minimoCosto = 0.5);
             }
         }
 

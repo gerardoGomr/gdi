@@ -2,6 +2,7 @@
 namespace GDI\Dominio\Polizas\Pagos;
 
 use DateTime;
+use GDI\Dominio\Polizas\MedioPago;
 use GDI\Dominio\Polizas\Poliza;
 
 /**
@@ -21,6 +22,11 @@ class PolizaPago
      * @var DateTime
      */
     protected $fechaPago;
+
+    /**
+     * @var int
+     */
+    protected $metodoPago;
 
     /**
      * @var double
@@ -54,15 +60,11 @@ class PolizaPago
 
     /**
      * PolizaPago constructor.
-     * @param double $abono
-     * @param double $pago
-     * @param double $cambio
+     * @param int $metodoPago
      */
-    public function __construct($abono, $pago, $cambio)
+    public function __construct($metodoPago)
     {
-        $this->abono  = $abono;
-        $this->pago   = $pago;
-        $this->cambio = $cambio;
+        $this->metodoPago = $metodoPago;
     }
 
     /**
@@ -79,6 +81,14 @@ class PolizaPago
     public function getFechaPago()
     {
         return $this->fechaPago->format('d/m/Y');
+    }
+
+    /**
+     * @return int
+     */
+    public function getMetodoPago()
+    {
+        return $this->metodoPago;
     }
 
     /**
@@ -138,5 +148,30 @@ class PolizaPago
     {
         $this->poliza    = $poliza;
         $this->fechaPago = $fechaPago;
+    }
+
+    /**
+     * evalúa el medio de pago y devuelve su representación en string
+     * @return string
+     */
+    public function medioPago()
+    {
+        $medioPago = '';
+
+        switch ($this->metodoPago) {
+            case MedioPago::EFECTIVO:
+                $medioPago = 'EN EFECTIVO';
+                break;
+
+            case MedioPago::TARJETA_CREDITO:
+                $medioPago = 'TARJETA DE CRÉDITO';
+                break;
+
+            case MedioPago::CHEQUE:
+                $medioPago = 'CHEQUE';
+                break;
+        }
+
+        return $medioPago;
     }
 }

@@ -4,6 +4,7 @@ namespace GDI\Http\Controllers\Polizas;
 use GDI\Aplicacion\Factories\AsociadosAgentesFactory;
 use GDI\Aplicacion\Factories\ModalidadesFactory;
 use GDI\Aplicacion\Factories\PolizasFactory;
+use GDI\Aplicacion\Factories\PolizasPagosParcialesFactory;
 use GDI\Aplicacion\Factories\ServiciosFactory;
 use GDI\Aplicacion\Factories\VehiculosFactory;
 use GDI\Aplicacion\Factories\PolizasPagosFactory;
@@ -16,8 +17,7 @@ use GDI\Dominio\Coberturas\Repositorios\VigenciasRepositorio;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Oficinas\Repositorios\OficinasRepositorio;
 use GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio;
-use GDI\Dominio\Polizas\MedioPago;
-use GDI\Dominio\Polizas\PolizaPago;
+use GDI\Dominio\Polizas\Poliza;
 use GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio;
 use GDI\Dominio\Polizas\Repositorios\AsociadosProtegidosRepositorio;
 use GDI\Dominio\Polizas\Repositorios\PolizasRepositorio;
@@ -290,6 +290,10 @@ class PolizasController extends Controller
         $polizaId = (int)base64_decode($polizaId);
         $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId, $this->oficinaId);
 
+        if ($poliza->tienePagoParcial()) {
+            return view('polizas.polizas_pagar_pago_parcial', compact('poliza'));
+        }
+
         return view('polizas.polizas_pagar', compact('poliza'));
     }
 
@@ -307,14 +311,51 @@ class PolizasController extends Controller
         $polizaId   = (int)base64_decode($request->get('polizaId'));
         $abono      = (double)$request->get('cantidadAAbonar');
         $pago       = (double)$request->get('montoPago');
-        $cambio     = (double)$request->get('cambio');
         $respuesta  = [];
 
         $poliza     = $this->polizasRepositorio->obtenerPorId($polizaId);
-        $polizaPago = PolizasPagosFactory::crear($formaPago, $metodoPago, $abono, $pago, $cambio, $poliza->getCosto()->getCosto());
+        $polizaPago = PolizasPagosFactory::crear($formaPago, $metodoPago, $abono, $pago, $poliza->getCosto()->getCosto());
 
         $poliza->inicializarPagos(new Coleccion());
-        $poliza->pagar($formaPago, $metodoPago, $polizaPago);
+        $poliza->pagar($polizaPago, $formaPago);
+
+        if ($poliza->sePuedeGenerarFormato()) {
+            $respuesta['sePuedeGenerarFormato'] = 'OK';
+
+        } else {
+            if ($poliza->esPagoParcial()) {
+                $respuesta['generarFormatoParcial'] = 'OK';
+            }
+        }
+
+        $respuesta['estatus'] = 'OK';
+
+        if (!$this->polizasRepositorio->actualizar($poliza)) {
+            $respuesta['estatus'] = 'fail';
+        }
+
+        $respuesta['id'] = base64_encode((string)$poliza->getId());
+
+        return response()->json($respuesta);
+    }
+
+    /**
+     * pago de parciales (parcial - semestral) dependiendo del medio de pago
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function pagarPolizaParcial(Request $request)
+    {
+        $metodoPago = (int)$request->get('metodoPago');
+        $polizaId   = (int)base64_decode($request->get('polizaId'));
+        $abono      = (double)$request->get('cantidadAAbonar');
+        $pago       = (double)$request->get('montoPago');
+        $respuesta  = [];
+
+        $poliza     = $this->polizasRepositorio->obtenerPorId($polizaId);
+        $polizaPago = PolizasPagosParcialesFactory::crear($metodoPago, $abono, $pago, $poliza->obtenerSaldo());
+
+        $poliza->pagar($polizaPago);
 
         if ($poliza->sePuedeGenerarFormato()) {
             $respuesta['sePuedeGenerarFormato'] = 'OK';
@@ -345,12 +386,7 @@ class PolizasController extends Controller
         $polizaId = (int)base64_decode($polizaId);
         $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
 
-        $formatoPoliza = new FormatoPoliza($poliza);
-        $formatoPoliza->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $formatoPoliza->SetFooterMargin(PDF_MARGIN_FOOTER);
-        $formatoPoliza->SetAutoPageBreak(true);
-        $formatoPoliza->SetMargins(15, 55);
-        $formatoPoliza->generar();
+        $this->crearFormatoPoliza($poliza);
     }
 
     /**
@@ -362,6 +398,15 @@ class PolizasController extends Controller
         $polizaId = (int)base64_decode($polizaId);
         $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
 
+        $this->crearFormatoPoliza($poliza);
+    }
+
+    /**
+     * construir el formato de la póliza
+     * @param Poliza $poliza
+     */
+    private function crearFormatoPoliza(Poliza $poliza)
+    {
         $formatoPoliza = new FormatoPoliza($poliza);
         $formatoPoliza->SetHeaderMargin(PDF_MARGIN_HEADER);
         $formatoPoliza->SetFooterMargin(PDF_MARGIN_FOOTER);

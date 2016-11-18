@@ -2,14 +2,15 @@
 namespace GDI\Dominio\Polizas\Pagos;
 
 use GDI\Exceptions\AbonoAPolizaEsMenorAAbonoMinimoEnPagoParcialException;
+use GDI\Exceptions\AbonoAPolizaEsMenorAAbonoMinimoEnPagoSemestralException;
 
 /**
- * Class PolizaPagoParcialTarjetaCheque
+ * Class PolizaPagoSemestralTarjetaCheque
  * @package GDI\Dominio\Polizas\Pagos
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class PolizaPagoParcialTarjetaCheque extends PolizaPago implements IPolizaPago
+class PolizaPagoSemestralTarjetaCheque extends PolizaPago implements IPolizaPago
 {
     /**
      * PolizaPagoParcialTarjetaCheque constructor.
@@ -33,10 +34,10 @@ class PolizaPagoParcialTarjetaCheque extends PolizaPago implements IPolizaPago
     public function registrarPago()
     {
         // TODO: Implement registrarPago() method.
-        $minimoAbono = $this->costo * $this->minimoCosto;
+        $minimoAbono = ($this->costo * $this->minimoCosto) + ($this->costo * 0.085);
 
         if ($this->abono < $minimoAbono) {
-            throw new AbonoAPolizaEsMenorAAbonoMinimoEnPagoParcialException('El abono a la póliza no puede ser menor que el abono mínimo que es del 50% del valor de la póliza');
+            throw new AbonoAPolizaEsMenorAAbonoMinimoEnPagoSemestralException('El abono a la póliza no puede ser menor que el abono mínimo que es del 50% mas un impuesto del 8.5% del valor de la póliza');
         }
 
         $this->pago   = $this->abono;

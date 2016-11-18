@@ -11,12 +11,15 @@ class PolizaPagoContadoTarjetaCheque extends PolizaPago implements IPolizaPago
 {
     /**
      * PolizaPagoContadoTarjetaCheque constructor.
+     * @param int $metodoPago
      * @param float $costo
      */
-    public function __construct($costo)
+    public function __construct($metodoPago, $costo)
     {
         $this->costo = $costo;
         $this->abono = $costo;
+
+        parent::__construct($metodoPago);
     }
 
     /**

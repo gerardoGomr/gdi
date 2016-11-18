@@ -78,6 +78,11 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     Route::post('polizas/pagar', 'Polizas\PolizasController@pagarPoliza');
 
     /**
+     * rura para 2o pago parcial
+     */
+    Route::post('polizas/pagar/parcial', 'Polizas\PolizasController@pagarPolizaParcial');
+
+    /**
      * ruta para generar el formato de la póliza
      */
     Route::get('polizas/formato/{polizaId}', 'Polizas\PolizasController@formato');

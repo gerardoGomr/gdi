@@ -2,18 +2,19 @@
 namespace GDI\Dominio\Polizas\Pagos;
 
 use GDI\Dominio\Polizas\MedioPago;
+use GDI\Exceptions\AbonoAPolizaEsMenorAAbonoMinimoEnPagoParcialException;
 use GDI\Exceptions\PagoEsMenorACostoEnPagoDeContadoEfectivoException;
 
 /**
- * Class PolizaPagoContadoEfectivo
+ * Class PolizaPagoParcialEfectivoSegundoPago
  * @package GDI\Dominio\Polizas\Pagos
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-class PolizaPagoContadoEfectivo extends PolizaPago implements IPolizaPago
+class PolizaPagoParcialEfectivoSegundoPago extends PolizaPago implements IPolizaPago
 {
     /**
-     * PolizaPagoContadoEfectivo constructor.
+     * PolizaPagoParcialEfectivo PolizaPagoParcialEfectivoSegundoPago.
      * @param float $costo
      * @param float $pago
      * @throws PagoEsMenorACostoEnPagoDeContadoEfectivoException
@@ -21,9 +22,9 @@ class PolizaPagoContadoEfectivo extends PolizaPago implements IPolizaPago
     public function __construct($costo, $pago)
     {
         if ($pago < $costo) {
-            throw new PagoEsMenorACostoEnPagoDeContadoEfectivoException('El pago de la póliza no puede ser menor al costo de la misma.');    
+            throw new PagoEsMenorACostoEnPagoDeContadoEfectivoException('El pago de la póliza no puede ser menor al costo de $' . number_format($this->costo, 2));
         }
-        
+
         $this->costo = $costo;
         $this->pago  = $pago;
 
@@ -36,7 +37,7 @@ class PolizaPagoContadoEfectivo extends PolizaPago implements IPolizaPago
     public function registrarPago()
     {
         // TODO: Implement registrarPago() method.
-        $this->abono  = $this->pago;
+        $this->abono  = $this->costo;
         $this->cambio = $this->pago - $this->costo;
     }
 }

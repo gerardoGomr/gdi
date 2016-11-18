@@ -43,6 +43,13 @@ class FormatoPoliza extends ReporteGDI
         // TODO: Implement generar() method.
         $this->AddPage();
         $this->SetFont('helvetica', 'B', 10);
+        if ($this->poliza->tienePagoParcial()) {
+            $this->SetTextColor(255, 0, 0);
+            $this->Cell(0, 5, 'PAGO PARCIAL', false, true, '');
+            $this->SetTextColor(0, 0, 0);
+            $this->Ln(3);
+        }
+
         $this->SetFillColor(174, 174, 174);
         $this->Cell(0, 5, 'DATOS DEL ASOCIADO PROTEGIDO', true, true, '', true);
         $this->SetFont('helvetica', '', 8);

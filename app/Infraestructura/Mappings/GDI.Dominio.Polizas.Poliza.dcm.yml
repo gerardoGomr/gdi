@@ -16,9 +16,9 @@ GDI\Dominio\Polizas\Poliza:
     fechaVigencia:
       type: date
       column: fecha_vigencia
-    medioPago:
-      type: integer
-      column: medio_pago
+    fechaProximoPago:
+      type: date
+      column: fecha_proximo_pago
     formaPago:
       type: integer
       column: forma_pago
