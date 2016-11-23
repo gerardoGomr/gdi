@@ -133,13 +133,13 @@ class PolizasController extends Controller
         $dato      = $request->get('dato');
         $respuesta = [];
 
-        $vehiculos = $this->vehiculosRepositorio->obtenerPor($dato, $this->oficinaId);
+        $polizas = $this->polizasRepositorio->obtenerPorVehiculo($dato, $this->oficinaId);
 
-        if (is_null($vehiculos)) {
+        if (is_null($polizas)) {
             $respuesta['estatus'] = 'fail';
         } else {
             $respuesta['estatus'] = 'OK';
-            $respuesta['html']    = view('')->render();
+            $respuesta['html']    = view('polizas.polizas_resultado_vehiculos', compact('polizas'))->render();
         }
 
         return response()->json($respuesta);

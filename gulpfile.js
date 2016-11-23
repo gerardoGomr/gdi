@@ -45,7 +45,7 @@ elixir(function(mix) {
 				'components/common/forms/validaciones.js',
 				'components/common/tables/datatables/1.10.12/js/jquery.dataTables.min.js',
 				'components/common/tables/datatables/1.10.12/js/dataTables.bootstrap.min.js',
-				'components/common/tables/datatables/1.10.12/js/datatables.js',
+				'components/common/tables/datatables/1.10.12/js/datatables.js'
 			],
 			'public/js/base-scripts.js',
 			'resources/assets'
@@ -74,7 +74,7 @@ elixir(function(mix) {
 				'components/library/icons/glyphicons/assets/css/glyphicons_social.css',
 				'components/library/icons/pictoicons/css/picto.css',
 				'components/library/icons/pictoicons/css/picto-foundry-general.css',
-				'components/common/tables/datatables/1.10.12/css/dataTables.bootstrap.min.css',
+				'components/common/tables/datatables/1.10.12/css/dataTables.bootstrap.min.css'
 				],
 			'public/css/base-styles.css',
 			'resources/assets'
@@ -83,6 +83,7 @@ elixir(function(mix) {
 				'resources/assets/components/library/icons/fontawesome/assets/fonts',
 				'resources/assets/components/library/icons/glyphicons/assets/fonts',
 				'resources/assets/components/library/icons/pictoicons/fonts',
+				'resources/assets/components/library/bootstrap/fonts',
 				'resources/assets/components/core/fonts/'
 			],
 			'public/fonts'
@@ -90,7 +91,18 @@ elixir(function(mix) {
 		.copy([
 				'resources/assets/components/common/forms/elements/select2/assets/lib/css/select2.png',
 				'resources/assets/components/common/forms/elements/select2/assets/lib/css/select2-spinner.gif',
-				'resources/assets/components/common/forms/elements/select2/assets/lib/css/select2x2.png'
+				'resources/assets/components/common/forms/elements/select2/assets/lib/css/select2x2.png',
+				'resources/assets/components/common/tables/datatables/1.10.12/images/sort_asc.png',
+				'resources/assets/components/common/tables/datatables/1.10.12/images/sort_asc_disabled.png',
+				'resources/assets/components/common/tables/datatables/1.10.12/images/sort_both.png',
+				'resources/assets/components/common/tables/datatables/1.10.12/images/sort_desc.png',
+				'resources/assets/components/common/tables/datatables/1.10.12/images/sort_desc_disabled.png'
 			], 'public/css'
-		);
+		).copy([
+			'resources/assets/components/common/tables/datatables/1.10.12/images/sort_asc.png',
+			'resources/assets/components/common/tables/datatables/1.10.12/images/sort_asc_disabled.png',
+			'resources/assets/components/common/tables/datatables/1.10.12/images/sort_both.png',
+			'resources/assets/components/common/tables/datatables/1.10.12/images/sort_desc.png',
+			'resources/assets/components/common/tables/datatables/1.10.12/images/sort_desc_disabled.png'
+		], 'public/images');
 });

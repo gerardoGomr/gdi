@@ -350,4 +350,15 @@ class Poliza
     {
         return '$' . number_format($this->obtenerSaldo(), 2);
     }
+
+    /**
+     * evalúa si la póliz está vigente o no
+     * @return bool
+     */
+    public function vigente()
+    {
+        $fechaHoy = new DateTime();
+
+        return $fechaHoy <= $this->fechaVigencia;
+    }
 }

@@ -242,12 +242,14 @@ $(document).ready(function() {
 	// función para evaluar la vigencia
 	function evaluarVigencia()
 	{
+		// 6 = DE SEIS MESES
 		return $('#tipoVigencia').val() === '6';
 	}
 
 	// función para evaluar el tipo de cobertura
 	function evaluarTipoCobertura()
 	{
+		// cobertura local
 		return $('#tipoCobertura').val() === '1';
 	}
 
