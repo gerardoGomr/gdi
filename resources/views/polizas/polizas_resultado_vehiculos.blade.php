@@ -15,20 +15,8 @@
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($polizas as $poliza)
-                            <tr>
-                                <td>{{ $poliza->getVehiculo()->detalles() }}</td>
-                                <td>{{ $poliza->getVehiculo()->getAsociadoProtegido()->nombreCompleto() }}</td>
-                                <td>
-                                    @if($poliza->vigente())
-                                        <span class="label label-success">VIGENTE</span>
-                                    @else
-                                        <button type="button" class="btn btn-danger btn-sm">RENOVAR PÓLIZA</button>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
+                    <tbody id="tablaPolizas">
+
                     </tbody>
                 </table>
             </div>

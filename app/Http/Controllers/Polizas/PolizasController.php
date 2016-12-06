@@ -139,7 +139,7 @@ class PolizasController extends Controller
             $respuesta['estatus'] = 'fail';
         } else {
             $respuesta['estatus'] = 'OK';
-            $respuesta['html']    = view('polizas.polizas_resultado_vehiculos', compact('polizas'))->render();
+            $respuesta['html']    = view('polizas.polizas_resultado_vehiculos_tabla', compact('polizas'))->render();
         }
 
         return response()->json($respuesta);

@@ -41,6 +41,7 @@ class FormatoPoliza extends ReporteGDI
     public function generar()
     {
         // TODO: Implement generar() method.
+        $this->SetTitle('Formato de póliza');
         $this->AddPage();
         $this->SetFont('helvetica', 'B', 10);
         if ($this->poliza->tienePagoParcial()) {

@@ -86,6 +86,33 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	}
 
 	/**
+	 * buscar pólizas dependiendo el dato del vehículo (número de serie o motor)
+	 * @param string $dato
+	 * @param int|null $oficinaId
+	 * @return array|null
+	 */
+	public function obtenerPorVehiculo($dato, $oficinaId = null)
+	{
+		try {
+			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m WHERE v.numeroSerie LIKE :dato OR v.numeroMotor LIKE :dato ORDER BY p.id')
+				->setMaxResults(50)
+				->setParameter('dato', "%$dato%");
+			$polizas = $query->getResult();
+
+			if (count($polizas) > 0) {
+				return $polizas;
+			}
+
+			return null;
+
+		} catch (PDOException $e) {
+			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
+			$pdoLogger->log($e);
+			return null;
+		}
+	}
+
+	/**
 	 * guardar o editar una póliza
 	 * @param Poliza $poliza
 	 * @return bool

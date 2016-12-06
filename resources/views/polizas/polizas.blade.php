@@ -37,11 +37,11 @@
                                                         <td>{{ $poliza->getVehiculo()->getServicio()->getServicio() }}</td>
                                                         <td>
                                                             @if($poliza->sePuedeGenerarFormato())
-                                                                <a href="" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Imprimir formato"><i class="fa fa-print"></i></a>
+                                                                <a href="{{ url('polizas/formato/' . base64_encode($poliza->getId())) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Imprimir formato" target="_blank"><i class="fa fa-print"></i></a>
                                                             @else
                                                                 <a href="{{ url('polizas/pagar/' . base64_encode($poliza->getId())) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Pagar póliza"><i class="fa fa-dollar"></i></a>
                                                                 @if($poliza->tienePagoParcial())
-                                                                    <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" data-original-title="Imprimir formato parcial"><i class="fa fa-print"></i></a>
+                                                                    <a href="{{ url('polizas/formato-parcial/' . base64_encode($poliza->getId())) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-original-title="Imprimir formato parcial" target="_blank"><i class="fa fa-print"></i></a>
                                                                 @endif
                                                             @endif
                                                         </td>

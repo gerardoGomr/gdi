@@ -21,7 +21,7 @@
                                         <div class="box-generic padding-none animated fadeInUp">
                                             <h5 class="innerAll border-bottom bg-gray">VEHÍCULOS</h5>
                                             <div class="innerAll" id="busquedaVehiculo">
-                                                <p class="text-muted">Es necesario que escriba el número de serie o motor del vehículo para buscarlo dentro del sistema. Una vez que lo escriba, presione enter.</p>
+                                                <p class="text-muted">ES NECESARIO QUE ESCRIBA EL NÚMERO DE SERIE O MOTOR DEL VEHÍCULO PARA BUSCARLO DENTRO DEL SISTEMA. UNA VEZ QUE LO ESCRIBA, PRESIONE ENTER.</p>
                                                 <div class="separator bottom"></div>
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3" for="datoVehiculoBuscar">NUM. SERIE O MOTOR:</label>
@@ -32,7 +32,24 @@
                                             </div>
 
                                             <div class="innerAll hide" id="datosVehiculo">
-
+                                                <div class="form-group">
+                                                    <label for="" class="control-label col-md-3">VEHICULO:</label>
+                                                    <div class="col-md-4">
+                                                        <p class="form-control-static" id="vehiculoRenovar"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="" class="control-label col-md-3">ASOCIADO PROTEGIDO:</label>
+                                                    <div class="col-md-4">
+                                                        <p class="form-control-static" id="asociadoProtegidoRenovar"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="" class="control-label col-md-3">COBERTURA:</label>
+                                                    <div class="col-md-4">
+                                                        <p class="form-control-static" id="coberturaRenovar"></p>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="innerAll hide" id="capturarDatosVehiculo">
                                                 <div class="form-group">
@@ -114,7 +131,7 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-3" for="numMotor">PLACAS:</label>
+                                                    <label class="control-label col-md-3" for="placas">PLACAS:</label>
                                                     <div class="col-md-4">
                                                         <input type="text" name="placas" id="placas" class="form-control">
                                                     </div>

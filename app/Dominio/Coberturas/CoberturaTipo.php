@@ -9,7 +9,7 @@ namespace GDI\Dominio\Coberturas;
  */
 abstract class CoberturaTipo
 {
-    const BASICA = 1;
-    const AMPLIA = 2;
-    const LOCAL  = 3;
+    const LOCAL  = 1;
+    const BASICA = 2;
+    const AMPLIA = 3;
 }

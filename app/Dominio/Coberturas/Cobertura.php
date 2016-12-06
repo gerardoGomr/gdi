@@ -158,4 +158,37 @@ class Cobertura
     {
         $this->costos->add($costo);
     }
+
+    /**
+     * verifica la cobertura tipo y devuelve su representación en texto
+     * @return string
+     */
+    public function coberturaTipo()
+    {
+        $coberturaTipo = '';
+
+        switch ($this->coberturaTipo) {
+            case  CoberturaTipo::LOCAL:
+                $coberturaTipo = 'LOCAL';
+                break;
+
+            case  CoberturaTipo::BASICA:
+                $coberturaTipo = 'BÁSICA';
+                break;
+
+            case  CoberturaTipo::AMPLIA:
+                $coberturaTipo = 'AMPLIA';
+                break;
+        }
+
+        return $coberturaTipo;
+    }
+
+    /**
+     * describe el detalle de la cobertura contratada
+     */
+    public function detalles()
+    {
+        return $this->coberturaTipo() . ' - ' . $this->getNombre();
+    }
 }

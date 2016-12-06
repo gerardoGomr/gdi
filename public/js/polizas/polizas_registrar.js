@@ -65,13 +65,29 @@ $(document).ready(function() {
 				if (resultado.estatus === 'OK') {
 					// mostrar coincidencias en un modal y al dar click sobre alguna coincidencia, pasar a la siguiente etapa
 					// de la captura
+					$('#tablaPolizas').empty();
+					$('#tablaPolizas').append(resultado.html);
+					$('#modalResultadoVehiculos').modal('show');
 				}
 
 			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
 				$('#loading').modal('hide');
 				console.log(textStatus + ': ' + errorThrown);
+				bootbox.alert('OCURRIÓ UN ERROR AL REALIZAR LA BÚSQUEDA DE VEHÍCULO. INTENTE DE NUEVO.');
 			});
 		}
+	});
+	
+	// renovar póliza
+	$('#modalResultadoVehiculos').on('click', 'button.renovar', function () {
+		var polizaId = $(this).data('id');
+		
+		$('#datosVehiculo').removeClass('hide');
+		$('#vehiculoRenovar').text($(this).siblings('input.vehiculo').val());
+		$('#asociadoProtegidoRenovar').text($(this).siblings('input.asociadoProtegido').val());
+		$('#coberturaRenovar').text($(this).siblings('input.coberturaContratada').val());
+
+		$('#modalResultadoVehiculos').modal('hide');
 	});
 
 	// buscar vehículo nuevamente
@@ -112,6 +128,7 @@ $(document).ready(function() {
 				}
 
 				if (resultado.estatus === 'OK') {
+					// mostrar los resultados en un modal
 
 				}
 
