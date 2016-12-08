@@ -80,6 +80,11 @@ class Poliza
     private $pagos;
 
     /**
+     * @var bool
+     */
+    private $activa;
+
+    /**
      * Class Poliza Constructor
      * @param Vehiculo $vehiculo
      * @param Persona $asociadoAgente
@@ -94,7 +99,30 @@ class Poliza
         $this->cobertura      = $cobertura;
         $this->costo          = $costo;
         $this->estaPagada     = false;
+        $this->activa         = true;
         $this->oficina        = $oficina;
+    }
+
+    /**
+     * devolver el numero de póliza rellenado con ceros
+     * @return string
+     */
+    public function numero()
+    {
+        $id         = (string)$this->id;
+        $longitudId = strlen($id);
+        $max        = 4;
+        $numero     = '';
+
+        $diferencia = $max - $longitudId;
+
+        for ($i = 0; $i < $diferencia; $i++) {
+            $numero .= '0';
+        }
+
+        $numero .= $id;
+
+        return $numero;
     }
 
     /**
@@ -150,7 +178,7 @@ class Poliza
      */
     public function getFechaEmision()
     {
-        return $this->fechaEmision;
+        return $this->fechaEmision->format('Y-m-d');
     }
 
     /**
@@ -158,7 +186,7 @@ class Poliza
      */
     public function getFechaVigencia()
     {
-        return $this->fechaVigencia;
+        return $this->fechaVigencia->format('Y-m-d');
     }
 
     /**
@@ -191,6 +219,14 @@ class Poliza
     public function getOficina()
     {
         return $this->oficina;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function estaActiva()
+    {
+        return $this->activa;
     }
 
     /**

@@ -51,7 +51,7 @@ class AsociadosAgentesFactory
             $asociadoAgente->generar($nombreAgente, $paternoAgente, $maternoAgente, $domicilio, $oficina);
             
         } else {
-            $asociadoAgenteId = (int)$request->get('asociadoAgenteId');
+            $asociadoAgenteId = (int)$request->get('asociadoAgente');
             $asociadoAgente   = $asociadosAgentesRepositorio->obtenerPorId($asociadoAgenteId);
 
         }

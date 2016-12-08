@@ -116,6 +116,24 @@ class AsociadoProtegido extends Persona
     }
 
     /**
+     * verifica si es persona física
+     * @return bool
+     */
+    public function esPersonaFisica()
+    {
+        return $this->tipoPersona === TipoPersona::PERSONA_FISICA;
+    }
+
+    /**
+     * verifica si es persona moral
+     * @return bool
+     */
+    public function esPersonaMoral()
+    {
+        return $this->tipoPersona === TipoPersona::PERSONA_MORAL;
+    }
+
+    /**
      * override parent´s behaviour
      * @return null|string
      */

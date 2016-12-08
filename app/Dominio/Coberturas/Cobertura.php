@@ -185,10 +185,46 @@ class Cobertura
     }
 
     /**
+     * verifica si es cobertura local
+     * @return bool
+     */
+    public function esCoberturaLocal()
+    {
+        return $this->coberturaTipo === CoberturaTipo::LOCAL;
+    }
+
+    /**
+     * verifica si es cobertura básica
+     * @return bool
+     */
+    public function esCoberturaBasica()
+    {
+        return $this->coberturaTipo === CoberturaTipo::BASICA;
+    }
+
+    /**
+     * verifica si es cobertura amplia
+     * @return bool
+     */
+    public function esCoberturaAmplia()
+    {
+        return $this->coberturaTipo === CoberturaTipo::AMPLIA;
+    }
+
+    /**
      * describe el detalle de la cobertura contratada
      */
     public function detalles()
     {
         return $this->coberturaTipo() . ' - ' . $this->getNombre();
+    }
+
+    /**
+     * verifica si la cobertura tiene responsabilidades
+     * @return bool
+     */
+    public function tieneResponsabilidades()
+    {
+        return $this->responsabilidades->count() > 0;
     }
 }

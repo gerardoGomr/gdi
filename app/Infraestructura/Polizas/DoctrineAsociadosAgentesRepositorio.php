@@ -40,9 +40,14 @@ class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT a, d FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId AND a.id = :id')
+			if (!is_null($oficinaId)) {
+				$query = $this->entityManager->createQuery('SELECT a, d FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId AND a.id = :id')
 					->setParameter('id', $id)
 					->setParameter('oficinaId', $oficinaId);
+			} else {
+				$query = $this->entityManager->createQuery('SELECT a, d FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE a.id = :id')
+					->setParameter('id', $id);
+			}
 
 			$usuario = $query->getResult();
 

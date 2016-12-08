@@ -195,7 +195,7 @@ class FormatoPoliza extends ReporteGDI
 
         $this->SetFont('helvetica', '', 7);
         $this->Cell(20, 5, 'SERVICIO:', 'LB', false, '');
-        $this->Cell(30, 5, $this->poliza->getVehiculo()->getServicio()->getServicio(), 'B', false, '');
+        $this->Cell(30, 5, $this->poliza->getCobertura()->getServicio()->getServicio(), 'B', false, '');
         $this->Cell(40, 5, 'CAPACIDAD:', 'B', false, '');
         $this->Cell(30, 5, $this->poliza->getVehiculo()->getCapacidad() . ' PASAJEROS', 'B', false, '');
         $this->SetFont('helvetica', 'B', 7);

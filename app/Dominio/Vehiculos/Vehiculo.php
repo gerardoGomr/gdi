@@ -55,11 +55,6 @@ class Vehiculo
     private $modalidad;
 
     /**
-     * @var Servicio
-     */
-    private $servicio;
-
-    /**
      * @var AsociadoProtegido
      */
     private $asociadoProtegido;
@@ -78,17 +73,15 @@ class Vehiculo
      * @param string|null $numeroMotor
      * @param string|null $placas
      * @param Modalidad $modalidad
-     * @param Servicio $servicio
      * @param AsociadoProtegido $asociadoProtegido
      * @param Oficina $oficina
      */
-    public function __construct(Modelo $modelo = null, $anio = 0, $capacidad = null, $numeroSerie = null, $numeroMotor = null, $placas = null, Modalidad $modalidad = null, Servicio $servicio, AsociadoProtegido $asociadoProtegido = null, Oficina $oficina)
+    public function __construct(Modelo $modelo = null, $anio = 0, $capacidad = null, $numeroSerie = null, $numeroMotor = null, $placas = null, Modalidad $modalidad = null, AsociadoProtegido $asociadoProtegido = null, Oficina $oficina)
     {
         $this->modelo            = $modelo;
         $this->anio              = $anio;
         $this->capacidad         = $capacidad;
         $this->modalidad         = $modalidad;
-        $this->servicio          = $servicio;
         $this->asociadoProtegido = $asociadoProtegido;
         $this->oficina           = $oficina;
         $this->numeroSerie       = $numeroSerie;
@@ -166,14 +159,6 @@ class Vehiculo
     public function getOficina()
     {
         return $this->oficina;
-    }
-
-    /**
-     * @return Servicio
-     */
-    public function getServicio()
-    {
-        return $this->servicio;
     }
 
     /**

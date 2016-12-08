@@ -7,6 +7,7 @@ use GDI\Dominio\Coberturas\Costo;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineCostosRepositorio
@@ -50,7 +51,7 @@ class DoctrineCostosRepositorio implements CostosRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;

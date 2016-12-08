@@ -10,6 +10,7 @@ use GDI\Aplicacion\Factories\VehiculosFactory;
 use GDI\Aplicacion\Factories\PolizasPagosFactory;
 use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
 use GDI\Aplicacion\Coleccion;
+use GDI\Aplicacion\TransformadorMayusculas;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
@@ -101,48 +102,100 @@ class PolizasController extends Controller
     }
 
     /**
-     * retornar la vista de registro de nueva póliza
-     * @param ModalidadesRepositorio $modalidadesRepositorio
-     * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
-     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
-     * @param VigenciasRepositorio $vigenciasRepositorio
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function verFormRegistro(ModalidadesRepositorio $modalidadesRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio)
-    {
-
-        $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
-        $marcas              = $this->marcasRepositorio->obtenerTodos();
-        $asociadosAgentes    = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
-        $servicios           = $this->serviciosRepositorio->obtenerTodos();
-        $coberturasConceptos = $coberturasConceptosRepositorio->obtenerTodos();
-        $vigencias           = $vigenciasRepositorio->obtenerTodos();
-
-        return view('polizas.polizas_registrar', compact('modalidades', 'marcas', 'asociadosAgentes', 'servicios', 'coberturasConceptos', 'vigencias'));
-    }
-
-    /**
-     * buscar vehículos por número de serie o por número de motor
+     * buscar pólizas en base a los parámetros
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      * @throws \Throwable
      */
-    public function buscarVehiculos(Request $request)
+    public function buscarPolizas(Request $request)
+    {
+        $parametros = [];
+        $parametros['estatus']            = $request->has('estatusPoliza') ? $request->get('estatusPoliza') : null;
+        $parametros['entreFechaEmision']  = $request->has('entreFechaEmision') ? $request->get('entreFechaEmision') : null;
+        $parametros['yFechaEmision']      = $request->has('yFechaEmision') ? $request->get('yFechaEmision') : null;
+        $parametros['entreFechaVigencia'] = $request->has('entreFechaVigencia') ? $request->get('entreFechaVigencia') : null;
+        $parametros['yFechaVigencia']     = $request->has('yFechaVigencia') ? $request->get('yFechaVigencia') : null;
+
+        $polizas = $this->polizasRepositorio->obtenerPor($parametros);
+
+        return response()->json(['html' => view('polizas.polizas_resultados', compact('polizas'))->render()]);
+    }
+
+    /**
+     * retornar la vista de registro de nueva póliza
+     * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function verFormRegistro(AsociadosAgentesRepositorio $asociadosAgentesRepositorio)
+    {
+        $asociadosAgentes = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
+
+        return view('polizas.polizas_registrar', compact('asociadosAgentes'));
+    }
+
+    /**
+     * buscar vehículos por número de serie o por número de motor
+     * @param Request $request
+     * @param ModalidadesRepositorio $modalidadesRepositorio
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param VigenciasRepositorio $vigenciasRepositorio
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function buscarVehiculos(Request $request, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio)
     {
         $dato      = $request->get('dato');
         $respuesta = [];
 
-        $polizas = $this->polizasRepositorio->obtenerPorVehiculo($dato, $this->oficinaId);
+        $polizas             = $this->polizasRepositorio->obtenerPorVehiculo($dato, $this->oficinaId);
+        $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
+        $marcas              = $this->marcasRepositorio->obtenerTodos();
+        $servicios           = $this->serviciosRepositorio->obtenerTodos();
+        $coberturasConceptos = $coberturasConceptosRepositorio->obtenerTodos();
+        $vigencias           = $vigenciasRepositorio->obtenerTodos();
 
         if (is_null($polizas)) {
             $respuesta['estatus'] = 'fail';
+            $respuesta['html']    = view('polizas.polizas_registrar_nuevo', compact('modalidades', 'marcas', 'servicios', 'vigencias', 'coberturasConceptos'))->render();
+
         } else {
             $respuesta['estatus'] = 'OK';
             $respuesta['html']    = view('polizas.polizas_resultado_vehiculos_tabla', compact('polizas'))->render();
         }
 
         return response()->json($respuesta);
+    }
+
+    /**
+     * buscar una póliza en base al ID enviado
+     * @param Request $request
+     * @param ModalidadesRepositorio $modalidadesRepositorio
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param VigenciasRepositorio $vigenciasRepositorio
+     * @param CoberturasRepositorio $coberturasRepositorio
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function buscarPolizaExistente(Request $request, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CoberturasRepositorio $coberturasRepositorio)
+    {
+        $polizaId            = (int)$request->get('polizaId');
+        $poliza              = $this->polizasRepositorio->obtenerPorId($polizaId);
+        $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
+        $marcas              = $this->marcasRepositorio->obtenerTodos();
+        $servicios           = $this->serviciosRepositorio->obtenerTodos();
+        $coberturasConceptos = $coberturasConceptosRepositorio->obtenerTodos();
+        $vigencias           = $vigenciasRepositorio->obtenerTodos();
+
+        $coberturaTipo = $poliza->getCobertura()->getCoberturaTipo();
+        $servicio      = $poliza->getCobertura()->getServicio();
+        $coberturas    = $coberturasRepositorio->obtenerPorServicioCoberturaTipo($servicio, $coberturaTipo, $this->oficinaId);
+
+        return response()->json([
+            'html' => view('polizas.polizas_registrar_existente', compact('poliza', 'modalidades', 'marcas', 'servicios', 'vigencias', 'coberturasConceptos', 'coberturas'))->render()
+        ]);
     }
 
     /**
@@ -229,10 +282,11 @@ class PolizasController extends Controller
 
         } else {
             $modalidad = $modalidadesRepositorio->obtenerPorId($modalidadId, $this->oficinaId);
-            $cobertura = $coberturasRepositorio->obtenerPorId($coberturaId, $this->oficinaId, $modalidad);
+            $cobertura = $coberturasRepositorio->obtenerPorId($coberturaId, $this->oficinaId);
         }
 
-        $respuesta['html'] = view('polizas.polizas_resultado_vigencias', compact('cobertura'))->render();
+        $respuesta['html']                  = view('polizas.polizas_resultado_vigencias', compact('cobertura', 'modalidad'))->render();
+        $respuesta['htmlResponsabilidades'] = view('polizas.polizas_resultado_responsabilidades', compact('cobertura'))->render();
 
         return response()->json($respuesta);
     }
@@ -250,11 +304,16 @@ class PolizasController extends Controller
      * @param VigenciasRepositorio $vigenciasRepositorio
      * @param CostosRepositorio $costosRepositorio
      * @param AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio
+     * @param VehiculosRepositorio $vehiculosRepositorio
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registrar(Request $request, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio, ModelosRepositorio $modelosRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, OficinasRepositorio $oficinasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio)
+    public function registrar(Request $request, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio, ModelosRepositorio $modelosRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, OficinasRepositorio $oficinasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio, VehiculosRepositorio $vehiculosRepositorio)
     {
         $respuesta = [];
+
+        // transformar a mayúsculas
+        $transformador = new TransformadorMayusculas();
+        $transformador->transformar($request);
 
         // oficina
         $this->oficina = $oficinasRepositorio->obtenerPorId($this->oficinaId);
@@ -264,9 +323,12 @@ class PolizasController extends Controller
         $asociadoAgente = AsociadosAgentesFactory::crear($request, $this->oficina, $asociadosAgentesRepositorio, $unidadesAdministrativasRepositorio);
         $modalidad      = ModalidadesFactory::crear($this->oficina, $request, $modalidadesRepositorio);
         $servicio       = ServiciosFactory::crear($request, $this->serviciosRepositorio);
-        $vehiculo       = VehiculosFactory::crear($request, $unidadesAdministrativasRepositorio, $this->marcasRepositorio, $modelosRepositorio, $asociadosProtegidosRepositorio, $this->oficina, $modalidad, $servicio);
+        $vehiculo       = VehiculosFactory::crear($request, $unidadesAdministrativasRepositorio, $this->marcasRepositorio, $modelosRepositorio, $asociadosProtegidosRepositorio, $vehiculosRepositorio, $this->oficina, $modalidad);
 
         $poliza = PolizasFactory::crear($request, $coberturasConceptosRepositorio, $coberturasRepositorio, $vigenciasRepositorio, $costosRepositorio, $modalidad, $servicio, $this->oficina, $vehiculo, $asociadoAgente);
+
+        // generar la vigencia de la póliza
+        $poliza->generarVigencia();
 
         // ===========================================================================
         // persistir poliza

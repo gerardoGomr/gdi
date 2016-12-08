@@ -46,9 +46,9 @@ class DoctrineCoberturasRepositorio implements CoberturasRepositorio
 			$query = '';
 
 			if (is_null($modalidad)) {
-				$query = 'SELECT c, o, s FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s WHERE c.id = :id';
+				$query = 'SELECT c, o, s, r FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s LEFT JOIN c.responsabilidades r WHERE c.id = :id';
 			} else {
-				$query = 'SELECT c, o, s, co FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s JOIN c.costos co JOIN co.modalidad m WHERE c.id = :id AND m.id = :modalidadId';
+				$query = 'SELECT c, o, s, r, co FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s LEFT JOIN c.responsabilidades r LEFT JOIN c.costos co LEFT JOIN co.modalidad m WHERE c.id = :id AND m.id = :modalidadId';
 			}
 
 			$query = $this->entityManager->createQuery($query)

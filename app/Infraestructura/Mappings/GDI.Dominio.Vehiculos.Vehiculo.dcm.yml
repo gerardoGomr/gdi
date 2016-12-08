@@ -45,12 +45,6 @@ GDI\Dominio\Vehiculos\Vehiculo:
       joinColumn:
         name: oficina_id
         referencedColumnName: id
-    servicio:
-      targetEntity: GDI\Dominio\Polizas\Servicio
-      joinColumn:
-        name: servicio_id
-        referencedColumnName: id
-      cascade: [persist]
     asociadoProtegido:
       targetEntity: GDI\Dominio\Polizas\AsociadoProtegido
       joinColumn:

@@ -10,6 +10,7 @@ use GDI\Dominio\Vehiculos\Modalidad;
 use GDI\Dominio\Vehiculos\Repositorios\MarcasRepositorio;
 use GDI\Dominio\Vehiculos\Repositorios\ModalidadesRepositorio;
 use GDI\Dominio\Vehiculos\Repositorios\ModelosRepositorio;
+use GDI\Dominio\Vehiculos\Repositorios\VehiculosRepositorio;
 use GDI\Dominio\Vehiculos\Vehiculo;
 use Illuminate\Http\Request;
 
@@ -23,18 +24,18 @@ class VehiculosFactory
 {
     /**
      * crear una nueva instancia de vehículo
-     * 
+     *
      * @param Request $request
      * @param UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio
      * @param MarcasRepositorio $marcasRepositorio
      * @param ModelosRepositorio $modelosRepositorio
      * @param AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio
+     * @param VehiculosRepositorio $vehiculosRepositorio
      * @param Oficina $oficina
      * @param Modalidad $modalidad
-     * @param Servicio $servicio
      * @return Vehiculo
      */
-    public static function crear(Request $request, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, MarcasRepositorio $marcasRepositorio, ModelosRepositorio $modelosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio, Oficina $oficina, Modalidad $modalidad, Servicio $servicio)
+    public static function crear(Request $request, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, MarcasRepositorio $marcasRepositorio, ModelosRepositorio $modelosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio, VehiculosRepositorio $vehiculosRepositorio, Oficina $oficina, Modalidad $modalidad)
     {
         // datos de vehículo
         $anio        = (int)$request->get('anio');
@@ -47,8 +48,12 @@ class VehiculosFactory
             // vehículo
             $modelo            = ModelosFactory::crear($oficina, $request, $marcasRepositorio, $modelosRepositorio);
             $asociadoProtegido = AsociadosProtegidosFactory::crear($request, $unidadesAdministrativasRepositorio, $asociadosProtegidosRepositorio, $oficina);
-            $vehiculo          = new Vehiculo($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $servicio, $asociadoProtegido, $oficina);
+            $vehiculo          = new Vehiculo($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $asociadoProtegido, $oficina);
 
+        } else {
+            // vehiculo existente
+            $vehiculoId = (int)$request->get('vehiculoId');
+            $vehiculo   = $vehiculosRepositorio->obtenerPorId($vehiculoId, $oficina->getId());
         }
         
         return $vehiculo;

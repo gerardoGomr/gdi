@@ -30,6 +30,16 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     Route::get('polizas', 'Polizas\PolizasController@index');
 
     /**
+     * ruta para buscar pólizas
+     */
+    Route::post('polizas/buscar', 'Polizas\PolizasController@buscarPolizas');
+
+    /**
+     * ruta para buscar pólizas en la captura
+     */
+    Route::post('polizas/buscar-existente', 'Polizas\PolizasController@buscarPolizaExistente');
+
+    /**
      * ruta para ver la vista de registro de nueva póliza
      */
     Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');

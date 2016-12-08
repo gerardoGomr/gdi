@@ -22,6 +22,9 @@ GDI\Dominio\Polizas\Poliza:
     formaPago:
       type: integer
       column: forma_pago
+    activa:
+      type: boolean
+      column: activa
   oneToOne:
     asociadoAgente:
       targetEntity: AsociadoAgente

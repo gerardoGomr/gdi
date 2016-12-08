@@ -4,8 +4,10 @@ namespace GDI\Infraestructura\Vehiculos;
 use Doctrine\ORM\EntityManager;
 use GDI\Aplicacion\Logger;
 use GDI\Dominio\Vehiculos\Repositorios\VehiculosRepositorio;
+use GDI\Dominio\Vehiculos\Vehiculo;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineVehiculosRepositorio
@@ -39,13 +41,31 @@ class DoctrineVehiculosRepositorio implements VehiculosRepositorio
     }
 
     /**
+     * obtener vehículo
      * @param int $id
      * @param int|null $oficinaId
-     * @return mixed
+     * @return Vehiculo
      */
     public function obtenerPorId($id, $oficinaId = null)
     {
         // TODO: Implement obtenerPorId() method.
+        try {
+            $query = $this->entityManager->createQuery('SELECT v, mo, mod, o FROM Vehiculos:Vehiculo v LEFT JOIN v.modelo mo LEFT JOIN v.modalidad mod JOIN v.oficina o WHERE v.id = :id AND o.id = :oficinaId')
+                ->setParameter('id', $id)
+                ->setParameter('oficinaId', $oficinaId);
+            $usuario = $query->getResult();
+
+            if (count($usuario) > 0) {
+                return $usuario[0];
+            }
+
+            return null;
+
+        } catch (PDOException $e) {
+            $pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
+            $pdoLogger->log($e);
+            return null;
+        }
     }
 
     /**
@@ -71,7 +91,7 @@ class DoctrineVehiculosRepositorio implements VehiculosRepositorio
 
             return null;
 
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             $pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
             $pdoLogger->log($e);
             return null;
