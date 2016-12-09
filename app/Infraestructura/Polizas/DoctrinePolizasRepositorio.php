@@ -112,6 +112,11 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 		}
 	}
 
+	/**
+	 * obtener polizas en base a los parámetros de búsqueda
+	 * @param array $parametros
+	 * @return array|null
+	 */
 	public function obtenerPor(array $parametros)
 	{
 		try {

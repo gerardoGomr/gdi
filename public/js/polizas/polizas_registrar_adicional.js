@@ -151,12 +151,15 @@ $('#cobertura').on('change', function (event) {
 		$('#registroCobertura').removeClass('hide');
 		$('div.vigencias').removeClass('hide');
 		$('#seleccionCobertura').addClass('hide');
+		$('#desgloseResponsabilidades').addClass('hide');
 
 		return false;
+
 	} else {
 		$('#registroCobertura').addClass('hide');
 		$('div.vigencias').addClass('hide');
 		$('#seleccionCobertura').removeClass('hide');
+		$('#desgloseResponsabilidades').removeClass('hide');
 	}
 
 	if ($(this).val() === '') {

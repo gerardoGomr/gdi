@@ -58,11 +58,12 @@ $(document).ready(function() {
 				}
 
 				if (resultado.estatus === 'OK') {
-					// mostrar coincidencias en un modal y al dar click sobre alguna coincidencia, pasar a la siguiente etapa
-					// de la captura
-					$('#tablaPolizas').empty();
-					$('#tablaPolizas').append(resultado.html);
-					$('#modalResultadoVehiculos').modal('show');
+					bootbox.alert(resultado.mensaje, function () {
+						if (resultado.sePuedeRenovar === 'OK') {
+							$('#registro').html(resultado.html);
+							$datosAsociadoAgente.removeClass('hide');
+						}
+					});
 				}
 
 			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {

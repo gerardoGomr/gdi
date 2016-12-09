@@ -268,6 +268,10 @@
             </div>
         </div>
 
+        <div class="" id="desgloseResponsabilidades">
+            @include('polizas.polizas_resultado_responsabilidades')
+        </div>
+
         <div class="hide" id="registroCobertura">
             <div class="form-group">
                 <label for="nombreCobertura" class="control-label col-md-3">NOMBRE:</label>
@@ -338,32 +342,6 @@
                 </thead>
                 <tbody id="responsabilidadDesglose">
 
-                </tbody>
-            </table>
-        </div>
-
-        <div class="innerAll hide" id="desgloseCobertura">
-            <table>
-                <tr>
-                    <td>COSTO:</td>
-                    <td class="strong text-primary">$1, 500.00</td>
-                </tr>
-            </table>
-            <div class="separator"></div>
-            <table class="table table-bordered text-small">
-                <thead class="bg-primary">
-                <tr>
-                    <th>CONCEPTO</th>
-                    <th>LIM. RESPONSABILIDAD</th>
-                    <th>CUOTA EXTRAORDINARIA</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>DAÑOS MATERIALES:</td>
-                    <td>EXCLUÍDO</td>
-                    <td>-</td>
-                </tr>
                 </tbody>
             </table>
         </div>

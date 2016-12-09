@@ -397,4 +397,28 @@ class Poliza
 
         return $fechaHoy <= $this->fechaVigencia;
     }
+
+    /**
+     * verifica si está dentro del periodo apto para renovar, que es menor igual a 30 días
+     * @return bool
+     */
+    public function estaDentroDePeriodoAptoParaRenovar()
+    {
+        $fechaHoy  = new DateTime();
+        $intervalo = $this->fechaVigencia->diff($fechaHoy);
+
+        return $intervalo->days <= 30;
+    }
+
+    /**
+     * verifica si está dentro del periodo apto para actualizar datos, que debe ser menor o igual a 90 días
+     * @return bool
+     */
+    public function sePuedenActualizarDatos()
+    {
+        $fechaHoy  = new DateTime();
+        $intervalo = $fechaHoy->diff($this->fechaEmision);
+
+        return $intervalo->days <= 90;
+    }
 }

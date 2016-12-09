@@ -140,11 +140,12 @@ class PolizasController extends Controller
      * @param ModalidadesRepositorio $modalidadesRepositorio
      * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
      * @param VigenciasRepositorio $vigenciasRepositorio
+     * @param CoberturasRepositorio $coberturasRepositorio
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      * @throws \Throwable
      */
-    public function buscarVehiculos(Request $request, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio)
+    public function buscarVehiculos(Request $request, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CoberturasRepositorio $coberturasRepositorio)
     {
         $dato      = $request->get('dato');
         $respuesta = [];
@@ -161,8 +162,28 @@ class PolizasController extends Controller
             $respuesta['html']    = view('polizas.polizas_registrar_nuevo', compact('modalidades', 'marcas', 'servicios', 'vigencias', 'coberturasConceptos'))->render();
 
         } else {
-            $respuesta['estatus'] = 'OK';
-            $respuesta['html']    = view('polizas.polizas_resultado_vehiculos_tabla', compact('polizas'))->render();
+            $poliza        = end($polizas);
+            $coberturaTipo = $poliza->getCobertura()->getCoberturaTipo();
+            $servicio      = $poliza->getCobertura()->getServicio();
+            $coberturas    = $coberturasRepositorio->obtenerPorServicioCoberturaTipo($servicio, $coberturaTipo, $this->oficinaId);
+
+            $respuesta['estatus']        = 'OK';
+            $respuesta['sePuedeRenovar'] = 'OK';
+
+            if($poliza->vigente()) {
+                if($poliza->estaDentroDePeriodoAptoParaRenovar()) {
+                    $respuesta['mensaje'] = 'SE PROCEDERÁ A REALIZAR LA RENOVACIÓN DE LA PÓLIZA DEBIDO A QUE ESTÁ DENTRO DE LOS 30 DÍAS ANTES DE QUE TERMINE SU VIGENCIA.';
+                    $respuesta['html']    = view('polizas.polizas_registrar_existente', compact('poliza', 'modalidades', 'marcas', 'servicios', 'vigencias', 'coberturasConceptos', 'coberturas'))->render();
+
+                } else {
+                    $respuesta['sePuedeRenovar'] = 'No';
+                    $respuesta['mensaje']        = 'NO SE PUEDE REALIZAR LA RENOVACIÓN DE LA PÓLIZA DEBIDO A QUE ESTÁ VIGENTE Y NO ESTÁ DENTRO DE LOS 30 DÍAS ANTES DE QUE TERMINE SU VIGENCIA.';
+                }
+            } else {
+                $respuesta['mensaje'] = 'SE PROCEDERÁ A REALIZAR LA RENOVACIÓN DE LA PÓLIZA DEBIDO A QUE TERMINÓ SU VIGENCIA.';
+                $respuesta['html']    = view('polizas.polizas_registrar_existente', compact('poliza', 'modalidades', 'marcas', 'servicios', 'vigencias', 'coberturasConceptos', 'coberturas'))->render();
+            }
+
         }
 
         return response()->json($respuesta);
