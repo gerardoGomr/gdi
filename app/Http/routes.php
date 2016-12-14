@@ -45,6 +45,11 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');
 
     /**
+     * ruta para ver la vista de edición de póliza
+     */
+    Route::get('polizas/editar/{polizaId?}', 'Polizas\PolizasController@verFormEdicion');
+
+    /**
      * ruta para buscar vehiculos en la captura de pólizas
      */
     Route::post('polizas/vehiculos/buscar', 'Polizas\PolizasController@buscarVehiculos');

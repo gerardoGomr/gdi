@@ -421,4 +421,21 @@ class Poliza
 
         return $intervalo->days <= 90;
     }
+
+    /**
+     * setear nuevamente los datos de la póliza
+     * @param Vehiculo $vehiculo
+     * @param Persona $asociadoAgente
+     * @param Cobertura $cobertura
+     * @param Costo $costo
+     * @param Oficina $oficina
+     */
+    public function actualizar(Vehiculo $vehiculo, Persona $asociadoAgente, Cobertura $cobertura, Costo $costo, Oficina $oficina)
+    {
+        $this->vehiculo       = $vehiculo;
+        $this->asociadoAgente = $asociadoAgente;
+        $this->cobertura      = $cobertura;
+        $this->costo          = $costo;
+        $this->oficina        = $oficina;
+    }
 }

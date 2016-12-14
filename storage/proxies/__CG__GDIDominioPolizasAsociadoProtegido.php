@@ -290,6 +290,17 @@ class AsociadoProtegido extends \GDI\Dominio\Polizas\AsociadoProtegido implement
     /**
      * {@inheritDoc}
      */
+    public function actualizar($nombre, $paterno, $materno, $razonSocial, \GDI\Dominio\Personas\Domicilio $domicilio, \GDI\Dominio\Oficinas\Oficina $oficina, $rfc, $tipoPersona, $telefono, $celular, $email)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'actualizar', [$nombre, $paterno, $materno, $razonSocial, $domicilio, $oficina, $rfc, $tipoPersona, $telefono, $celular, $email]);
+
+        return parent::actualizar($nombre, $paterno, $materno, $razonSocial, $domicilio, $oficina, $rfc, $tipoPersona, $telefono, $celular, $email);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getNombre()
     {
 

@@ -32,35 +32,36 @@ class AsociadosProtegidosFactory
      */
     public static function crear(Request $request, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio, Oficina $oficina)
     {
+        // datos de asociado protegido
+        $tipoPersona         = (int)$request->get('tipoPersona');
+        $nombre              = $request->get('nombre');
+        $paterno             = $request->get('paterno');
+        $materno             = $request->get('materno');
+        $razonSocial         = $request->get('razonSocial');
+        $rfc                 = $request->get('rfc');
+        $calleAsociado       = $request->get('calleAsociado');
+        $numExteriorAsociado = $request->get('numExteriorAsociado');
+        $numInteriorAsociado = $request->get('numInteriorAsociado');
+        $coloniaAsociado     = $request->get('coloniaAsociado');
+        $cpAsociado          = $request->get('cpAsociado');
+        $ciudadAsociadoId    = (int)$request->get('ciudadAsociado');
+        $telefonoAsociado    = $request->get('telefonoAsociado');
+        $celularAsociado     = $request->get('celularAsociado');
+        $emailAsociado       = $request->get('emailAsociado');
+
+        // unidad administrativa y domicilio
+        $unidadAdministrativa = $unidadesAdministrativasRepositorio->obtenerPorId($ciudadAsociadoId);
+        $domicilio            = new Domicilio($calleAsociado, $numExteriorAsociado, $numInteriorAsociado, $coloniaAsociado, $cpAsociado, $unidadAdministrativa);
+
         if ($request->get('asociadoNuevo') === '1') {
-            // datos de asociado protegido
-            $tipoPersona         = (int)$request->get('tipoPersona');
-            $nombre              = $request->get('nombre');
-            $paterno             = $request->get('paterno');
-            $materno             = $request->get('materno');
-            $razonSocial         = $request->get('razonSocial');
-            $rfc                 = $request->get('rfc');
-            $calleAsociado       = $request->get('calleAsociado');
-            $numExteriorAsociado = $request->get('numExteriorAsociado');
-            $numInteriorAsociado = $request->get('numInteriorAsociado');
-            $coloniaAsociado     = $request->get('coloniaAsociado');
-            $cpAsociado          = $request->get('cpAsociado');
-            $ciudadAsociadoId    = (int)$request->get('ciudadAsociado');
-            $telefonoAsociado    = $request->get('telefonoAsociado');
-            $celularAsociado     = $request->get('celularAsociado');
-            $emailAsociado       = $request->get('emailAsociado');
-
-            // unidad administrativa y domicilio
-            $unidadAdministrativa = $unidadesAdministrativasRepositorio->obtenerPorId($ciudadAsociadoId);
-            $domicilio            = new Domicilio($calleAsociado, $numExteriorAsociado, $numInteriorAsociado, $coloniaAsociado, $cpAsociado, $unidadAdministrativa);
-
             // asociado protegido
             $asociadoProtegido = new AsociadoProtegido($rfc, $tipoPersona, $telefonoAsociado, $celularAsociado, $emailAsociado);
             $asociadoProtegido->generar($nombre, $paterno, $materno, $razonSocial, $domicilio, $oficina);    
         
         } else {
             $asociadoProtegidoId = (int)$request->get('asociadoProtegidoId');
-            $asociadoProtegido   = $asociadosProtegidosRepositorio->obtenerPorId($asociadoProtegidoId);
+            $asociadoProtegido   = $asociadosProtegidosRepositorio->obtenerPorId($asociadoProtegidoId, $oficina->getId());
+            $asociadoProtegido->actualizar($nombre, $paterno, $materno, $razonSocial, $domicilio, $oficina, $rfc, $tipoPersona, $telefonoAsociado, $celularAsociado, $emailAsociado);
         }
         
 

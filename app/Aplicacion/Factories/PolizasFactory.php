@@ -11,6 +11,7 @@ use GDI\Dominio\Coberturas\ResponsabilidadCobertura;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Polizas\AsociadoAgente;
 use GDI\Dominio\Polizas\Poliza;
+use GDI\Dominio\Polizas\Repositorios\PolizasRepositorio;
 use GDI\Dominio\Polizas\Servicio;
 use GDI\Dominio\Vehiculos\Modalidad;
 use GDI\Dominio\Vehiculos\Vehiculo;
@@ -28,6 +29,7 @@ class PolizasFactory
      * Se crea un nuevo objeto poliza dependiendo de la cobertura seleccionada por el cliente
      *
      * @param Request $request
+     * @param PolizasRepositorio $polizasRepositorio
      * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
      * @param CoberturasRepositorio $coberturasRepositorio
      * @param VigenciasRepositorio $vigenciasRepositorio
@@ -39,7 +41,7 @@ class PolizasFactory
      * @param AsociadoAgente $asociadoAgente
      * @return Poliza
      */
-    public static function crear(Request $request, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, CoberturasRepositorio $coberturasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, Modalidad $modalidad, Servicio $servicio, Oficina $oficina, Vehiculo $vehiculo, AsociadoAgente $asociadoAgente)
+    public static function crear(Request $request, PolizasRepositorio $polizasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, CoberturasRepositorio $coberturasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, Modalidad $modalidad, Servicio $servicio, Oficina $oficina, Vehiculo $vehiculo, AsociadoAgente $asociadoAgente)
     {
         if ($request->get('cobertura') === '-1') {
             $vigencia = VigenciasFactory::crear($request, $vigenciasRepositorio);
@@ -77,7 +79,19 @@ class PolizasFactory
             }
         }
 
-        $poliza = new Poliza($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);
+        if ($request->has('polizaId')) {
+            // es edición
+            $polizaId = (int)base64_decode($request->get('polizaId'));
+            $poliza   = $polizasRepositorio->obtenerPorId($polizaId);
+            $poliza->actualizar($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);
+
+        } else {
+            // póliza nueva
+            $poliza = new Poliza($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);
+
+            // generar la vigencia de la póliza
+            $poliza->generarVigencia();
+        }
 
         return $poliza;
     }

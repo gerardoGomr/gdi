@@ -204,9 +204,10 @@
             <div class="form-group">
                 <label class="control-label col-md-3" for="emailAsociado">EMAIL:</label>
                 <div class="col-md-3">
-                    <input type="text" name="emailAsociado" id="emailAsociado" class="form-control" value="{{ $poliza->getVehiculo()->getAsociadoProtegido()->getEmail() }}">
+                    <input type="text" name="emailAsociado" id="emailAsociado" class="form-control noUpperCase" value="{{ $poliza->getVehiculo()->getAsociadoProtegido()->getEmail() }}">
                 </div>
             </div>
+            <input type="hidden" name="asociadoProtegidoId" value="{{ $poliza->getVehiculo()->getAsociadoProtegido()->getId() }}">
         </div>
     </div>
 </div>

@@ -42,7 +42,7 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m, ma FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN m.marca ma WHERE p.id = :id')
+			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m, ma, s FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN m.marca ma JOIN c.servicio s WHERE p.id = :id AND p.activa = 1')
 				->setParameter('id', $id);
 
 			$cobertura = $query->getResult();
@@ -208,7 +208,10 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	public function persistir(Poliza $poliza)
 	{
 		try {
-			$this->entityManager->persist($poliza);
+			if (is_null($poliza->getId())) {
+				$this->entityManager->persist($poliza);
+			}
+
 			$this->entityManager->flush();
 
 			return true;

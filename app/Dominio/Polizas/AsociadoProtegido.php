@@ -5,6 +5,7 @@ use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Personas\Persona;
 use GDI\Dominio\Personas\TipoPersona;
 use GDI\Dominio\Personas\Domicilio;
+use InvalidArgumentException;
 
 /**
  * Class AsociadoProtegido
@@ -55,7 +56,7 @@ class AsociadoProtegido extends Persona
     public function __construct($rfc = null, $tipoPersona = TipoPersona::PERSONA_FISICA, $telefono, $celular, $email)
     {
         if ($tipoPersona !== TipoPersona::PERSONA_FISICA && $tipoPersona !== TipoPersona::PERSONA_MORAL) {
-            throw new \InvalidArgumentException('DEBE ESPECIFICAR QUE SEA PERSONA FÍSICA O PERSONA MORAL.');
+            throw new InvalidArgumentException('DEBE ESPECIFICAR QUE SEA PERSONA FÍSICA O PERSONA MORAL.');
         }
 
         $this->rfc         = $rfc;
@@ -170,5 +171,34 @@ class AsociadoProtegido extends Persona
         if ($this->tipoPersona === TipoPersona::PERSONA_MORAL) {
             $this->razonSocial = $razonSocial;
         }
+    }
+
+    /**
+     * actualizar datos
+     * @param string $nombre
+     * @param string $paterno
+     * @param string $materno
+     * @param string $razonSocial
+     * @param Domicilio $domicilio
+     * @param Oficina $oficina
+     * @param string $rfc
+     * @param string $tipoPersona
+     * @param string $telefono
+     * @param string $celular
+     * @param string $email
+     */
+    public function actualizar($nombre, $paterno, $materno, $razonSocial, Domicilio $domicilio, Oficina $oficina, $rfc, $tipoPersona, $telefono, $celular, $email)
+    {
+        $this->generar($nombre, $paterno, $materno, $razonSocial, $domicilio, $oficina);
+
+        if ($tipoPersona !== TipoPersona::PERSONA_FISICA && $tipoPersona !== TipoPersona::PERSONA_MORAL) {
+            throw new InvalidArgumentException('DEBE ESPECIFICAR QUE SEA PERSONA FÍSICA O PERSONA MORAL.');
+        }
+
+        $this->rfc         = $rfc;
+        $this->tipoPersona = $tipoPersona;
+        $this->telefono    = $telefono;
+        $this->celular     = $celular;
+        $this->email       = $email;
     }
 }

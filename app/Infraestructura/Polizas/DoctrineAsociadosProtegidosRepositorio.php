@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use GDI\Dominio\Polizas\Repositorios\AsociadosProtegidosRepositorio;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineAsociadosProtegidosRepositorio
@@ -39,8 +40,9 @@ class DoctrineAsociadosProtegidosRepositorio implements AsociadosProtegidosRepos
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT u, us, e FROM Usuarios:Usuario u JOIN u.usuarioTipo us JOIN u.especialidad e WHERE u.id = :id')
-					->setParameter('id', $id);
+			$query = $this->entityManager->createQuery('SELECT a, d, o FROM Polizas:AsociadoProtegido a JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId AND a.id = :id')
+				->setParameter('id', $id)
+				->setParameter('oficinaId', $oficinaId);
 
 			$usuario = $query->getResult();
 
@@ -50,7 +52,7 @@ class DoctrineAsociadosProtegidosRepositorio implements AsociadosProtegidosRepos
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;
@@ -88,7 +90,7 @@ class DoctrineAsociadosProtegidosRepositorio implements AsociadosProtegidosRepos
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;

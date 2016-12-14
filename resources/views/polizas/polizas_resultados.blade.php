@@ -28,7 +28,7 @@ use GDI\Aplicacion\Fecha;
                 <td>
                     <div class="btn-group" role="group">
                         @if($poliza->sePuedenActualizarDatos())
-                            <a href="{{ url('polizas/editar/' . base64_encode($poliza->getId())) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="ACTUALIZAR DATOS" target="_blank"><i class="fa fa-edit"></i></a>
+                            <a href="{{ url('polizas/editar/' . base64_encode($poliza->getId())) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="ACTUALIZAR DATOS"><i class="fa fa-edit"></i></a>
                         @endif
                         @if($poliza->sePuedeGenerarFormato())
                             <a href="{{ url('polizas/formato/' . base64_encode($poliza->getId())) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="IMPRIMIR FORMATO" target="_blank"><i class="fa fa-print"></i></a>

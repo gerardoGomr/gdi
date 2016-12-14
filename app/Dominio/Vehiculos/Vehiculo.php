@@ -176,4 +176,29 @@ class Vehiculo
     {
         return !is_null($this->modelo->getMarca()) ? $this->modelo->getMarca()->getMarca() . ' ' . $this->getModelo()->getModelo() . ' ' . $this->anio : '--';
     }
+
+    /**
+     * actualizar datos
+     * @param Modelo|null $modelo
+     * @param int $anio
+     * @param null $capacidad
+     * @param null $numeroSerie
+     * @param null $numeroMotor
+     * @param null $placas
+     * @param Modalidad|null $modalidad
+     * @param AsociadoProtegido|null $asociadoProtegido
+     * @param Oficina $oficina
+     */
+    public function actualizar(Modelo $modelo = null, $anio = 0, $capacidad = null, $numeroSerie = null, $numeroMotor = null, $placas = null, Modalidad $modalidad = null, AsociadoProtegido $asociadoProtegido = null, Oficina $oficina)
+    {
+        $this->modelo            = $modelo;
+        $this->anio              = $anio;
+        $this->capacidad         = $capacidad;
+        $this->modalidad         = $modalidad;
+        $this->asociadoProtegido = $asociadoProtegido;
+        $this->oficina           = $oficina;
+        $this->numeroSerie       = $numeroSerie;
+        $this->numeroMotor       = $numeroMotor;
+        $this->placas            = $placas;
+    }
 }

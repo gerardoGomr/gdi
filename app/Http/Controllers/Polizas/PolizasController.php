@@ -326,15 +326,16 @@ class PolizasController extends Controller
      * @param CostosRepositorio $costosRepositorio
      * @param AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio
      * @param VehiculosRepositorio $vehiculosRepositorio
+     * @param PolizasRepositorio $polizasRepositorio
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registrar(Request $request, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio, ModelosRepositorio $modelosRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, OficinasRepositorio $oficinasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio, VehiculosRepositorio $vehiculosRepositorio)
+    public function registrar(Request $request, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio, ModelosRepositorio $modelosRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, OficinasRepositorio $oficinasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio, VehiculosRepositorio $vehiculosRepositorio, PolizasRepositorio $polizasRepositorio)
     {
         $respuesta = [];
 
         // transformar a mayúsculas
-        $transformador = new TransformadorMayusculas();
-        $transformador->transformar($request);
+        /*$transformador = new TransformadorMayusculas();
+        $transformador->transformar($request);*/
 
         // oficina
         $this->oficina = $oficinasRepositorio->obtenerPorId($this->oficinaId);
@@ -346,10 +347,7 @@ class PolizasController extends Controller
         $servicio       = ServiciosFactory::crear($request, $this->serviciosRepositorio);
         $vehiculo       = VehiculosFactory::crear($request, $unidadesAdministrativasRepositorio, $this->marcasRepositorio, $modelosRepositorio, $asociadosProtegidosRepositorio, $vehiculosRepositorio, $this->oficina, $modalidad);
 
-        $poliza = PolizasFactory::crear($request, $coberturasConceptosRepositorio, $coberturasRepositorio, $vigenciasRepositorio, $costosRepositorio, $modalidad, $servicio, $this->oficina, $vehiculo, $asociadoAgente);
-
-        // generar la vigencia de la póliza
-        $poliza->generarVigencia();
+        $poliza = PolizasFactory::crear($request, $polizasRepositorio, $coberturasConceptosRepositorio, $coberturasRepositorio, $vigenciasRepositorio, $costosRepositorio, $modalidad, $servicio, $this->oficina, $vehiculo, $asociadoAgente);
 
         // ===========================================================================
         // persistir poliza
@@ -496,5 +494,39 @@ class PolizasController extends Controller
         $formatoPoliza->SetAutoPageBreak(true);
         $formatoPoliza->SetMargins(15, 55);
         $formatoPoliza->generar();
+    }
+
+    /**
+     * Generar la vista para editar la póliza
+     * Si el parámetro $polizaId no está especificado, retornar una vista genérica de error
+     * @param string|null $polizaId
+     * @param ModalidadesRepositorio $modalidadesRepositorio
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param VigenciasRepositorio $vigenciasRepositorio
+     * @param CoberturasRepositorio $coberturasRepositorio
+     * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function verFormEdicion($polizaId = null, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CoberturasRepositorio $coberturasRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio)
+    {
+        if (!isset($polizaId)) {
+            $error = 'VERIFIQUE LOS PARÁMETROS.';
+            return view('errors.404', compact('error'));
+        }
+
+        $polizaId = (int)base64_decode($polizaId);
+        $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
+
+        $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
+        $marcas              = $this->marcasRepositorio->obtenerTodos();
+        $servicios           = $this->serviciosRepositorio->obtenerTodos();
+        $coberturasConceptos = $coberturasConceptosRepositorio->obtenerTodos();
+        $vigencias           = $vigenciasRepositorio->obtenerTodos();
+        $coberturaTipo       = $poliza->getCobertura()->getCoberturaTipo();
+        $servicio            = $poliza->getCobertura()->getServicio();
+        $coberturas          = $coberturasRepositorio->obtenerPorServicioCoberturaTipo($servicio, $coberturaTipo, $this->oficinaId);
+        $asociadosAgentes    = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
+
+        return view('polizas.polizas_editar', compact('poliza', 'modalidades', 'marcas', 'servicios', 'coberturasConceptos', 'vigencias', 'coberturas', 'asociadosAgentes'));
     }
 }

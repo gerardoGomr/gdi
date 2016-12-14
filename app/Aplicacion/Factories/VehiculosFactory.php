@@ -43,17 +43,20 @@ class VehiculosFactory
         $numeroMotor = $request->get('numMotor');
         $placas      = $request->get('placas');
         $capacidad   = (int)$request->get('capacidad');
+
+        // vehículo
+        $modelo            = ModelosFactory::crear($oficina, $request, $marcasRepositorio, $modelosRepositorio);
+        $asociadoProtegido = AsociadosProtegidosFactory::crear($request, $unidadesAdministrativasRepositorio, $asociadosProtegidosRepositorio, $oficina);
         
         if ($request->get('vehiculoNuevo') === '1') {
-            // vehículo
-            $modelo            = ModelosFactory::crear($oficina, $request, $marcasRepositorio, $modelosRepositorio);
-            $asociadoProtegido = AsociadosProtegidosFactory::crear($request, $unidadesAdministrativasRepositorio, $asociadosProtegidosRepositorio, $oficina);
             $vehiculo          = new Vehiculo($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $asociadoProtegido, $oficina);
 
         } else {
             // vehiculo existente
             $vehiculoId = (int)$request->get('vehiculoId');
             $vehiculo   = $vehiculosRepositorio->obtenerPorId($vehiculoId, $oficina->getId());
+
+            $vehiculo->actualizar($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $asociadoProtegido, $oficina);
         }
         
         return $vehiculo;
