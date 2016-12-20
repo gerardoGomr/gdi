@@ -51,4 +51,4 @@ GDI\Dominio\Coberturas\Cobertura:
         inverseJoinColumns:
           responsabilidad_id:
             referencedColumnName: id
-      cascade: [persist]
+      cascade: [persist, remove]

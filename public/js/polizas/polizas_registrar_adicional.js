@@ -221,8 +221,94 @@ $('#agregarConceptoCobertura').on('click', function(event) {
 	}
 });
 
-// setear a 1 la búsqueda de asociado
-$('#buscarAsociado').val('1');
+// agregar una responsabilidad a cobertura
+$('#agregarConceptoCoberturaExistente').on('click', function () {
+
+	if ($('#limiteResponsabilidadExistente').val() === '' || $('#cuotaExtraordinariaExistente').val() === '' || $('#conceptoCoberturaExistente').val() === '') {
+		bootbox.alert('ESPECIFIQUE EL CONCEPTO DE COBERTURA, LÍMITE DE RESPONSABILIDAD Y LA CUOTA EXTRAORDINARIA');
+		return false;
+	}
+
+	var url      = $(this).data('url'),
+		polizaId = $(this).data('id');
+
+	$.ajax({
+		url:        url,
+		type:       'post',
+		dataType:   'json',
+		data:       {
+			polizaId:              polizaId,
+			coberturaConceptoId:   $('#conceptoCoberturaExistente').val(),
+			limiteResponsabilidad: $('#limiteResponsabilidadExistente').val(),
+			cuotaExtraordinaria:   $('#cuotaExtraordinariaExistente').val(),
+			_token:                $formPoliza.find('input[name="_token"]').val()
+		},
+		beforeSend: function () {
+			$('#loading').modal('show');
+		}
+
+	}).done(function (resultado) {
+		$('#loading').modal('hide');
+
+		if (resultado.estatus === 'fail') {
+			var mensaje = resultado.mensaje !== '' ? resultado.mensaje : '';
+			bootbox.alert('OCURRIÓ UN ERROR AL AGREGAR LA RESPONSABILIDAD A LA COBERTURA.' + mensaje);
+		}
+
+		if (resultado.estatus === 'OK') {
+			bootbox.alert('RESPONSABILIDAD AGREGADA CON ÉXITO.');
+			$('#responsabilidadDesgloseExistente').html(resultado.html);
+		}
+
+	}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+		$('#loading').modal('hide');
+		console.log(textStatus + ': ' + errorThrown);
+		bootbox.alert('OCURRIÓ UN ERROR AL AGREGAR LA RESPONSABILIDAD A LA COBERTURA.');
+	});
+});
+
+// eliminar una responsabilidad de la cobertura existente
+$('#responsabilidadDesgloseExistente').on('click', 'button.quitarResponsabilidad', function () {
+	var url               = $('#urlEliminarResponsabilidad').val(),
+		polizaId          = $('#agregarConceptoCoberturaExistente').data('id'),
+		responsabilidadId = $(this).data('responsabilidadId');
+
+	bootbox.confirm('¿REALMENTE DESEA ELIMINAR ESTA RESPONSABILIDAD DE LA COBERTURA?', function (r) {
+		if (r) {
+			$.ajax({
+				url:        url,
+				type:       'post',
+				dataType:   'json',
+				data:       {
+					polizaId:          polizaId,
+					responsabilidadId: responsabilidadId,
+					_token:            $formPoliza.find('input[name="_token"]').val()
+				},
+				beforeSend: function () {
+					$('#loading').modal('show');
+				}
+
+			}).done(function (resultado) {
+				$('#loading').modal('hide');
+
+				if (resultado.estatus === 'fail') {
+					var mensaje = resultado.mensaje !== '' ? resultado.mensaje : '';
+					bootbox.alert('OCURRIÓ UN ERROR AL ELIMINAR LA RESPONSABILIDAD DE LA COBERTURA. ' + mensaje);
+				}
+
+				if (resultado.estatus === 'OK') {
+					bootbox.alert('RESPONSABILIDAD ELIMINADA CON ÉXITO.');
+					$('#responsabilidadDesgloseExistente').html(resultado.html);
+				}
+
+			}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				$('#loading').modal('hide');
+				console.log(textStatus + ': ' + errorThrown);
+				bootbox.alert('OCURRIÓ UN ERROR AL ELIMINAR LA RESPONSABILIDAD DE LA COBERTURA.');
+			});
+		}
+	});
+});
 
 /**
  * buscar vigencias costos en base a cobertura y modalidad

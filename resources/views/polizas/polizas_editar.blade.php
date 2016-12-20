@@ -140,7 +140,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="hidden" name="polizaId" value="{{ base64_encode($poliza->getId()) }}">
+                                        <input type="hidden" name="polizaId" id="polizaId" value="{{ base64_encode($poliza->getId()) }}">
                                         <input type="hidden" name="asociadoNuevo" id="asociadoNuevo" value="0">
                                         <input type="hidden" name="vehiculoNuevo" id="vehiculoNuevo" value="0">
                                     </div>
@@ -161,4 +161,7 @@
 
 @section('js')
     <script src="{{ asset('js/polizas/polizas_registrar.js') }}"></script>
+    @if($formaDeCargo === 'load')
+        <script src="{{ asset('js/polizas/polizas_registrar_adicional.js') }}"></script>
+    @endif
 @stop

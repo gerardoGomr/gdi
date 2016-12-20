@@ -172,7 +172,8 @@ return [
         GDI\Providers\UnidadesAdministrativasRepositorioServiceProvider::class,
         GDI\Providers\CoberturasConceptosRepositorioServiceProvider::class,
         GDI\Providers\VigenciasRepositorioServiceProvider::class,
-        GDI\Providers\OficinasRepositorioServiceProvider::class
+        GDI\Providers\OficinasRepositorioServiceProvider::class,
+        GDI\Providers\ResponsabilidadesRepositorioServiceProvider::class
     ],
 
     /*

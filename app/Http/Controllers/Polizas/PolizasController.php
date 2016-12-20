@@ -1,6 +1,9 @@
 <?php
 namespace GDI\Http\Controllers\Polizas;
 
+use Exception;
+use Monolog\Logger as Log;
+use Monolog\Handler\StreamHandler;
 use GDI\Aplicacion\Factories\AsociadosAgentesFactory;
 use GDI\Aplicacion\Factories\ModalidadesFactory;
 use GDI\Aplicacion\Factories\PolizasFactory;
@@ -8,13 +11,15 @@ use GDI\Aplicacion\Factories\PolizasPagosParcialesFactory;
 use GDI\Aplicacion\Factories\ServiciosFactory;
 use GDI\Aplicacion\Factories\VehiculosFactory;
 use GDI\Aplicacion\Factories\PolizasPagosFactory;
+use GDI\Aplicacion\Logger;
 use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
 use GDI\Aplicacion\Coleccion;
-use GDI\Aplicacion\TransformadorMayusculas;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
+use GDI\Dominio\Coberturas\Repositorios\ResponsabilidadesRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\VigenciasRepositorio;
+use GDI\Dominio\Coberturas\ResponsabilidadCobertura;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Oficinas\Repositorios\OficinasRepositorio;
 use GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio;
@@ -166,6 +171,7 @@ class PolizasController extends Controller
             $coberturaTipo = $poliza->getCobertura()->getCoberturaTipo();
             $servicio      = $poliza->getCobertura()->getServicio();
             $coberturas    = $coberturasRepositorio->obtenerPorServicioCoberturaTipo($servicio, $coberturaTipo, $this->oficinaId);
+            $formaDeCargo  = 'busqueda';
 
             $respuesta['estatus']        = 'OK';
             $respuesta['sePuedeRenovar'] = 'OK';
@@ -173,7 +179,7 @@ class PolizasController extends Controller
             if($poliza->vigente()) {
                 if($poliza->estaDentroDePeriodoAptoParaRenovar()) {
                     $respuesta['mensaje'] = 'SE PROCEDERÁ A REALIZAR LA RENOVACIÓN DE LA PÓLIZA DEBIDO A QUE ESTÁ DENTRO DE LOS 30 DÍAS ANTES DE QUE TERMINE SU VIGENCIA.';
-                    $respuesta['html']    = view('polizas.polizas_registrar_existente', compact('poliza', 'modalidades', 'marcas', 'servicios', 'vigencias', 'coberturasConceptos', 'coberturas'))->render();
+                    $respuesta['html']    = view('polizas.polizas_registrar_existente', compact('poliza', 'modalidades', 'marcas', 'servicios', 'vigencias', 'coberturasConceptos', 'coberturas', 'formaDeCargo'))->render();
 
                 } else {
                     $respuesta['sePuedeRenovar'] = 'No';
@@ -526,7 +532,100 @@ class PolizasController extends Controller
         $servicio            = $poliza->getCobertura()->getServicio();
         $coberturas          = $coberturasRepositorio->obtenerPorServicioCoberturaTipo($servicio, $coberturaTipo, $this->oficinaId);
         $asociadosAgentes    = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
+        $formaDeCargo        = 'load';
 
-        return view('polizas.polizas_editar', compact('poliza', 'modalidades', 'marcas', 'servicios', 'coberturasConceptos', 'vigencias', 'coberturas', 'asociadosAgentes'));
+        return view('polizas.polizas_editar', compact('poliza', 'modalidades', 'marcas', 'servicios', 'coberturasConceptos', 'vigencias', 'coberturas', 'asociadosAgentes', 'formaDeCargo'));
+    }
+
+    /**
+     * agregar una nueva responsabilidad a la cobertura de la póliza especificada
+     * @param Request $request
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param ResponsabilidadesRepositorio $responsabilidadesRepositorio
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function agregarResponsabilidad(Request $request, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, ResponsabilidadesRepositorio $responsabilidadesRepositorio)
+    {
+        $polizaId              = (int)$request->get('polizaId');
+        $coberturaConceptoId   = (int)$request->get('coberturaConceptoId');
+        $limiteResponsabilidad = $request->get('limiteResponsabilidad');
+        $cuotaExtraordinaria   = $request->get('cuotaExtraordinaria');
+        $respuesta             = [];
+
+        $poliza            = $this->polizasRepositorio->obtenerPorId($polizaId);
+        $coberturaConcepto = $coberturasConceptosRepositorio->obtenerPorId($coberturaConceptoId);
+        $responsabilidades = $responsabilidadesRepositorio->obtenerPorCoberturaConceptoId($coberturaConceptoId);
+
+        if (is_null($responsabilidades)) {
+            $responsabilidad = new ResponsabilidadCobertura($coberturaConcepto, $limiteResponsabilidad, $cuotaExtraordinaria);
+            $poliza->getCobertura()->agregarResponsabilidad($responsabilidad);
+
+            $cobertura = $poliza->getCobertura();
+            $respuesta['estatus'] = 'OK';
+            $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
+
+        } else {
+            foreach ($responsabilidades as $responsabilidad) {
+                if($poliza->getCobertura()->existeResponsabilidad($responsabilidad)) {
+                    $respuesta['estatus'] = 'fail';
+                    $respuesta['mensaje'] = 'NO SE AGREGÓ LA RESPONSABILIDAD PORQUE YA ESTÁ ASIGNADA A LA COBERTURA.';
+
+                    return response()->json($respuesta);
+                }
+            }
+
+            $responsabilidad = new ResponsabilidadCobertura($coberturaConcepto, $limiteResponsabilidad, $cuotaExtraordinaria);
+            $poliza->getCobertura()->agregarResponsabilidad($responsabilidad);
+
+            $cobertura = $poliza->getCobertura();
+            $respuesta['estatus'] = 'OK';
+            $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
+        }
+
+        if (!$this->polizasRepositorio->persistir($poliza)) {
+            $respuesta['estatus'] = 'fail';
+            $respuesta['mensaje'] = 'OCURRIÓ UN ERROR AL GUARDAR LOS CAMBIOS.';
+        }
+
+        return response()->json($respuesta);
+    }
+
+    /**
+     * eliminar una responsabilidad de la cobertura
+     * @param Request $request
+     * @param ResponsabilidadesRepositorio $responsabilidadesRepositorio
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function eliminarResponsabilidad(Request $request, ResponsabilidadesRepositorio $responsabilidadesRepositorio)
+    {
+        $polizaId          = (int)$request->get('polizaId');
+        $responsabilidadId = (int)$request->get('responsabilidadId');
+        $respuesta         = [];
+
+        $poliza            = $this->polizasRepositorio->obtenerPorId($polizaId);
+        $responsabilidad   = $responsabilidadesRepositorio->obtenerPorId($responsabilidadId);
+
+        try {
+            $poliza->getCobertura()->eliminarResponsabilidad($responsabilidad);
+            $cobertura = $poliza->getCobertura();
+            $respuesta['estatus'] = 'OK';
+            $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
+
+        } catch (Exception $e) {
+            $pdoLogger = new Logger(new Log('exception'), new StreamHandler(storage_path() . '/logs/exceptions/excep_' . date('Y-m-d') . '.log', Log::ERROR));
+            $pdoLogger->log($e);
+
+            $respuesta['estatus'] = 'fail';
+            $respuesta['mensaje'] = $e->getMessage();
+
+            return response()->json($respuesta);
+        }
+
+        if (!$this->polizasRepositorio->persistir($poliza)) {
+            $respuesta['estatus'] = 'fail';
+            $respuesta['mensaje'] = 'OCURRIÓ UN ERROR AL GUARDAR LOS CAMBIOS.';
+        }
+
+        return response()->json($respuesta);
     }
 }

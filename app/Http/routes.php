@@ -106,6 +106,16 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
      * ruta para generar el formato parcial de la póliza
      */
     Route::get('polizas/formato-parcial/{polizaId}', 'Polizas\PolizasController@formatoParcial');
+
+    /**
+     * ruta para agregar una responsabilidad a la cobertura - póliza
+     */
+    Route::post('polizas/responsabilidad/agregar', 'Polizas\PolizasController@agregarResponsabilidad');
+
+    /**
+     * ruta para eliminar una responsabilidad de la cobertura - póliza
+     */
+    Route::post('polizas/responsabilidad/eliminar', 'Polizas\PolizasController@eliminarResponsabilidad');
 });
 
 /**

@@ -268,8 +268,10 @@
                 </div>
             </div>
         </div>
-
+        <div class="separator"></div>
+        <div class="separator"></div>
         <div class="" id="desgloseResponsabilidades">
+            <?php $cobertura = $poliza->getCobertura() ?>
             @include('polizas.polizas_resultado_responsabilidades')
         </div>
 
@@ -349,4 +351,6 @@
     </div>
 </div>
 
-<script src="{{ asset('js/polizas/polizas_registrar_adicional.js') }}"></script>
+@if($formaDeCargo === 'busqueda')
+    <script src="{{ asset('js/polizas/polizas_registrar_adicional.js') }}"></script>
+@endif

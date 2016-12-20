@@ -5,6 +5,7 @@ use Exception;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Polizas\Servicio;
 use GDI\Dominio\Listas\IColeccion;
+use GDI\Exceptions\ResponsabilidadNoexisteEnCoberturaException;
 
 /**
  * Class Cobertura
@@ -226,5 +227,48 @@ class Cobertura
     public function tieneResponsabilidades()
     {
         return $this->responsabilidades->count() > 0;
+    }
+
+    /**
+     * recorre las responsabilidades asignadas y si encuentra la especificada, devuelve true
+     * @param ResponsabilidadCobertura $responsabilidad
+     * @return bool
+     */
+    public function existeResponsabilidad(ResponsabilidadCobertura $responsabilidad)
+    {
+        if ($this->tieneResponsabilidades()) {
+            foreach ($this->responsabilidades as $responsabilidades) {
+                if ($responsabilidades->getId() === $responsabilidad->getId()) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * agregar una responsabilidad a la cobertura
+     * @param ResponsabilidadCobertura $responsabilidad
+     */
+    public function agregarResponsabilidad(ResponsabilidadCobertura $responsabilidad)
+    {
+        $this->responsabilidades->add($responsabilidad);
+    }
+
+    /**
+     * eliminar la responsabilidad de la cobertura
+     * @param ResponsabilidadCobertura $responsabilidad
+     * @throws ResponsabilidadNoexisteEnCoberturaException
+     */
+    public function eliminarResponsabilidad(ResponsabilidadCobertura $responsabilidad)
+    {
+        if (!$this->existeResponsabilidad($responsabilidad)) {
+            throw new ResponsabilidadNoexisteEnCoberturaException('LA RESPONSABILIDAD QUE SE INTENTA ELIMINAR NO ESTÁ ASIGNADA A LA COBERTURA.');
+        }
+
+        $this->responsabilidades->removeElement($responsabilidad);
     }
 }
