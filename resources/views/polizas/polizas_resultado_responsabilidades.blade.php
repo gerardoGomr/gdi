@@ -1,13 +1,19 @@
 <div class="row">
     <div class="col-md-3">
         <label for="conceptoCobertura" class="control-label">CONCEPTO:</label>
-        <select class="form-control" name="conceptoCobertura" id="conceptoCoberturaExistente">
+        <select class="form-control" name="conceptoCobertura" id="conceptoCoberturaExistente" data-url="{{ url('polizas/responsabilidad/buscar') }}">
             <option value="">SELECCIONE</option>
             @foreach($coberturasConceptos as $coberturaConcepto)
                 <option value="{{ $coberturaConcepto->getId() }}">{{ $coberturaConcepto->getConcepto() }}</option>
             @endforeach
         </select>
     </div>
+    <div class="col-md-3">
+        <label for="responsabilidad" class="control-label">RESPONSABILIDAD</label>
+        <select class="form-control" name="responsabilidad" id="responsabilidad"></select>
+    </div>
+</div>
+<div class="row hide" id="datosResponsabilidadExistente">
     <div class="col-md-3">
         <label for="limiteResponsabilidadExistente" class="control-label">LIMITE RESPONSABILIDAD:</label>
         <input type="text" name="limiteResponsabilidadExistente" id="limiteResponsabilidadExistente" class="form-control">
@@ -16,12 +22,10 @@
         <label for="cuotaExtraordinariaExistente" class="control-label">CUOTA EXTRAORDINARIA:</label>
         <input type="text" name="cuotaExtraordinariaExistente" id="cuotaExtraordinariaExistente" class="form-control">
     </div>
-    <div class="col-md-3">
-        <br>
-        <button type="button" id="agregarConceptoCoberturaExistente" class="btn btn-info" data-url="{{ url('polizas/responsabilidad/agregar') }}" data-id="{{ $poliza->getId() }}"><i class="fa fa-save"></i> AGREGAR RESPONSABILIDAD</button>
-        <input type="hidden" name="" id="urlEliminarResponsabilidad" value="{{ url('polizas/responsabilidad/eliminar') }}">
-    </div>
 </div>
+<button type="button" id="agregarConceptoCoberturaExistente" class="btn btn-info" data-url="{{ url('polizas/responsabilidad/agregar') }}" data-id="{{ $poliza->getId() }}"><i class="fa fa-save"></i> AGREGAR RESPONSABILIDAD</button>
+<input type="hidden" name="" id="urlEliminarResponsabilidad" value="{{ url('polizas/responsabilidad/eliminar') }}">
+
 <div class="separator"></div>
 <table class="table table-bordered">
     <thead class="bg-gray">

@@ -11,6 +11,7 @@ use GDI\Aplicacion\Factories\PolizasPagosParcialesFactory;
 use GDI\Aplicacion\Factories\ServiciosFactory;
 use GDI\Aplicacion\Factories\VehiculosFactory;
 use GDI\Aplicacion\Factories\PolizasPagosFactory;
+use GDI\Aplicacion\Factories\ResponsabilidadesFactory;
 use GDI\Aplicacion\Logger;
 use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
 use GDI\Aplicacion\Coleccion;
@@ -538,6 +539,26 @@ class PolizasController extends Controller
     }
 
     /**
+     * buscar responsabilidades en base al concepto id
+     * @param Request $request
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
+     * @param ResponsabilidadesRepositorio $responsabilidadesRepositorio
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bucarResponsabilidades(Request $request, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, ResponsabilidadesRepositorio $responsabilidadesRepositorio)
+    {
+        $respuesta           = [];
+        $coberturaConceptoId = (int)$request->get('coberturaConceptoId');
+
+        $coberturaConcepto = $coberturasConceptosRepositorio->obtenerPorId($coberturaConceptoId);
+        $responsabilidades = $responsabilidadesRepositorio->obtenerPorCoberturaConceptoId($coberturaConceptoId);
+
+        return response()->json([
+            'html' => view('polizas.polizas_resultado_responsabilidades_combo', compact('responsabilidades'))->render()
+        ]);
+    }
+
+    /**
      * agregar una nueva responsabilidad a la cobertura de la póliza especificada
      * @param Request $request
      * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
@@ -548,39 +569,24 @@ class PolizasController extends Controller
     {
         $polizaId              = (int)$request->get('polizaId');
         $coberturaConceptoId   = (int)$request->get('coberturaConceptoId');
-        $limiteResponsabilidad = $request->get('limiteResponsabilidad');
-        $cuotaExtraordinaria   = $request->get('cuotaExtraordinaria');
         $respuesta             = [];
 
         $poliza            = $this->polizasRepositorio->obtenerPorId($polizaId);
         $coberturaConcepto = $coberturasConceptosRepositorio->obtenerPorId($coberturaConceptoId);
-        $responsabilidades = $responsabilidadesRepositorio->obtenerPorCoberturaConceptoId($coberturaConceptoId);
+        $responsabilidad   = ResponsabilidadesFactory::crear($request, $coberturaConcepto, $responsabilidadesRepositorio);
 
-        if (is_null($responsabilidades)) {
-            $responsabilidad = new ResponsabilidadCobertura($coberturaConcepto, $limiteResponsabilidad, $cuotaExtraordinaria);
-            $poliza->getCobertura()->agregarResponsabilidad($responsabilidad);
+        if ($poliza->getCobertura()->existeResponsabilidad($responsabilidad)) {
+            $respuesta['estatus'] = 'fail';
+            $respuesta['mensaje'] = 'NO SE AGREGÓ LA RESPONSABILIDAD PORQUE YA ESTÁ ASIGNADA A LA COBERTURA.';
 
-            $cobertura = $poliza->getCobertura();
-            $respuesta['estatus'] = 'OK';
-            $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
-
-        } else {
-            foreach ($responsabilidades as $responsabilidad) {
-                if($poliza->getCobertura()->existeResponsabilidad($responsabilidad)) {
-                    $respuesta['estatus'] = 'fail';
-                    $respuesta['mensaje'] = 'NO SE AGREGÓ LA RESPONSABILIDAD PORQUE YA ESTÁ ASIGNADA A LA COBERTURA.';
-
-                    return response()->json($respuesta);
-                }
-            }
-
-            $responsabilidad = new ResponsabilidadCobertura($coberturaConcepto, $limiteResponsabilidad, $cuotaExtraordinaria);
-            $poliza->getCobertura()->agregarResponsabilidad($responsabilidad);
-
-            $cobertura = $poliza->getCobertura();
-            $respuesta['estatus'] = 'OK';
-            $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
+            return response()->json($respuesta);
         }
+
+        $poliza->getCobertura()->agregarResponsabilidad($responsabilidad);
+
+        $cobertura = $poliza->getCobertura();
+        $respuesta['estatus'] = 'OK';
+        $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
 
         if (!$this->polizasRepositorio->persistir($poliza)) {
             $respuesta['estatus'] = 'fail';

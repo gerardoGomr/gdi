@@ -224,10 +224,10 @@ $('#agregarConceptoCobertura').on('click', function(event) {
 // agregar una responsabilidad a cobertura
 $('#agregarConceptoCoberturaExistente').on('click', function () {
 
-	if ($('#limiteResponsabilidadExistente').val() === '' || $('#cuotaExtraordinariaExistente').val() === '' || $('#conceptoCoberturaExistente').val() === '') {
+	/*if ($('#limiteResponsabilidadExistente').val() === '' || $('#cuotaExtraordinariaExistente').val() === '' || $('#conceptoCoberturaExistente').val() === '') {
 		bootbox.alert('ESPECIFIQUE EL CONCEPTO DE COBERTURA, LÍMITE DE RESPONSABILIDAD Y LA CUOTA EXTRAORDINARIA');
 		return false;
-	}
+	}*/
 
 	var url      = $(this).data('url'),
 		polizaId = $(this).data('id');
@@ -239,6 +239,7 @@ $('#agregarConceptoCoberturaExistente').on('click', function () {
 		data:       {
 			polizaId:              polizaId,
 			coberturaConceptoId:   $('#conceptoCoberturaExistente').val(),
+			responsabilidadId:     $('#responsabilidad').val(),
 			limiteResponsabilidad: $('#limiteResponsabilidadExistente').val(),
 			cuotaExtraordinaria:   $('#cuotaExtraordinariaExistente').val(),
 			_token:                $formPoliza.find('input[name="_token"]').val()
@@ -308,6 +309,38 @@ $('#responsabilidadDesgloseExistente').on('click', 'button.quitarResponsabilidad
 			});
 		}
 	});
+});
+
+// mostrar responsabilidades en base a la coberturas conceptos
+$('#conceptoCoberturaExistente').on('change', function(event) {
+	var url = $(this).data('url');
+
+	$.ajax({
+		url:      url,
+		type:     'post',
+		dataType: 'json',
+		data:     { coberturaConceptoId: $(this).val(), _token: $formPoliza.find('input[name="_token"]').val() },
+		beforeSend: function() {
+			$('#loading').modal('show');
+		}
+
+	}).done(function (resultado) {
+		$('#loading').modal('hide');
+		$('#responsabilidad').html(resultado.html);
+
+	}).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+		$('#loading').modal('hide');
+		console.log(textStatus + ': ' + errorThrown);
+	});
+});
+
+// mostrar campos adicionales a responsabilidades
+$('#responsabilidad').on('change', function(event) {
+	if ($(this).val() === '-1') {
+		$('#datosResponsabilidadExistente').removeClass('hide');
+	} else {
+		$('#datosResponsabilidadExistente').addClass('hide');
+	}
 });
 
 /**

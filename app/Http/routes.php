@@ -108,6 +108,11 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     Route::get('polizas/formato-parcial/{polizaId}', 'Polizas\PolizasController@formatoParcial');
 
     /**
+     * ruta para buscar responsabilidades
+     */
+    Route::post('polizas/responsabilidad/buscar', 'Polizas\PolizasController@bucarResponsabilidades');
+
+    /**
      * ruta para agregar una responsabilidad a la cobertura - póliza
      */
     Route::post('polizas/responsabilidad/agregar', 'Polizas\PolizasController@agregarResponsabilidad');
