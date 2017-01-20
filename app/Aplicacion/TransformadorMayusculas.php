@@ -18,7 +18,11 @@ class TransformadorMayusculas
      */
     public function transformar(Request $request)
     {
-        $input = $request->all();
-        $request->merge(array_map('mb_strtoupper', $input));
+        $input   = $request->except('emailAsociado', 'emailAgente');
+        array_map('mb_strtoupper', $input);
+        $input[] = $request->get('emailAsociado');
+        $input[] = $request->get('emailAgente');
+
+        $request->merge($input);
     }
 }

@@ -23,8 +23,8 @@ function init()
 	});
 
 	// inicializar mensajes
-	$.validator.messages.digits   = 'Ingrese solo números';
-	$.validator.messages.required = 'Campo obligatorio';
+	$.validator.messages.digits   = 'INGRESE SÓLO NÚMEROS';
+	$.validator.messages.required = 'CAMPO OBLIGATORIO';
 
 	// inicializar metodos
 	$.validator.addMethod("numeros", function(value,element){

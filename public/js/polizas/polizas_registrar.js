@@ -60,8 +60,8 @@ $(document).ready(function() {
 				if (resultado.estatus === 'OK') {
 					bootbox.alert(resultado.mensaje, function () {
 						if (resultado.sePuedeRenovar === 'OK') {
-							$('#registro').html(resultado.html);
 							$datosAsociadoAgente.removeClass('hide');
+							$('#registro').html(resultado.html);
 						}
 					});
 				}

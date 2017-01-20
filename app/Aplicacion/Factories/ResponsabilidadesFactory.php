@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Aplicacion\Factories;
 
+use GDI\Aplicacion\Coleccion;
 use Illuminate\Http\Request;
 use GDI\Dominio\Coberturas\CoberturaConcepto;
 use GDI\Dominio\Coberturas\ResponsabilidadCobertura;

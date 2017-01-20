@@ -20,9 +20,7 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     /**
      * ruta principal del sistema
      */
-    Route::get('/', function () {
-        return view('principal');
-    });
+    Route::get('/', 'Polizas\PolizasController@index');
 
     /**
      * ruta para ver las pólizas registradas
@@ -113,14 +111,14 @@ Route::group(['middleware' => 'usuarioAutenticado'], function() {
     Route::post('polizas/responsabilidad/buscar', 'Polizas\PolizasController@bucarResponsabilidades');
 
     /**
-     * ruta para agregar una responsabilidad a la cobertura - póliza
+     * ruta para agregar una responsabilidad a la cobertura
      */
-    Route::post('polizas/responsabilidad/agregar', 'Polizas\PolizasController@agregarResponsabilidad');
+    Route::post('cobertura/responsabilidad/agregar', 'Coberturas\CoberturasController@agregarResponsabilidad');
 
     /**
-     * ruta para eliminar una responsabilidad de la cobertura - póliza
+     * ruta para eliminar una responsabilidad de la cobertura
      */
-    Route::post('polizas/responsabilidad/eliminar', 'Polizas\PolizasController@eliminarResponsabilidad');
+    Route::post('cobertura/responsabilidad/eliminar', 'Coberturas\CoberturasController@eliminarResponsabilidad');
 });
 
 /**

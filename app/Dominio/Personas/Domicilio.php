@@ -118,4 +118,31 @@ class Domicilio
     {
         return $this->unidadAdministrativa;
     }
+
+    /**
+     * devuelve la dirección completa
+     * @return string
+     */
+    public function direccionCompleta()
+    {
+        $direccion = $this->calle;
+
+        if (strlen($this->numExterior)) {
+            $direccion .= ' ' . $this->numExterior;
+        }
+
+        if (strlen($this->numInterior)) {
+            $direccion .= ' ' . $this->numInterior;
+        }
+
+        if (strlen($this->colonia)) {
+            $direccion .= ' ' . $this->colonia;
+        }
+
+        if (!is_null($this->unidadAdministrativa)) {
+            $direccion .= ' ' . $this->unidadAdministrativa->getUnidad();
+        }
+
+        return $direccion;
+    }
 }

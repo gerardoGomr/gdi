@@ -101,13 +101,13 @@
                 <div class="col-md-7">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="tipoPersona" value="1" class="persona"> P. FÍSICA
+                            <input type="radio" name="tipoPersona" value="1" class="persona" id="pFisica"> P. FÍSICA
                         </label>
                     </div>
 
                     <div class="radio">
                         <label>
-                            <input type="radio" name="tipoPersona" value="2" class="persona"> P. MORAL
+                            <input type="radio" name="tipoPersona" value="2" class="persona" id="pMoral"> P. MORAL
                         </label>
                     </div>
                 </div>

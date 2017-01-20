@@ -111,4 +111,27 @@ class DoctrineCoberturasRepositorio implements CoberturasRepositorio
 			return null;
 		}
 	}
+
+	/**
+	 * persistir cambios de cobertura
+	 * @param Cobertura $cobertura
+	 * @return bool
+	 */
+	public function persistir(Cobertura $cobertura)
+	{
+		try {
+			if (is_null($cobertura->getId())) {
+				$this->entityManager->persist($cobertura);
+			}
+
+			$this->entityManager->flush();
+
+			return true;
+
+		} catch (PDOException $e) {
+			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
+			$pdoLogger->log($e);
+			return false;
+		}
+	}
 }

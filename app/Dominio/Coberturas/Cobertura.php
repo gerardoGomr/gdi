@@ -241,6 +241,10 @@ class Cobertura
                 if ($responsabilidades->getId() === $responsabilidad->getId()) {
                     return true;
                 }
+
+                if ($responsabilidades->getCoberturaConcepto()->getId() === $responsabilidad->getCoberturaConcepto()->getId()) {
+                    return true;
+                }
             }
 
             return false;

@@ -49,7 +49,7 @@ class LoginController extends Controller
 
         $request->session()->put('usuario', $usuario);
 
-        return redirect('/');
+        return redirect('polizas');
     }
 
     /**

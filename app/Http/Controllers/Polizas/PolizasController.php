@@ -2,8 +2,6 @@
 namespace GDI\Http\Controllers\Polizas;
 
 use Exception;
-use Monolog\Logger as Log;
-use Monolog\Handler\StreamHandler;
 use GDI\Aplicacion\Factories\AsociadosAgentesFactory;
 use GDI\Aplicacion\Factories\ModalidadesFactory;
 use GDI\Aplicacion\Factories\PolizasFactory;
@@ -11,8 +9,6 @@ use GDI\Aplicacion\Factories\PolizasPagosParcialesFactory;
 use GDI\Aplicacion\Factories\ServiciosFactory;
 use GDI\Aplicacion\Factories\VehiculosFactory;
 use GDI\Aplicacion\Factories\PolizasPagosFactory;
-use GDI\Aplicacion\Factories\ResponsabilidadesFactory;
-use GDI\Aplicacion\Logger;
 use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
 use GDI\Aplicacion\Coleccion;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
@@ -20,7 +16,6 @@ use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CostosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\ResponsabilidadesRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\VigenciasRepositorio;
-use GDI\Dominio\Coberturas\ResponsabilidadCobertura;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Oficinas\Repositorios\OficinasRepositorio;
 use GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio;
@@ -156,6 +151,8 @@ class PolizasController extends Controller
         $dato      = $request->get('dato');
         $respuesta = [];
 
+        $this->transformarMayusculas($request);
+
         $polizas             = $this->polizasRepositorio->obtenerPorVehiculo($dato, $this->oficinaId);
         $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
         $marcas              = $this->marcasRepositorio->obtenerTodos();
@@ -263,7 +260,7 @@ class PolizasController extends Controller
             $respuesta['estatus'] = 'fail';
         } else {
             $respuesta['estatus'] = 'OK';
-            $respuesta['html']    = view('')->render();
+            $respuesta['html']    = view('polizas.polizas_resultado_asociados_tabla', compact('asociados'))->render();
         }
 
         return response()->json($respuesta);
@@ -295,11 +292,12 @@ class PolizasController extends Controller
      * @param Request $request
      * @param ModalidadesRepositorio $modalidadesRepositorio
      * @param CoberturasRepositorio $coberturasRepositorio
+     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @throws Exception
      * @throws \Throwable
      */
-    public function buscarVigenciasCobertura(Request $request, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio)
+    public function buscarVigenciasCobertura(Request $request, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio)
     {
         $coberturaId = (int)$request->get('coberturaId');
         $modalidadId = (int)$request->get('modalidadId');
@@ -313,8 +311,10 @@ class PolizasController extends Controller
             $cobertura = $coberturasRepositorio->obtenerPorId($coberturaId, $this->oficinaId);
         }
 
+        $coberturasConceptos = $coberturasConceptosRepositorio->obtenerTodos();
+
         $respuesta['html']                  = view('polizas.polizas_resultado_vigencias', compact('cobertura', 'modalidad'))->render();
-        $respuesta['htmlResponsabilidades'] = view('polizas.polizas_resultado_responsabilidades', compact('cobertura'))->render();
+        $respuesta['htmlResponsabilidades'] = view('polizas.polizas_resultado_responsabilidades', compact('cobertura', 'coberturasConceptos'))->render();
 
         return response()->json($respuesta);
     }
@@ -341,8 +341,7 @@ class PolizasController extends Controller
         $respuesta = [];
 
         // transformar a mayúsculas
-        /*$transformador = new TransformadorMayusculas();
-        $transformador->transformar($request);*/
+        $this->transformarMayusculas($request);
 
         // oficina
         $this->oficina = $oficinasRepositorio->obtenerPorId($this->oficinaId);
@@ -547,91 +546,11 @@ class PolizasController extends Controller
      */
     public function bucarResponsabilidades(Request $request, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, ResponsabilidadesRepositorio $responsabilidadesRepositorio)
     {
-        $respuesta           = [];
         $coberturaConceptoId = (int)$request->get('coberturaConceptoId');
-
-        $coberturaConcepto = $coberturasConceptosRepositorio->obtenerPorId($coberturaConceptoId);
-        $responsabilidades = $responsabilidadesRepositorio->obtenerPorCoberturaConceptoId($coberturaConceptoId);
+        $responsabilidades   = $responsabilidadesRepositorio->obtenerPorCoberturaConceptoId($coberturaConceptoId);
 
         return response()->json([
             'html' => view('polizas.polizas_resultado_responsabilidades_combo', compact('responsabilidades'))->render()
         ]);
-    }
-
-    /**
-     * agregar una nueva responsabilidad a la cobertura de la póliza especificada
-     * @param Request $request
-     * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
-     * @param ResponsabilidadesRepositorio $responsabilidadesRepositorio
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function agregarResponsabilidad(Request $request, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, ResponsabilidadesRepositorio $responsabilidadesRepositorio)
-    {
-        $polizaId              = (int)$request->get('polizaId');
-        $coberturaConceptoId   = (int)$request->get('coberturaConceptoId');
-        $respuesta             = [];
-
-        $poliza            = $this->polizasRepositorio->obtenerPorId($polizaId);
-        $coberturaConcepto = $coberturasConceptosRepositorio->obtenerPorId($coberturaConceptoId);
-        $responsabilidad   = ResponsabilidadesFactory::crear($request, $coberturaConcepto, $responsabilidadesRepositorio);
-
-        if ($poliza->getCobertura()->existeResponsabilidad($responsabilidad)) {
-            $respuesta['estatus'] = 'fail';
-            $respuesta['mensaje'] = 'NO SE AGREGÓ LA RESPONSABILIDAD PORQUE YA ESTÁ ASIGNADA A LA COBERTURA.';
-
-            return response()->json($respuesta);
-        }
-
-        $poliza->getCobertura()->agregarResponsabilidad($responsabilidad);
-
-        $cobertura = $poliza->getCobertura();
-        $respuesta['estatus'] = 'OK';
-        $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
-
-        if (!$this->polizasRepositorio->persistir($poliza)) {
-            $respuesta['estatus'] = 'fail';
-            $respuesta['mensaje'] = 'OCURRIÓ UN ERROR AL GUARDAR LOS CAMBIOS.';
-        }
-
-        return response()->json($respuesta);
-    }
-
-    /**
-     * eliminar una responsabilidad de la cobertura
-     * @param Request $request
-     * @param ResponsabilidadesRepositorio $responsabilidadesRepositorio
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function eliminarResponsabilidad(Request $request, ResponsabilidadesRepositorio $responsabilidadesRepositorio)
-    {
-        $polizaId          = (int)$request->get('polizaId');
-        $responsabilidadId = (int)$request->get('responsabilidadId');
-        $respuesta         = [];
-
-        $poliza            = $this->polizasRepositorio->obtenerPorId($polizaId);
-        $responsabilidad   = $responsabilidadesRepositorio->obtenerPorId($responsabilidadId);
-
-        try {
-            $poliza->getCobertura()->eliminarResponsabilidad($responsabilidad);
-            $cobertura = $poliza->getCobertura();
-            $respuesta['estatus'] = 'OK';
-            $respuesta['html']    = view('polizas.polizas_resultado_responsabilidades_desglose', compact('cobertura'))->render();
-
-        } catch (Exception $e) {
-            $pdoLogger = new Logger(new Log('exception'), new StreamHandler(storage_path() . '/logs/exceptions/excep_' . date('Y-m-d') . '.log', Log::ERROR));
-            $pdoLogger->log($e);
-
-            $respuesta['estatus'] = 'fail';
-            $respuesta['mensaje'] = $e->getMessage();
-
-            return response()->json($respuesta);
-        }
-
-        if (!$this->polizasRepositorio->persistir($poliza)) {
-            $respuesta['estatus'] = 'fail';
-            $respuesta['mensaje'] = 'OCURRIÓ UN ERROR AL GUARDAR LOS CAMBIOS.';
-        }
-
-        return response()->json($respuesta);
     }
 }

@@ -254,4 +254,15 @@ class Domicilio extends \GDI\Dominio\Personas\Domicilio implements \Doctrine\ORM
         return parent::getUnidadAdministrativa();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function direccionCompleta()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'direccionCompleta', []);
+
+        return parent::direccionCompleta();
+    }
+
 }

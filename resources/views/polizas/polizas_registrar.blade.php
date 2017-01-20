@@ -39,7 +39,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3" for="asociadoAgente">NOMBRE:</label>
                                                 <div class="col-md-5">
-                                                    <select class="form-control" name="asociadoAgente" id="asociadoAgente">
+                                                    <select class="form-control required" name="asociadoAgente" id="asociadoAgente">
                                                         <option value="">SELECCIONE</option>
                                                         @foreach($asociadosAgentes as $asociadoAgente)
                                                             <option value="{{ $asociadoAgente->getId() }}">{{ $asociadoAgente->nombreCompleto() }}</option>

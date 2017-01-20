@@ -79,7 +79,7 @@ class DoctrineAsociadosProtegidosRepositorio implements AsociadosProtegidosRepos
 		$dato = str_replace(' ', '', $dato);
 
 		try {
-			$query = $this->entityManager->createQuery("SELECT a, d, o FROM Polizas:AsociadoProtegido a JOIN a.domicilio d JOIN a.oficina o WHERE (CONCAT(a.nombre, a.paterno, a.materno)) = :dato OR (CONCAT(a.paterno, a.materno, a.nombre)) = :dato AND o.id = :oficinaId")
+			$query = $this->entityManager->createQuery("SELECT a, d, o FROM Polizas:AsociadoProtegido a JOIN a.domicilio d JOIN a.oficina o WHERE (CONCAT(a.nombre, a.paterno, a.materno)) = :dato OR (CONCAT(a.paterno, a.materno, a.nombre) = :dato OR a.rfc = :dato) AND o.id = :oficinaId")
 					->setParameter('dato', $dato)
 					->setParameter('oficinaId', $oficinaId);
 			$asociados = $query->getResult();
