@@ -104,13 +104,13 @@
                 <div class="col-md-7">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="tipoPersona" value="1" class="persona" {!! $poliza->getVehiculo()->getAsociadoProtegido()->esPersonaFisica() ? 'checked' : '' !!}> P. FÍSICA
+                            <input type="radio" name="tipoPersona" id="tipoPersona1" value="1" class="persona" {!! $poliza->getVehiculo()->getAsociadoProtegido()->esPersonaFisica() ? 'checked' : '' !!}> P. FÍSICA
                         </label>
                     </div>
 
                     <div class="radio">
                         <label>
-                            <input type="radio" name="tipoPersona" value="2" class="persona" {!! $poliza->getVehiculo()->getAsociadoProtegido()->esPersonaMoral() ? 'checked' : '' !!}> P. MORAL
+                            <input type="radio" name="tipoPersona" id="tipoPersona2" value="2" class="persona" {!! $poliza->getVehiculo()->getAsociadoProtegido()->esPersonaMoral() ? 'checked' : '' !!}> P. MORAL
                         </label>
                     </div>
                 </div>
@@ -184,7 +184,9 @@
                 <div class="col-md-5">
                     <select name="ciudadAsociado" id="ciudadAsociado" class="form-control">
                         <option value="">SELECCIONE</option>
-                        <option value="1">TUXTLA GUTIÉRREZ</option>
+                        @foreach($unidadesAdministrativas as $unidadAdministrativa)
+                            <option value="{{ $unidadAdministrativa->getId() }}">{{ $unidadAdministrativa->getUnidad() }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -268,12 +270,6 @@
                 </div>
             </div>
         </div>
-        <div class="separator"></div>
-        <div class="separator"></div>
-        <div class="" id="desgloseResponsabilidades">
-            <?php $cobertura = $poliza->getCobertura() ?>
-            @include('polizas.polizas_resultado_responsabilidades')
-        </div>
 
         <div class="hide" id="registroCobertura">
             <div class="form-group">
@@ -284,7 +280,7 @@
             </div>
         </div>
 
-        <div class="vigencias hide">
+        <div id="registroVigencias" class="hide">
             <div class="form-group">
                 <label class="control-label col-md-3" for="vigencias">VIGENCIAS:</label>
                 <div class="col-md-4">
@@ -317,7 +313,9 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div id="registroResponsabilidades" class="hide">
             <div class="form-group">
                 <label for="conceptoCobertura" class="control-label col-md-3">CONCEPTO:</label>
                 <div class="col-md-4">
@@ -347,6 +345,13 @@
 
                 </tbody>
             </table>
+        </div>
+
+        <div class="separator"></div>
+        <div class="separator"></div>
+        <div class="" id="desgloseResponsabilidades">
+            <?php $cobertura = $poliza->getCobertura() ?>
+            @include('polizas.polizas_resultado_responsabilidades')
         </div>
     </div>
 </div>

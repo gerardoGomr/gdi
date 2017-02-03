@@ -19,7 +19,7 @@ $(document).ready(function() {
             $('#loading').modal('hide');
 
             $('#resultadoBusqueda').html(respuesta.html);
-            datatables('#tablaPolizas');
+            datatables('#tablaPolizas', 0);
 
         }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
             console.log(textStatus + ': ' + errorThrown);
@@ -29,5 +29,5 @@ $(document).ready(function() {
         });
     });
 
-    datatables('#tablaPolizas');
+    datatables('#tablaPolizas', 0);
 });

@@ -592,7 +592,14 @@ function buscarVigenciasCostos(url) {
 
 // Función para validar los campos del formulario
 function validarCampos() {
-	$('input[name="tipoPersona"]').rules('add', {
+	$('#tipoPersona1').rules('add', {
+		required: true,
+		messages: {
+			required: 'SELECCION EL TIPO DE PERSONA'
+		}
+	});
+
+	$('#tipoPersona2').rules('add', {
 		required: true,
 		messages: {
 			required: 'SELECCION EL TIPO DE PERSONA'

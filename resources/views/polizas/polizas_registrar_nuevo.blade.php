@@ -101,13 +101,13 @@
                 <div class="col-md-7">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="tipoPersona" value="1" class="persona" id="pFisica"> P. FÍSICA
+                            <input type="radio" name="tipoPersona" id="tipoPersona1" value="1" class="persona"> P. FÍSICA
                         </label>
                     </div>
 
                     <div class="radio">
                         <label>
-                            <input type="radio" name="tipoPersona" value="2" class="persona" id="pMoral"> P. MORAL
+                            <input type="radio" name="tipoPersona" id="tipoPersona2" value="2" class="persona"> P. MORAL
                         </label>
                     </div>
                 </div>
@@ -181,7 +181,9 @@
                 <div class="col-md-5">
                     <select name="ciudadAsociado" id="ciudadAsociado" class="form-control">
                         <option value="">SELECCIONE</option>
-                        <option value="1">TUXTLA GUTIÉRREZ</option>
+                        @foreach($unidadesAdministrativas as $unidadAdministrativa)
+                            <option value="{{ $unidadAdministrativa->getId() }}">{{ $unidadAdministrativa->getUnidad() }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>

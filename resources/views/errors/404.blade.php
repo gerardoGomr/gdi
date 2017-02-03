@@ -11,7 +11,7 @@
             <h1 class="strong">LO SENTIMOS</h1>
             <h4 class="innerB">LA PÁGINA SOLICITADA NO EXISTE.</h4>
             <div class="well">
-                {{ $error }}
+                <a href="{{ url('/') }}" class="btn btn-primary"><i class="fa fa-home"></i> VOLVER A INICIO</a>
             </div>
         </div>
     </div>

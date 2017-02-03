@@ -23,4 +23,16 @@ class Controller extends BaseController
         $transformador = new TransformadorMayusculas();
         $transformador->transformar($request);
     }
+
+    /**
+     * validar la presencia de la variable GET
+     * @param string $variable
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function validarQueryString($variable)
+    {
+        if (is_null($variable)) {
+            return view('errors.404');
+        }
+    }
 }

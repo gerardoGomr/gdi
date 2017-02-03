@@ -24,7 +24,12 @@ GDI\Dominio\Polizas\Poliza:
       column: forma_pago
     activa:
       type: boolean
-      column: activa
+    costoDiferencia:
+      type: float
+      column: costo_diferencia
+    observaciones:
+      type: string
+      length: 255
   oneToOne:
     asociadoAgente:
       targetEntity: AsociadoAgente

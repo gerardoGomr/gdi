@@ -49,7 +49,7 @@ class VehiculosFactory
         $asociadoProtegido = AsociadosProtegidosFactory::crear($request, $unidadesAdministrativasRepositorio, $asociadosProtegidosRepositorio, $oficina);
         
         if ($request->get('vehiculoNuevo') === '1') {
-            $vehiculo          = new Vehiculo($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $asociadoProtegido, $oficina);
+            $vehiculo = new Vehiculo($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $asociadoProtegido, $oficina);
 
         } else {
             // vehiculo existente

@@ -2,6 +2,7 @@
 namespace GDI\Aplicacion\Factories;
 
 use GDI\Aplicacion\Coleccion;
+use GDI\Aplicacion\Logger;
 use GDI\Dominio\Coberturas\Cobertura;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;
@@ -40,9 +41,11 @@ class PolizasFactory
      * @param Vehiculo $vehiculo
      * @param AsociadoAgente $asociadoAgente
      * @return Poliza
+     * @throws Exception
      */
     public static function crear(Request $request, PolizasRepositorio $polizasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, CoberturasRepositorio $coberturasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, Modalidad $modalidad, Servicio $servicio, Oficina $oficina, Vehiculo $vehiculo, AsociadoAgente $asociadoAgente)
     {
+        // primera parte para crear y asignar objetos de cobertura
         if ($request->get('cobertura') === '-1') {
             $vigencia = VigenciasFactory::crear($request, $vigenciasRepositorio);
             $costo    = CostosFactory::crear($request, $vigencia, $modalidad, $costosRepositorio);
@@ -78,12 +81,19 @@ class PolizasFactory
                 $costo = $costosRepositorio->obtenerPorId((int)$request->get('vigenciaCobertura'));
             }
         }
-
+        // ================================================================================================
+        // crear la póliza
         if ($request->has('polizaId')) {
             // es edición
             $polizaId = (int)base64_decode($request->get('polizaId'));
             $poliza   = $polizasRepositorio->obtenerPorId($polizaId);
-            $poliza->actualizar($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);
+
+            try {
+                $poliza->actualizar($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);
+                
+            } catch (Exception $e) {
+                throw $e;
+            }
 
         } else {
             // póliza nueva

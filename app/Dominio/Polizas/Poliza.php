@@ -10,6 +10,7 @@ use GDI\Dominio\Personas\Persona;
 use GDI\Dominio\Polizas\Pagos\IPolizaPago;
 use GDI\Dominio\Vehiculos\Vehiculo;
 use GDI\Dominio\Listas\IColeccion;
+use GDI\Exceptions\NuevoCostoEsMenorAlCostoDePolizaException;
 
 /**
  * Class Poliza
@@ -83,6 +84,16 @@ class Poliza
      * @var bool
      */
     private $activa;
+
+    /**
+     * @var double
+     */
+    private $costoDiferencia;
+
+    /**
+     * @var string
+     */
+    private $observaciones;
 
     /**
      * Class Poliza Constructor
@@ -227,6 +238,22 @@ class Poliza
     public function estaActiva()
     {
         return $this->activa;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCostoDiferencia()
+    {
+        return $this->costoDiferencia;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
     }
 
     /**
@@ -429,13 +456,35 @@ class Poliza
      * @param Cobertura $cobertura
      * @param Costo $costo
      * @param Oficina $oficina
+     * @throws NuevoCostoEsMenorAlCostoDePolizaException
      */
     public function actualizar(Vehiculo $vehiculo, Persona $asociadoAgente, Cobertura $cobertura, Costo $costo, Oficina $oficina)
     {
+        if ($costo->getCosto() <= $this->costo->getCosto()) {
+            throw new NuevoCostoEsMenorAlCostoDePolizaException('EL COSTO GENERADO PARA LA PÓLIZA ES MENOR AL COSTO ACTUALMENTE ASIGNADO.');
+        }
+        
+        if ($costo->getCosto() > $this->costo->getCosto()) {
+            // el costo es mayor, por lo tanto activar bandera de pago diferencia y campo observaciones
+            $this->costoDiferencia = $costo->getCosto() - $this->costo->getCosto();
+            $this->observaciones   = 'SE OTORGA UN COSTO DE $' . (string)number_format($this->costoDiferencia, 2) . ' DEBIDO A QUE SE MODIFICÓ EL COSTO ASIGNADO A LA PÓLIZA. EL COSTO ORIGINAL ERA DE ' . $this->costo->costoFormateado() . ' Y SE ASIGNÓ UN NUEVO COSTO DE ' . $costo->costoFormateado();
+
+            $this->estaPagada = false;
+        }
+        
         $this->vehiculo       = $vehiculo;
         $this->asociadoAgente = $asociadoAgente;
         $this->cobertura      = $cobertura;
         $this->costo          = $costo;
         $this->oficina        = $oficina;
+    }
+
+    /**
+     * devuelve true si se modifica el costo de la póliza
+     * @return bool
+     */
+    public function seActualizoPago()
+    {
+        return !is_null($this->costoDiferencia) && !$this->estaPagada;
     }
 }

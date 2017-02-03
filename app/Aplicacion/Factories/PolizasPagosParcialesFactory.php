@@ -16,12 +16,11 @@ class PolizasPagosParcialesFactory
     /**
      * registrar el pago de pagos parciales
      * @param int $metodoPago
-     * @param double $abono
      * @param double $pago
      * @param double $costoReal
      * @return PolizaPagoContadoTarjetaCheque|PolizaPagoParcialEfectivoSegundoPago|null
      */
-    public static function crear($metodoPago, $abono, $pago, $costoReal)
+    public static function crear($metodoPago, $pago, $costoReal)
     {
         $polizaPago = null;
 

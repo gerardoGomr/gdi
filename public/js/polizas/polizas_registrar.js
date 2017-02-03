@@ -173,7 +173,9 @@ $(document).ready(function() {
 			$('#loading').modal('hide');
 
 			if (respuesta.estatus === 'fail') {
-				bootbox.alert('OCURRIÓ UN ERROR AL GUARDAR LA PÓLIZA. POR FAVOR, INTENTE DE NUEVO.');
+				var mensaje = respuesta.mensaje !== '' ? respuesta.mensaje : '';
+
+				bootbox.alert('OCURRIÓ UN ERROR AL GUARDAR LA PÓLIZA. POR FAVOR, INTENTE DE NUEVO. <br>' + mensaje);
 			}
 
 			if (respuesta.estatus === 'OK') {

@@ -5,8 +5,10 @@ use GDI\Aplicacion\Logger;
 
 use Doctrine\ORM\EntityManager;
 use GDI\Dominio\Personas\Repositorios\UnidadesAdministrativasRepositorio;
+use GDI\Dominio\Personas\UnidadAdministrativa;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineUnidadesAdministrativasRepositorio
@@ -33,7 +35,7 @@ class DoctrineUnidadesAdministrativasRepositorio implements UnidadesAdministrati
 	/**
 	 * @param int $id
 	 * @param int|null $oficinaId
-	 * @return array
+	 * @return UnidadAdministrativa
 	 */
 	public function obtenerPorId($id, $oficinaId = null)
 	{
@@ -50,7 +52,7 @@ class DoctrineUnidadesAdministrativasRepositorio implements UnidadesAdministrati
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;
@@ -65,17 +67,16 @@ class DoctrineUnidadesAdministrativasRepositorio implements UnidadesAdministrati
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query = $this->entityManager->createQuery("SELECT a, d, o FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId ORDER BY a.nombre")
-					->setParameter('oficinaId', $oficinaId);
-			$asociados = $query->getResult();
+			$query     = $this->entityManager->createQuery('SELECT u FROM Personas:UnidadAdministrativa u WHERE u.unidadPadre IS NOT NULL');
+			$unidades  = $query->getResult();
 
-			if (count($asociados) > 0) {
-				return $asociados;
+			if (count($unidades) > 0) {
+				return $unidades;
 			}
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;

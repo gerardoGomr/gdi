@@ -5,7 +5,7 @@
         <div class="col-md-12 col-lg-9">
             <div class="col-separator col-separator-first border-none">
                 <div class="col-table">
-                    <h4 class="innerAll">ACTUALIZAR DATOS DE PÓLIZA</h4>
+                    <h2 class="innerAll"><i class="fa fa-edit"></i> ACTUALIZAR DATOS DE PÓLIZA</h2>
                     <div class="col-separator-h"></div>
                     <div class="col-table-row">
                         <div class="col-app col-unscrollable">
@@ -162,6 +162,6 @@
 @section('js')
     <script src="{{ asset('js/polizas/polizas_registrar.js') }}"></script>
     @if($formaDeCargo === 'load')
-        <script src="{{ asset('js/polizas/polizas_registrar_adicional.js') }}"></script>
+        <script src="{{ asset('js/polizas/polizas_editar.js') }}"></script>
     @endif
 @stop
