@@ -144,7 +144,6 @@
                                         <input type="hidden" name="vehiculoNuevo" id="vehiculoNuevo">
                                         <input type="hidden" name="coberturaNueva" id="coberturaNueva">
                                         <input type="hidden" id="buscarAsociado" value="0">
-                                        <input type="hidden" id="urlPago" value="{{ url('polizas/pagar/') }}">
                                         <input type="hidden" id="urlBuscarPolizaExistente" value="{{ url('polizas/buscar-existente') }}">
                                     </div>
                                 </form>

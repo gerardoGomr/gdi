@@ -265,4 +265,114 @@ class Cobertura extends \GDI\Dominio\Coberturas\Cobertura implements \Doctrine\O
         return parent::verificarResponsabilidad();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function agregarNuevoCosto(\GDI\Dominio\Coberturas\Costo $costo)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'agregarNuevoCosto', [$costo]);
+
+        return parent::agregarNuevoCosto($costo);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function coberturaTipo()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'coberturaTipo', []);
+
+        return parent::coberturaTipo();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function esCoberturaLocal()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'esCoberturaLocal', []);
+
+        return parent::esCoberturaLocal();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function esCoberturaBasica()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'esCoberturaBasica', []);
+
+        return parent::esCoberturaBasica();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function esCoberturaAmplia()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'esCoberturaAmplia', []);
+
+        return parent::esCoberturaAmplia();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function detalles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'detalles', []);
+
+        return parent::detalles();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function tieneResponsabilidades()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'tieneResponsabilidades', []);
+
+        return parent::tieneResponsabilidades();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function existeResponsabilidad(\GDI\Dominio\Coberturas\ResponsabilidadCobertura $responsabilidad)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'existeResponsabilidad', [$responsabilidad]);
+
+        return parent::existeResponsabilidad($responsabilidad);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function agregarResponsabilidad(\GDI\Dominio\Coberturas\ResponsabilidadCobertura $responsabilidad)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'agregarResponsabilidad', [$responsabilidad]);
+
+        return parent::agregarResponsabilidad($responsabilidad);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function eliminarResponsabilidad(\GDI\Dominio\Coberturas\ResponsabilidadCobertura $responsabilidad)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'eliminarResponsabilidad', [$responsabilidad]);
+
+        return parent::eliminarResponsabilidad($responsabilidad);
+    }
+
 }

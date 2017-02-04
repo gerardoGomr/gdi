@@ -1,0 +1,4 @@
+GDI\Dominio\Polizas\Pagos\PolizaPagoParcialEfectivoSegundoPago:
+  type: entity
+  extends: PolizaPago
+  table: poliza_pago

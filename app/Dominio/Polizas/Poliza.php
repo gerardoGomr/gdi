@@ -460,7 +460,7 @@ class Poliza
      */
     public function actualizar(Vehiculo $vehiculo, Persona $asociadoAgente, Cobertura $cobertura, Costo $costo, Oficina $oficina)
     {
-        if ($costo->getCosto() <= $this->costo->getCosto()) {
+        if ($costo->getCosto() < $this->costo->getCosto()) {
             throw new NuevoCostoEsMenorAlCostoDePolizaException('EL COSTO GENERADO PARA LA PÓLIZA ES MENOR AL COSTO ACTUALMENTE ASIGNADO.');
         }
         

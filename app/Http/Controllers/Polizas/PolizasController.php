@@ -376,7 +376,12 @@ class PolizasController extends Controller
             $respuesta['estatus'] = 'fail';
         }
 
-        $respuesta['id'] = base64_encode((string)$poliza->getId());
+        // generar la url de respuesta
+        $respuesta['url'] = url('polizas');
+
+        if (!$poliza->estaPagada()) {
+            $respuesta['url'] = url('polizas/pagar/' . base64_encode($poliza->getId()));
+        }
 
         return response()->json($respuesta);
     }
@@ -458,7 +463,7 @@ class PolizasController extends Controller
         $respuesta  = [];
 
         $poliza     = $this->polizasRepositorio->obtenerPorId($polizaId);
-        $polizaPago = PolizasPagosParcialesFactory::crear($metodoPago, $abono, $pago, $poliza->obtenerSaldo());
+        $polizaPago = PolizasPagosParcialesFactory::crear($metodoPago, $pago, $poliza->obtenerSaldo());
 
         $poliza->pagar($polizaPago);
 
@@ -571,25 +576,26 @@ class PolizasController extends Controller
      * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function verFormEdicion($polizaId = null, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CoberturasRepositorio $coberturasRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio)
+    public function verFormEdicion($polizaId = null, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CoberturasRepositorio $coberturasRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio)
     {
         $this->validarQueryString($polizaId);
 
         $polizaId = (int)base64_decode($polizaId);
         $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
 
-        $modalidades         = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
-        $marcas              = $this->marcasRepositorio->obtenerTodos();
-        $servicios           = $this->serviciosRepositorio->obtenerTodos();
-        $coberturasConceptos = $coberturasConceptosRepositorio->obtenerTodos();
-        $vigencias           = $vigenciasRepositorio->obtenerTodos();
-        $coberturaTipo       = $poliza->getCobertura()->getCoberturaTipo();
-        $servicio            = $poliza->getCobertura()->getServicio();
-        $coberturas          = $coberturasRepositorio->obtenerPorServicioCoberturaTipo($servicio, $coberturaTipo, $this->oficinaId);
-        $asociadosAgentes    = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
-        $formaDeCargo        = 'load';
+        $modalidades             = $modalidadesRepositorio->obtenerTodos($this->oficinaId);
+        $marcas                  = $this->marcasRepositorio->obtenerTodos();
+        $servicios               = $this->serviciosRepositorio->obtenerTodos();
+        $coberturasConceptos     = $coberturasConceptosRepositorio->obtenerTodos();
+        $vigencias               = $vigenciasRepositorio->obtenerTodos();
+        $coberturaTipo           = $poliza->getCobertura()->getCoberturaTipo();
+        $servicio                = $poliza->getCobertura()->getServicio();
+        $coberturas              = $coberturasRepositorio->obtenerPorServicioCoberturaTipo($servicio, $coberturaTipo, $this->oficinaId);
+        $asociadosAgentes        = $asociadosAgentesRepositorio->obtenerTodos($this->oficinaId);
+        $unidadesAdministrativas = $unidadesAdministrativasRepositorio->obtenerTodos();
+        $formaDeCargo            = 'load';
         
-        return view('polizas.polizas_editar', compact('poliza', 'modalidades', 'marcas', 'servicios', 'coberturasConceptos', 'vigencias', 'coberturas', 'asociadosAgentes', 'formaDeCargo'));
+        return view('polizas.polizas_editar', compact('poliza', 'modalidades', 'marcas', 'servicios', 'coberturasConceptos', 'vigencias', 'coberturas', 'asociadosAgentes', 'unidadesAdministrativas', 'formaDeCargo'));
     }
 
     /**

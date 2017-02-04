@@ -221,4 +221,15 @@ class Costo extends \GDI\Dominio\Coberturas\Costo implements \Doctrine\ORM\Proxy
         return parent::getModalidad();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function costoFormateado()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'costoFormateado', []);
+
+        return parent::costoFormateado();
+    }
+
 }

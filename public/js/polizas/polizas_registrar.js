@@ -180,8 +180,7 @@ $(document).ready(function() {
 
 			if (respuesta.estatus === 'OK') {
 				bootbox.alert('PÓLIZA GENERADA CON ÉXITO.', function() {
-					// redireccionar a pago de póliza
-					window.location.href = $('#urlPago').val() + '/' + respuesta.id;
+					window.location.href = respuesta.url;
 				});
 			}
 

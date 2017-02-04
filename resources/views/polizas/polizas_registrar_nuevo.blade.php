@@ -73,7 +73,7 @@
 
     <div class="form-group">
         <label class="control-label col-md-3" for="capacidad">CAPACIDAD:</label>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="input-group">
                 <input type="text" name="capacidad" id="capacidad" class="form-control" placeholder="" maxlength="2">
                 <span class="input-group-addon">PASAJEROS</span>

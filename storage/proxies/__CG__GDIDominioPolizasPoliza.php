@@ -64,10 +64,10 @@ class Poliza extends \GDI\Dominio\Polizas\Poliza implements \Doctrine\ORM\Proxy\
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'asociadoAgente', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'vehiculo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'cobertura', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaEmision', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaVigencia', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'medioPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'formaPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'estaPagada', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'costo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'oficina', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'polizaPago'];
+            return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'asociadoAgente', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'vehiculo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'cobertura', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaEmision', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaVigencia', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'formaPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaProximoPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'estaPagada', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'costo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'oficina', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'pagos', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'activa', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'costoDiferencia', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'observaciones'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'asociadoAgente', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'vehiculo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'cobertura', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaEmision', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaVigencia', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'medioPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'formaPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'estaPagada', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'costo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'oficina', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'polizaPago'];
+        return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'asociadoAgente', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'vehiculo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'cobertura', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaEmision', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaVigencia', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'formaPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'fechaProximoPago', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'estaPagada', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'costo', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'oficina', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'pagos', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'activa', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'costoDiferencia', '' . "\0" . 'GDI\\Dominio\\Polizas\\Poliza' . "\0" . 'observaciones'];
     }
 
     /**
@@ -176,12 +176,12 @@ class Poliza extends \GDI\Dominio\Polizas\Poliza implements \Doctrine\ORM\Proxy\
     /**
      * {@inheritDoc}
      */
-    public function getMedioPago()
+    public function numero()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMedioPago', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'numero', []);
 
-        return parent::getMedioPago();
+        return parent::numero();
     }
 
     /**
@@ -279,6 +279,17 @@ class Poliza extends \GDI\Dominio\Polizas\Poliza implements \Doctrine\ORM\Proxy\
     /**
      * {@inheritDoc}
      */
+    public function getFechaProximoPago()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFechaProximoPago', []);
+
+        return parent::getFechaProximoPago();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getEstaPagada()
     {
 
@@ -312,6 +323,39 @@ class Poliza extends \GDI\Dominio\Polizas\Poliza implements \Doctrine\ORM\Proxy\
     /**
      * {@inheritDoc}
      */
+    public function estaActiva()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'estaActiva', []);
+
+        return parent::estaActiva();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCostoDiferencia()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCostoDiferencia', []);
+
+        return parent::getCostoDiferencia();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getObservaciones()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getObservaciones', []);
+
+        return parent::getObservaciones();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function generarVigencia()
     {
 
@@ -323,12 +367,45 @@ class Poliza extends \GDI\Dominio\Polizas\Poliza implements \Doctrine\ORM\Proxy\
     /**
      * {@inheritDoc}
      */
-    public function pagar($formaPago, $metodoPago, \GDI\Dominio\Polizas\PolizaPago $polizaPago = NULL)
+    public function formaPago()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'pagar', [$formaPago, $metodoPago, $polizaPago]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'formaPago', []);
 
-        return parent::pagar($formaPago, $metodoPago, $polizaPago);
+        return parent::formaPago();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function inicializarPagos(\GDI\Dominio\Listas\IColeccion $pagos)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'inicializarPagos', [$pagos]);
+
+        return parent::inicializarPagos($pagos);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function tienePagoParcial()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'tienePagoParcial', []);
+
+        return parent::tienePagoParcial();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function pagar(\GDI\Dominio\Polizas\Pagos\IPolizaPago $polizaPago, $formaPago = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'pagar', [$polizaPago, $formaPago]);
+
+        return parent::pagar($polizaPago, $formaPago);
     }
 
     /**
@@ -351,6 +428,94 @@ class Poliza extends \GDI\Dominio\Polizas\Poliza implements \Doctrine\ORM\Proxy\
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'esPagoParcial', []);
 
         return parent::esPagoParcial();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPagos()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPagos', []);
+
+        return parent::getPagos();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function obtenerSaldo()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'obtenerSaldo', []);
+
+        return parent::obtenerSaldo();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function saldoFormateado()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'saldoFormateado', []);
+
+        return parent::saldoFormateado();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function vigente()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'vigente', []);
+
+        return parent::vigente();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function estaDentroDePeriodoAptoParaRenovar()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'estaDentroDePeriodoAptoParaRenovar', []);
+
+        return parent::estaDentroDePeriodoAptoParaRenovar();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sePuedenActualizarDatos()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'sePuedenActualizarDatos', []);
+
+        return parent::sePuedenActualizarDatos();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function actualizar(\GDI\Dominio\Vehiculos\Vehiculo $vehiculo, \GDI\Dominio\Personas\Persona $asociadoAgente, \GDI\Dominio\Coberturas\Cobertura $cobertura, \GDI\Dominio\Coberturas\Costo $costo, \GDI\Dominio\Oficinas\Oficina $oficina)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'actualizar', [$vehiculo, $asociadoAgente, $cobertura, $costo, $oficina]);
+
+        return parent::actualizar($vehiculo, $asociadoAgente, $cobertura, $costo, $oficina);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function seActualizoPago()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'seActualizoPago', []);
+
+        return parent::seActualizoPago();
     }
 
 }
