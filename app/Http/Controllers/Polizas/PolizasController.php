@@ -88,7 +88,12 @@ class PolizasController extends Controller
      */
     public function __construct(VehiculosRepositorio $vehiculosRepositorio, AsociadosProtegidosRepositorio $asociadosRepositorio, MarcasRepositorio $marcasRepositorio, ServiciosRepositorio $serviciosRepositorio, PolizasRepositorio $polizasRepositorio)
     {
-        $this->oficinaId            = request()->session()->get('usuario')->getOficina()->getId();
+        $this->middleware(function ($request, $next) {
+            $this->oficinaId = $request->session()->get('usuario')->getOficina()->getId();
+
+            return $next($request);
+        });
+//        $this->oficinaId            = request()->session()->get('usuario')->getOficina()->getId();
         $this->vehiculosRepositorio = $vehiculosRepositorio;
         $this->asociadosRepositorio = $asociadosRepositorio;
         $this->marcasRepositorio    = $marcasRepositorio;

@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="col-separator col-unscrollable box col-separator-first">
                 <div class="col-table">
-                    <h2 class="innerAll">PÓLIZAS REGISTRADAS</h2>
+                    <h2 class="innerAll"><i class="fa fa-list"></i> PÓLIZAS REGISTRADAS</h2>
                     <div class="col-separator-h"></div>
                     <div class="col-table-row">
                         <div class="col-app col-unscrollable">

@@ -121,6 +121,8 @@ return [
     |
     */
 
+    'name' => 'Your Application Name',
+
     'providers' => [
 
         /*

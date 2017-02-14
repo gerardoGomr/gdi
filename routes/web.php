@@ -16,7 +16,8 @@
  * @author Gerardo Adrián Gómez Ruiz, <gerardo.gomr@gmail.com>
  * @version 1.0
  */
-Route::group(['middleware' => 'usuarioAutenticado'], function() {
+
+Route::group(['middleware' => ['usuarioAutenticado']], function () {
     // ruta principal del sistema
     Route::get('/', 'Polizas\PolizasController@index');
 
