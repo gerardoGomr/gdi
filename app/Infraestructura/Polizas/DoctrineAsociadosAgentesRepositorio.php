@@ -3,6 +3,7 @@ namespace GDI\Infraestructura\Polizas;
 
 use GDI\Aplicacion\Logger;
 use Doctrine\ORM\EntityManager;
+use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Polizas\AsociadoAgente;
 use GDI\Dominio\Polizas\Repositorios\AsociadosAgentesRepositorio;
 use Monolog\Logger as Log;
@@ -24,6 +25,7 @@ class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 
 	/**
 	 * DoctrineUsuariosRepositorio constructor.
+	 *
 	 * @param EntityManager $em
 	 */
 	public function __construct(EntityManager $em)
@@ -32,24 +34,18 @@ class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 	}
 
 	/**
+	 * obtener un asociado agente en base a su id
 	 * @param int $id
-	 * @param int|null $oficinaId
 	 * @return AsociadoAgente
 	 */
-	public function obtenerPorId($id, $oficinaId = null)
+	public function obtenerPorId($id)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			if (!is_null($oficinaId)) {
-				$query = $this->entityManager->createQuery('SELECT a, d FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId AND a.id = :id')
-					->setParameter('id', $id)
-					->setParameter('oficinaId', $oficinaId);
-			} else {
-				$query = $this->entityManager->createQuery('SELECT a, d FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE a.id = :id')
-					->setParameter('id', $id);
-			}
 
-			$usuario = $query->getResult();
+			$usuario = $this->entityManager->createQuery('SELECT a, d FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE a.id = :id')
+				->setParameter('id', $id)
+				->getResult();
 
 			if (count($usuario) > 0) {
 				return $usuario[0];
@@ -65,16 +61,14 @@ class DoctrineAsociadosAgentesRepositorio implements AsociadosAgentesRepositorio
 	}
 
 	/**
-	 * @param int|null $oficinaId
 	 * @return array
 	 */
-	public function obtenerTodos($oficinaId = null)
+	public function obtenerTodos()
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query = $this->entityManager->createQuery("SELECT a, d, o FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o WHERE o.id = :oficinaId ORDER BY a.nombre")
-					->setParameter('oficinaId', $oficinaId);
-			$asociados = $query->getResult();
+			$asociados = $this->entityManager->createQuery("SELECT a, d, o FROM Polizas:AsociadoAgente a LEFT JOIN a.domicilio d JOIN a.oficina o ORDER BY a.nombre")
+				->getResult();
 
 			if (count($asociados) > 0) {
 				return $asociados;

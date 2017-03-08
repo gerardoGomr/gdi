@@ -33,17 +33,15 @@ class DoctrineVigenciasRepositorio implements VigenciasRepositorio
 
 	/**
 	 * @param int $id
-	 * @param int|null $oficinaId
 	 * @return Vigencia
 	 */
-	public function obtenerPorId($id, $oficinaId = null)
+	public function obtenerPorId($id)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT v FROM Coberturas:Vigencia v WHERE v.id = :id')
-				->setParameter('id', $id);
-
-			$vigencias = $query->getResult();
+			$vigencias = $this->entityManager->createQuery('SELECT v FROM Coberturas:Vigencia v WHERE v.id = :id')
+				->setParameter('id', $id)
+				->getResult();
 
 			if (count($vigencias) > 0) {
 				return $vigencias[0];
@@ -59,16 +57,14 @@ class DoctrineVigenciasRepositorio implements VigenciasRepositorio
 	}
 
 	/**
-	 * @param null $oficinaId
 	 * @return array
 	 */
-	public function obtenerTodos($oficinaId = null)
+	public function obtenerTodos()
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT v FROM Coberturas:Vigencia v ORDER BY v.vigencia');
-
-			$vigencias = $query->getResult();
+			$vigencias = $this->entityManager->createQuery('SELECT v FROM Coberturas:Vigencia v ORDER BY v.vigencia')
+				->getResult();
 
 			if (count($vigencias) > 0) {
 				return $vigencias;

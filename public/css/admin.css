@@ -6,6 +6,12 @@
   font-weight: 200;
   src: url(../fonts/Roboto-Regular.ttf);
 }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 200;
+  src: url(../fonts/OpenSans-Regular.ttf);
+}
 /* --- LOADING [less.mixins] from assets/components/core/less/mixins.less */
 /* --- LOADING [less.scaffolding] from assets/components/core/less/scaffolding.less */
 html {
@@ -13,7 +19,7 @@ html {
   height: 100%;
 }
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background: #eaeaea;
   font-size: 14px;
   color: #2C2828;
@@ -54,7 +60,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   margin: 0 0 5px;
   font-weight: 700;
   color: #4d4d4d;
@@ -240,7 +246,7 @@ input,
 button,
 select,
 textarea {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 pre.prettyprint {
   word-break: normal;
@@ -3253,6 +3259,7 @@ html.app .loginWrapper #content {
   height: 29px;
   line-height: 29px;
   background-image: none !important;
+  -webkit-filter: none !important;
   filter: none !important;
   border-radius: 0 0 0 0;
   background: #f4f4f4;
@@ -3810,6 +3817,7 @@ html.app .loginWrapper #content {
   border: none;
   background: none;
   background-image: none !important;
+  -webkit-filter: none !important;
   filter: none !important;
   padding: 0 0 5px;
   height: 25px;
@@ -4013,6 +4021,7 @@ div.glyphicons.glyphicon-regular i:before {
 .datepicker table tr td.active.disabled,
 .datepicker table tr td.active.disabled:hover {
   background-image: none !important;
+  -webkit-filter: none !important;
   filter: none !important;
   background: #E373A2 !important;
 }
@@ -4021,6 +4030,7 @@ div.glyphicons.glyphicon-regular i:before {
 .datepicker table tr td span.active.disabled,
 .datepicker table tr td span.active.disabled:hover {
   background-image: none !important;
+  -webkit-filter: none !important;
   filter: none !important;
   background: #E373A2 !important;
 }
@@ -4058,10 +4068,12 @@ div.glyphicons.glyphicon-regular i:before {
 }
 .has-switch span {
   background-image: none !important;
+  -webkit-filter: none !important;
   filter: none !important;
 }
 .has-switch label {
   background-image: none !important;
+  -webkit-filter: none !important;
   filter: none !important;
   background: #fff;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
@@ -11948,5 +11960,6 @@ ul.social-comments li .user-info abbr {
 }
 /* --- LOADING [color template] from assets/components/core/less/colorTemplate.less */
 /* NEW CUSTOM PRIMARY COLOR */
+/* --- LOADING [color template] from assets/components/core/less/fonts.less */
 
 /*# sourceMappingURL=admin.css.map */

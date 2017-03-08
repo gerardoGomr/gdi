@@ -2,6 +2,7 @@
 namespace GDI\Dominio\Polizas\Pagos;
 
 use DateTime;
+use GDI\Dominio\Oficinas\CorteCaja;
 use GDI\Dominio\Polizas\MedioPago;
 use GDI\Dominio\Polizas\Poliza;
 
@@ -57,6 +58,11 @@ class PolizaPago
      * @var Poliza
      */
     protected $poliza;
+
+    /**
+     * @var CorteCaja
+     */
+    protected $corteCaja;
 
     /**
      * PolizaPago constructor.
@@ -173,5 +179,63 @@ class PolizaPago
         }
 
         return $medioPago;
+    }
+
+    /**
+     * @return CorteCaja
+     */
+    public function getCorteCaja()
+    {
+        return $this->corteCaja;
+    }
+
+    /**
+     * asignar el corte de caja a la póliza actual
+     *
+     * @param CorteCaja $corteCaja
+     */
+    public function asignarCorteCaja(CorteCaja $corteCaja)
+    {
+        $this->corteCaja = $corteCaja;
+    }
+
+    /**
+     * evalúa si el medio de pago es en efectivo
+     *
+     * @return bool
+     */
+    public function esPagoEnEfectivo()
+    {
+        return $this->metodoPago === MedioPago::EFECTIVO;
+    }
+
+    /**
+     * evalúa si el medio de pago es con tarjeta
+     *
+     * @return bool
+     */
+    public function esPagoConTarjeta()
+    {
+        return $this->metodoPago === MedioPago::TARJETA_CREDITO;
+    }
+
+    /**
+     * evalúa si el medio de pago es con cheque
+     *
+     * @return bool
+     */
+    public function esPagoConCheque()
+    {
+        return $this->metodoPago === MedioPago::CHEQUE;
+    }
+
+    /**
+     * devuelve el abono formateado con number format
+     *
+     * @return string
+     */
+    public function abonoFormateado()
+    {
+        return '$' . number_format($this->abono, 2);
     }
 }

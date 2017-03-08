@@ -34,17 +34,15 @@ class DoctrineUnidadesAdministrativasRepositorio implements UnidadesAdministrati
 
 	/**
 	 * @param int $id
-	 * @param int|null $oficinaId
 	 * @return UnidadAdministrativa
 	 */
-	public function obtenerPorId($id, $oficinaId = null)
+	public function obtenerPorId($id)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT u FROM Personas:UnidadAdministrativa u WHERE u.id = :id')
-					->setParameter('id', $id);
-
-			$unidadAdministrativa = $query->getResult();
+			$unidadAdministrativa = $this->entityManager->createQuery('SELECT u FROM Personas:UnidadAdministrativa u WHERE u.id = :id')
+				->setParameter('id', $id)
+				->getResult();
 
 			if (count($unidadAdministrativa) > 0) {
 				return $unidadAdministrativa[0];
@@ -60,15 +58,14 @@ class DoctrineUnidadesAdministrativasRepositorio implements UnidadesAdministrati
 	}
 
 	/**
-	 * @param int|null $oficinaId
 	 * @return array
 	 */
-	public function obtenerTodos($oficinaId = null)
+	public function obtenerTodos()
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query     = $this->entityManager->createQuery('SELECT u FROM Personas:UnidadAdministrativa u WHERE u.unidadPadre IS NOT NULL');
-			$unidades  = $query->getResult();
+			$unidades = $this->entityManager->createQuery('SELECT u FROM Personas:UnidadAdministrativa u WHERE u.unidadPadre IS NOT NULL')
+				->getResult();
 
 			if (count($unidades) > 0) {
 				return $unidades;

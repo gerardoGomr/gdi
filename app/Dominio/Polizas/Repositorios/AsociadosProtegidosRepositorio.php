@@ -12,9 +12,10 @@ use GDI\Dominio\Repositorios\Repositorio;
 interface AsociadosProtegidosRepositorio extends Repositorio
 {
     /**
+     * buscar asociados por $dato
+     * 
      * @param $dato
-     * @param int|null $oficinaId
      * @return array
      */
-    public function obtenerPor($dato, $oficinaId = null);
+    public function obtenerPor($dato);
 }

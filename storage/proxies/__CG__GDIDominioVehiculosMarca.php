@@ -64,10 +64,10 @@ class Marca extends \GDI\Dominio\Vehiculos\Marca implements \Doctrine\ORM\Proxy\
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'marca', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'modelos', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'oficinas'];
+            return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'marca', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'modelos'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'marca', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'modelos', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'oficinas'];
+        return ['__isInitialized__', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'id', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'marca', '' . "\0" . 'GDI\\Dominio\\Vehiculos\\Marca' . "\0" . 'modelos'];
     }
 
     /**
@@ -208,17 +208,6 @@ class Marca extends \GDI\Dominio\Vehiculos\Marca implements \Doctrine\ORM\Proxy\
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getModelos', []);
 
         return parent::getModelos();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getOficinas()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOficinas', []);
-
-        return parent::getOficinas();
     }
 
 }

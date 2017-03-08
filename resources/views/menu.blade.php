@@ -6,14 +6,15 @@
 			 	<img src="{{ asset('img/logo.png') }}" class="border-none" alt="GDI" style="width: 100px">
 			 </a>
 		</div>
-		<div id="logoWrapper">
-			<div id="logo">
-				<a href="{{ url('/') }}" class="btn btn-sm btn-inverse"><i class="fa fa-home"></i></a>
-				<a href="email.html?lang=en" class="btn btn-sm btn-inverse"><i class="fa fa-envelope"></i><span class="badge pull-right badge-primary">2</span></a>
-			</div>
-		</div>
 		<ul class="menu list-unstyled" id="navigation_components">
 			<li><a href="{{ url('polizas') }}" class="glyphicons notes_2"><i></i><span>PÓLIZAS</span></a></li>
+			<li class="hasSubmenu">
+				<a href="#submenuCaja" class="glyphicons usd" data-toggle="collapse"><i></i><span>CAJA</span></a>
+				<ul id="submenuCaja" class="animated fadeIn collapse">
+					<li class="text-small"><a href="{{ url('caja/cortes') }}" class="glyphicons chevron-right"><i></i><span>CORTE DE CAJA</span></a></li>
+					<li class="text-small"><a href="{{ url('admin/servidores/alta') }}" class="glyphicons chevron-right"><i></i><span>EGRESOS</span></a></li>
+				</ul>
+			</li>
 			<li class="hasSubmenu">
 				<a href="#submenuReportes" class="glyphicons stats" data-toggle="collapse"><i></i><span>REPORTES</span></a>
 				<ul id="submenuReportes" class="animated fadeIn collapse">

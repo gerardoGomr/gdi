@@ -54,7 +54,7 @@ class VehiculosFactory
         } else {
             // vehiculo existente
             $vehiculoId = (int)$request->get('vehiculoId');
-            $vehiculo   = $vehiculosRepositorio->obtenerPorId($vehiculoId, $oficina->getId());
+            $vehiculo   = $vehiculosRepositorio->obtenerPorId($vehiculoId);
 
             $vehiculo->actualizar($modelo, $anio, $capacidad, $numeroSerie, $numeroMotor, $placas, $modalidad, $asociadoProtegido, $oficina);
         }

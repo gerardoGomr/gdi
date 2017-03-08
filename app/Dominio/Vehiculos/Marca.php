@@ -27,11 +27,6 @@ class Marca
     private $modelos;
 
     /**
-     * @var IColeccion
-     */
-    private $oficinas;
-
-    /**
      * @return int
      */
     public function getId()
@@ -53,13 +48,5 @@ class Marca
     public function getModelos()
     {
         return $this->modelos;
-    }
-
-    /**
-     * @return IColeccion
-     */
-    public function getOficinas()
-    {
-        return $this->oficinas;
     }
 }

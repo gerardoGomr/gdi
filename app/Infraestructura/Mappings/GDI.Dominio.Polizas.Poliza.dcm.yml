@@ -65,3 +65,9 @@ GDI\Dominio\Polizas\Poliza:
       targetEntity: GDI\Dominio\Polizas\Pagos\PolizaPago
       mappedBy: poliza
       cascade: [persist]
+  manyToOne:
+    usuarioCaptura:
+      targetEntity: GDI\Dominio\Usuarios\Usuario
+      joinColumn:
+        name: usuario_id
+        referencedColumnName: id

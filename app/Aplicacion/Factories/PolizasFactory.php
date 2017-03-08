@@ -1,8 +1,8 @@
 <?php
 namespace GDI\Aplicacion\Factories;
 
+use Exception;
 use GDI\Aplicacion\Coleccion;
-use GDI\Aplicacion\Logger;
 use GDI\Dominio\Coberturas\Cobertura;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasRepositorio;

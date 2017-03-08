@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +151,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
-
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -163,14 +163,10 @@ return [
         GDI\Providers\UsuariosRepositorioServiceProvider::class,
         GDI\Providers\VehiculosRepositorioServiceProvider::class,
         GDI\Providers\ModalidadesRepositorioServiceProvider::class,
-        GDI\Providers\AsociadosProtegidosRepositorioServiceProvider::class,
         GDI\Providers\MarcasRepositorioServiceProvider::class,
-        GDI\Providers\AsociadosAgentesRepositorioServiceProvider::class,
-        GDI\Providers\CoberturasRepositorioServiceProvider::class,
         GDI\Providers\ServiciosRepositorioServiceProvider::class,
         GDI\Providers\ModelosRepositorioServiceProvider::class,
         GDI\Providers\CostosRepositorioServiceProvider::class,
-        GDI\Providers\PolizasRepositorioServiceProvider::class,
         GDI\Providers\UnidadesAdministrativasRepositorioServiceProvider::class,
         GDI\Providers\CoberturasConceptosRepositorioServiceProvider::class,
         GDI\Providers\VigenciasRepositorioServiceProvider::class,
@@ -223,6 +219,6 @@ return [
         'EntityManager' => LaravelDoctrine\ORM\Facades\EntityManager::class,
         'Registry'      => LaravelDoctrine\ORM\Facades\Registry::class,
         'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
-
+        'Excel'         => Maatwebsite\Excel\Facades\Excel::class,
     ]
 ];
