@@ -35,30 +35,27 @@ class DoctrineCoberturasRepositorio implements CoberturasRepositorio
 
 	/**
 	 * @param int $id
-	 * @param null $oficinaId
 	 * @param Modalidad|null $modalidad
 	 * @return Cobertura
 	 */
-	public function obtenerPorId($id, $oficinaId = null, Modalidad $modalidad = null)
+	public function obtenerPorId($id, Modalidad $modalidad = null)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = '';
-
 			if (is_null($modalidad)) {
-				$query = 'SELECT c, o, s, r FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s LEFT JOIN c.responsabilidades r WHERE c.id = :id';
+				$query = 'SELECT c, o, s, r, co FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s LEFT JOIN c.responsabilidades r LEFT JOIN c.costos co WHERE c.id = :id';
 			} else {
 				$query = 'SELECT c, o, s, r, co FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s LEFT JOIN c.responsabilidades r LEFT JOIN c.costos co LEFT JOIN co.modalidad m WHERE c.id = :id AND m.id = :modalidadId';
 			}
 
-			$query = $this->entityManager->createQuery($query)
+			$cobertura = $this->entityManager->createQuery($query)
 				->setParameter('id', $id);
 
 			if (!is_null($modalidad)) {
-				$query->setParameter('modalidadId', $modalidad->getId());
+				$cobertura->setParameter('modalidadId', $modalidad->getId());
 			}
 
-			$cobertura = $query->getResult();
+			$cobertura = $cobertura->getResult();
 
 			if (count($cobertura) > 0) {
 				return $cobertura[0];
@@ -74,30 +71,28 @@ class DoctrineCoberturasRepositorio implements CoberturasRepositorio
 	}
 
 	/**
-	 * @param null $oficinaId
 	 * @return array
 	 */
-	public function obtenerTodos($oficinaId = null)
+	public function obtenerTodos()
 	{
 		// TODO: Implement obtenerTodos() method.
 	}
 
 	/**
+	 * obtener coberturas en base a $servicio y $coberturaTipo
+	 *
 	 * @param Servicio $servicio
 	 * @param int $coberturaTipo
-	 * @param int $oficinaId
 	 * @return array|null
 	 */
-	public function obtenerPorServicioCoberturaTipo(Servicio $servicio, $coberturaTipo, $oficinaId)
+	public function obtenerPorServicioCoberturaTipo(Servicio $servicio, $coberturaTipo)
 	{
 		// TODO: Implement obtenerPorServicioCoberturaTipo() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT c, o, s FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s WHERE s.id = :servicioId AND c.coberturaTipo = :coberturaTipoId AND o.id = :oficinaId')
-					->setParameter('servicioId', $servicio->getId())
-					->setParameter('coberturaTipoId', $coberturaTipo)
-					->setParameter('oficinaId', $oficinaId);
-
-			$coberturas = $query->getResult();
+			$coberturas = $this->entityManager->createQuery('SELECT c, o, s FROM Coberturas:Cobertura c JOIN c.oficina o JOIN c.servicio s WHERE s.id = :servicioId AND c.coberturaTipo = :coberturaTipoId')
+				->setParameter('servicioId', $servicio->getId())
+				->setParameter('coberturaTipoId', $coberturaTipo)
+				->getResult();
 
 			if (count($coberturas) > 0) {
 				return $coberturas;

@@ -32,10 +32,9 @@ class CoberturasFactory
      * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
      * @param VigenciasRepositorio $vigenciasRepositorio
      * @param CostosRepositorio $costosRepositorio
-     * @param PolizasRepositorio $polizasRepositorio
      * @return Cobertura
      */
-    public static function crear(Request $request, Servicio $servicio, Modalidad $modalidad, Oficina $oficina, CoberturasRepositorio $coberturasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, PolizasRepositorio $polizasRepositorio)
+    public static function crear(Request $request, Servicio $servicio, Modalidad $modalidad, Oficina $oficina, CoberturasRepositorio $coberturasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio)
     {
         if ($request->get('cobertura') === '-1') {
             // es un nuevo modelo, crear
@@ -53,8 +52,8 @@ class CoberturasFactory
                 $responsabilidades->add($responsabilidadCobertura);
             }
 
-            $vigencia = VigenciasFactory::crear($request, $polizasRepositorio);
-            $costo    = CostosFactory::crear($request, $vigencia, $modalidad, $costosRepositorio, $polizasRepositorio);
+            $vigencia = VigenciasFactory::crear($request, $vigenciasRepositorio);
+            $costo    = CostosFactory::crear($request, $vigencia, $modalidad, $costosRepositorio);
 
             $costos->add($costo);
 

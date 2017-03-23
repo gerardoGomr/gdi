@@ -15,6 +15,7 @@ class Controller extends BaseController
 
     /**
      * transformar request a mayusculas
+     *
      * @param Request $request
      */
     protected function transformarMayusculas(Request $request)
@@ -25,6 +26,7 @@ class Controller extends BaseController
 
     /**
      * validar la presencia de la variable GET
+     *
      * @param string $variable
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

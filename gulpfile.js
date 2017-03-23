@@ -33,6 +33,7 @@ elixir(function(mix) {
 			'components/core/js/core.init.js',
 			'components/core/js/animations.init.js',
 			'components/core/js/hack768-1024.js',
+			'components/core/js/tokenAjaxSetup.js',
 			'components/common/forms/validator/assets/lib/jquery-validation/dist/jquery.validate.min.js',
 			'components/common/forms/validator/assets/lib/jquery-validation/dist/additional-methods.min.js',
 			'components/common/forms/validator/assets/lib/jquery-validation/dist/jquery.form.js',

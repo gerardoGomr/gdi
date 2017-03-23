@@ -30,7 +30,7 @@ class ModalidadesFactory
         } else {
             // leer del repositorio
             $modalidadId = (int)$request->get('modalidad');
-            $modalidad   = $modalidadesRepositorio->obtenerPorId($modalidadId, $oficina->getId());
+            $modalidad   = $modalidadesRepositorio->obtenerPorId($modalidadId);
         }
 
         return $modalidad;

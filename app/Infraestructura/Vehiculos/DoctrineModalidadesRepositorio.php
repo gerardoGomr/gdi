@@ -3,6 +3,7 @@ namespace GDI\Infraestructura\Vehiculos;
 
 use Doctrine\ORM\EntityManager;
 use GDI\Aplicacion\Logger;
+use GDI\Dominio\Vehiculos\Modalidad;
 use GDI\Dominio\Vehiculos\Repositorios\ModalidadesRepositorio;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
@@ -31,15 +32,16 @@ class DoctrineModalidadesRepositorio implements ModalidadesRepositorio
     }
 
     /**
-     * @param int|null $oficinaId
+     * obtener una lista de modalidades
+     *
      * @return array
      */
-    public function obtenerTodos($oficinaId = null)
+    public function obtenerTodos()
     {
         // TODO: Implement obtenerTodos() method.
         try {
-            $query       = $this->entityManager->createQuery('SELECT m, o FROM Vehiculos:Modalidad m JOIN m.oficina o WHERE o.id = :id')->setParameter('id', $oficinaId);
-            $modalidades = $query->getResult();
+            $modalidades = $this->entityManager->createQuery('SELECT m, o FROM Vehiculos:Modalidad m JOIN m.oficina o')
+                ->getResult();
 
             if (count($modalidades) > 0) {
                 return $modalidades;
@@ -55,19 +57,18 @@ class DoctrineModalidadesRepositorio implements ModalidadesRepositorio
     }
 
     /**
+     * obtener una modalidad en base a su id
+     *
      * @param int $id
-     * @param null $oficinaId
-     * @return mixed
+     * @return Modalidad
      */
-    public function obtenerPorId($id, $oficinaId = null)
+    public function obtenerPorId($id)
     {
         // TODO: Implement obtenerPorId() method.
         try {
-            $query       = $this->entityManager->createQuery('SELECT m, o FROM Vehiculos:Modalidad m JOIN m.oficina o WHERE m.id = :id AND o.id = :oficinaId')
+            $modalidades = $this->entityManager->createQuery('SELECT m, o FROM Vehiculos:Modalidad m JOIN m.oficina o WHERE m.id = :id')
                 ->setParameter('id', $id)
-                ->setParameter('oficinaId', $oficinaId);
-
-            $modalidades = $query->getResult();
+                ->getResult();
 
             if (count($modalidades) > 0) {
                 return $modalidades[0];
@@ -80,15 +81,5 @@ class DoctrineModalidadesRepositorio implements ModalidadesRepositorio
             $pdoLogger->log($e);
             return null;
         }
-    }
-
-    /**
-     * obtener una lista de vehiculos en base al dato
-     * @param string $dato
-     * @return array
-     */
-    public function obtenerPor($dato)
-    {
-
     }
 }

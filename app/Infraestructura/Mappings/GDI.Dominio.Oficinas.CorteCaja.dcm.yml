@@ -1,0 +1,26 @@
+GDI\Dominio\Oficinas\CorteCaja:
+  type: entity
+  table: corte_caja
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    fecha:
+      type: datetime
+  manyToOne:
+    auditor:
+      targetEntity: GDI\Dominio\Usuarios\Usuario
+      joinColumn:
+        name: usuario_id
+        referencedColumnName: id
+    oficina:
+      targetEntity: Oficina
+      joinColumn:
+        name: oficina_id
+        referencedColumnName: id
+  oneToMany:
+    polizasPagos:
+      targetEntity: GDI\Dominio\Polizas\Pagos\PolizaPago
+      mappedBy: corteCaja

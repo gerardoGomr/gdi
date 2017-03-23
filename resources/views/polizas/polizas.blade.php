@@ -38,6 +38,10 @@
                                             <div class="col-md-2">
                                                 <input type="text" name="yFechaEmision" class="form-control fecha" placeholder="Y FECHA" readonly>
                                             </div>
+                                            <div class="col-md-2">
+                                                {{ csrf_field() }}
+                                                <button id="buscar" type="button" class="btn btn-primary"><i class="fa fa-search"></i> BUSCAR</button>
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
@@ -56,6 +60,14 @@
                                 </form>
                                 <div class="col-separator-h"></div>
                                 <h4 class="innerAll bg-gray border-bottom margin-bottom-none">RESULTADOS</h4>
+                                <div class="innerAll">
+                                    <a href="{{ url('polizas/registrar') }}" class="btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR NUEVA PÓLIZA</a>
+                                    <div class="separator"></div>
+                                    <div id="resultadoBusqueda">
+                                        @include('polizas.polizas_resultados')
+                                    </div>
+                                </form>
+                                <div class="col-separator-h"></div>
                                 <div class="innerAll">
                                     <a href="{{ url('polizas/registrar') }}" class="btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR NUEVA PÓLIZA</a>
                                     <div class="separator"></div>

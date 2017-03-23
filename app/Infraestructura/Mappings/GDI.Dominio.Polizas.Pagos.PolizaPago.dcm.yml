@@ -33,3 +33,9 @@ GDI\Dominio\Polizas\Pagos\PolizaPago:
         name: poliza_id
         referencedColumnName: id
       cascade: [persist]
+    corteCaja:
+      targetEntity: GDI\Dominio\Oficinas\CorteCaja
+      inversedBy: polizasPagos
+      joinColumn:
+        name: corte_caja_id
+        referencedColumnName: id

@@ -960,6 +960,13 @@ jQuery(document).ready(function($) {
         }, 300);
     }
 });
+jQuery(document).ready(function($) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+        }
+    });
+});
 /*! jQuery Validation Plugin - v1.10.0 - 9/7/2012
 * https://github.com/jzaefferer/jquery-validation
 * Copyright (c) 2012 Jörn Zaefferer; Licensed MIT, GPL */

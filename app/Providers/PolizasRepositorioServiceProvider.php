@@ -1,9 +1,12 @@
 <?php
 
-namespace GDI\Providers;
+namespace Providers;
 
 use App;
+use GDI\Dominio\Polizas\Repositorios\PolizasRepositorio;
+use GDI\Infraestructura\Polizas\DoctrinePolizasOficinaRepositorio;
 use GDI\Infraestructura\Polizas\DoctrinePolizasRepositorio;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class PolizasRepositorioServiceProvider extends ServiceProvider
@@ -25,7 +28,11 @@ class PolizasRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('GDI\Dominio\Polizas\Repositorios\PolizasRepositorio', function($app) {
+        $this->app->bind(PolizasRepositorio::class, function($app) {
+            if ($verificador->rol !== 1) {
+                return new DoctrinePolizasOficinaRepositorio($app['em'], $verificador->oficina);
+            }
+
             return new DoctrinePolizasRepositorio($app['em']);
         });
     }

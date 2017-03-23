@@ -86,6 +86,24 @@ Route::group(['middleware' => ['usuarioAutenticado']], function () {
 
     //ruta para eliminar una responsabilidad de la cobertura
     Route::post('cobertura/responsabilidad/eliminar', 'Coberturas\CoberturasController@eliminarResponsabilidad');
+
+    // ruta para mostrar los cortes de caja realizados
+    Route::get('caja/cortes', 'Caja\CajaController@index');
+
+    // ruta para recargar tabla de cortes de caja
+    Route::post('caja/cortes', 'Caja\CajaController@recargar');
+
+    // ruta para generar nuevo corte de caja
+    Route::post('caja/cortes/nuevo', 'Caja\CajaController@nuevo');
+
+    // ruta para ver el detalle de un corte de caja
+    Route::get('caja/cortes/detalle/{id?}', 'Caja\CajaController@mostrar');
+
+    // ruta para exportar a excel un corte de caja
+    Route::get('caja/cortes/excel/{id?}', 'Caja\CajaController@exportarExcel');
+
+    // ruta para exportar a PDF un corte de caja
+    Route::get('caja/cortes/pdf/{id?}', 'Caja\CajaController@exportarPDF');
 });
 
 // ruta para mostrar la vista de login

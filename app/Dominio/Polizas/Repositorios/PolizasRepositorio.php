@@ -13,6 +13,22 @@ use GDI\Dominio\Repositorios\Repositorio;
 interface PolizasRepositorio extends Repositorio
 {
     /**
+     * obtener lista de pólizas en base al dato de búsqueda
+     *
+     * @param string $dato
+     * @return array|null
+     */
+    public function obtenerPorVehiculo($dato);
+
+    /**
+     * obtener polizas en base a los parámetros de búsqueda
+     *
+     * @param array $parametros
+     * @return array|null
+     */
+    public function obtenerPor(array $parametros);
+
+    /**
      * guardar o editar una póliza
      * @param Poliza $poliza
      * @return bool

@@ -31,7 +31,8 @@ return [
                 'Polizas'    => 'GDI\Dominio\Polizas',
                 'Coberturas' => 'GDI\Dominio\Coberturas',
                 'Oficinas'   => 'GDI\Dominio\Oficinas',
-                'Personas'   => 'GDI\Dominio\Personas'
+                'Personas'   => 'GDI\Dominio\Personas',
+                'Pagos'      => 'GDI\Dominio\Polizas\Pagos',
             ],
             'paths'      => [
                 base_path('app/Dominio'),

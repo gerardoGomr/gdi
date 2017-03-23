@@ -14,6 +14,13 @@
 		<ul class="menu list-unstyled" id="navigation_components">
 			<li><a href="{{ url('polizas') }}" class="glyphicons notes_2"><i></i><span>PÓLIZAS</span></a></li>
 			<li class="hasSubmenu">
+				<a href="#submenuCaja" class="glyphicons usd" data-toggle="collapse"><i></i><span>CAJA</span></a>
+				<ul id="submenuCaja" class="animated fadeIn collapse">
+					<li class="text-small"><a href="{{ url('caja/cortes') }}" class="glyphicons chevron-right"><i></i><span>CORTE DE CAJA</span></a></li>
+					<li class="text-small"><a href="{{ url('admin/servidores/alta') }}" class="glyphicons chevron-right"><i></i><span>EGRESOS</span></a></li>
+				</ul>
+			</li>
+			<li class="hasSubmenu">
 				<a href="#submenuReportes" class="glyphicons stats" data-toggle="collapse"><i></i><span>REPORTES</span></a>
 				<ul id="submenuReportes" class="animated fadeIn collapse">
 					<li class="text-small"><a href="{{ url('admin/servidores/alta') }}" class="glyphicons chevron-right"><i></i><span>COMISIONES</span></a></li>

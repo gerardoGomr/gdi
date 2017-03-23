@@ -60,7 +60,7 @@ class AsociadosProtegidosFactory
         
         } else {
             $asociadoProtegidoId = (int)$request->get('asociadoProtegidoId');
-            $asociadoProtegido   = $asociadosProtegidosRepositorio->obtenerPorId($asociadoProtegidoId, $oficina->getId());
+            $asociadoProtegido   = $asociadosProtegidosRepositorio->obtenerPorId($asociadoProtegidoId);
             $asociadoProtegido->actualizar($nombre, $paterno, $materno, $razonSocial, $domicilio, $oficina, $rfc, $tipoPersona, $telefonoAsociado, $celularAsociado, $emailAsociado);
         }
         

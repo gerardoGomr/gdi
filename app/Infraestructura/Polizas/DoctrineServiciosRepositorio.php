@@ -2,11 +2,12 @@
 namespace GDI\Infraestructura\Polizas;
 
 use GDI\Aplicacion\Logger;
-
 use Doctrine\ORM\EntityManager;
 use GDI\Dominio\Polizas\Repositorios\ServiciosRepositorio;
+use GDI\Dominio\Polizas\Servicio;
 use Monolog\Logger as Log;
 use Monolog\Handler\StreamHandler;
+use PDOException;
 
 /**
  * Class DoctrineServiciosRepositorio
@@ -32,17 +33,15 @@ class DoctrineServiciosRepositorio implements ServiciosRepositorio
 
 	/**
 	 * @param int $id
-	 * @param int|null $oficinaId
-	 * @return array
+	 * @return Servicio
 	 */
-	public function obtenerPorId($id, $oficinaId = null)
+	public function obtenerPorId($id)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT s FROM Polizas:Servicio s WHERE s.id = :id')
-					->setParameter('id', $id);
-
-			$servicios = $query->getResult();
+			$servicios = $this->entityManager->createQuery('SELECT s FROM Polizas:Servicio s WHERE s.id = :id')
+				->setParameter('id', $id)
+				->getResult();
 
 			if (count($servicios) > 0) {
 				return $servicios[0];
@@ -50,7 +49,7 @@ class DoctrineServiciosRepositorio implements ServiciosRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;
@@ -58,15 +57,14 @@ class DoctrineServiciosRepositorio implements ServiciosRepositorio
 	}
 
 	/**
-	 * @param int|null $oficinaId
 	 * @return array|null
 	 */
-	public function obtenerTodos($oficinaId = null)
+	public function obtenerTodos()
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query = $this->entityManager->createQuery("SELECT s FROM Polizas:Servicio s ORDER BY s.servicio");
-			$servicios = $query->getResult();
+			$servicios = $this->entityManager->createQuery("SELECT s FROM Polizas:Servicio s ORDER BY s.servicio")
+				->getResult();
 
 			if (count($servicios) > 0) {
 				return $servicios;
@@ -74,7 +72,7 @@ class DoctrineServiciosRepositorio implements ServiciosRepositorio
 
 			return null;
 
-		} catch (\PDOException $e) {
+		} catch (PDOException $e) {
 			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 			$pdoLogger->log($e);
 			return null;

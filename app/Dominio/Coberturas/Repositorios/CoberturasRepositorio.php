@@ -15,18 +15,20 @@ use GDI\Dominio\Vehiculos\Modalidad;
 interface CoberturasRepositorio extends Repositorio
 {
     /**
+     * obtener coberturas por $servicio, $coberturatipo
+     *
      * @param Servicio $servicio
      * @param int $coberturaTipo
-     * @param int $oficinaId
      * @return array|null
      */
-    public function obtenerPorServicioCoberturaTipo(Servicio $servicio, $coberturaTipo, $oficinaId);
+    public function obtenerPorServicioCoberturaTipo(Servicio $servicio, $coberturaTipo);
 
     /**
+     * obtener cobertura por $id
+     *
      * @param int $id
-     * @param int|null $oficinaId
      * @param Modalidad|null $modalidad
      * @return Cobertura
      */
-    public function obtenerPorId($id, $oficinaId = null, Modalidad $modalidad = null);
+    public function obtenerPorId($id, Modalidad $modalidad = null);
 }

@@ -26,6 +26,19 @@ class Modalidad
     private $oficina;
 
     /**
+     * Modalidad constructor.
+     *
+     * @param string $modalidad
+     * @param Oficina $oficina
+     */
+    public function __construct($modalidad, Oficina $oficina)
+    {
+        $this->modalidad = $modalidad;
+        $this->oficina   = $oficina;
+    }
+
+
+    /**
      * @return int
      */
     public function getId()

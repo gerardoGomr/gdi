@@ -5,9 +5,11 @@ use DateInterval;
 use DateTime;
 use GDI\Dominio\Coberturas\Cobertura;
 use GDI\Dominio\Coberturas\Costo;
+use GDI\Dominio\Oficinas\CorteCaja;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Personas\Persona;
 use GDI\Dominio\Polizas\Pagos\IPolizaPago;
+use GDI\Dominio\Usuarios\Usuario;
 use GDI\Dominio\Vehiculos\Vehiculo;
 use GDI\Dominio\Listas\IColeccion;
 use GDI\Exceptions\NuevoCostoEsMenorAlCostoDePolizaException;
@@ -94,6 +96,16 @@ class Poliza
      * @var string
      */
     private $observaciones;
+
+    /**
+     * @var CorteCaja
+     */
+    private $corteCaja;
+
+    /**
+     * @var Usuario
+     */
+    private $usuarioCaptura;
 
     /**
      * Class Poliza Constructor
@@ -254,6 +266,22 @@ class Poliza
     public function getObservaciones()
     {
         return $this->observaciones;
+    }
+
+    /**
+     * @return Usuario
+     */
+    public function getUsuarioCaptura()
+    {
+        return $this->usuarioCaptura;
+    }
+
+    /**
+     * @return CorteCaja
+     */
+    public function getCorteCaja()
+    {
+        return $this->corteCaja;
     }
 
     /**
@@ -496,5 +524,13 @@ class Poliza
     public function getCostoParcial()
     {
         return $this->costo->getCosto() * 0.5;
+    }
+    /** asignar el corte de caja a la póliza actual
+     *
+     * @param CorteCaja $corteCaja
+     */
+    public function asignarCorteCaja(CorteCaja $corteCaja)
+    {
+        $this->corteCaja = $corteCaja;
     }
 }

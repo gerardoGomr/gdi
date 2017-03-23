@@ -9,7 +9,4 @@ use GDI\Dominio\Repositorios\Repositorio;
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
  */
-interface ModalidadesRepositorio extends Repositorio
-{
-
-}
+interface ModalidadesRepositorio extends Repositorio {}

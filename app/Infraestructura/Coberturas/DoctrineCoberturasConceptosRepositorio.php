@@ -33,17 +33,15 @@ class DoctrineCoberturasConceptosRepositorio implements CoberturasConceptosRepos
 
 	/**
 	 * @param int $id
-	 * @param int|null $oficinaId
 	 * @return CoberturaConcepto
 	 */
-	public function obtenerPorId($id, $oficinaId = null)
+	public function obtenerPorId($id)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT c FROM Coberturas:CoberturaConcepto c WHERE c.id = :id')
-				->setParameter('id', $id);
-
-			$coberturasConceptos = $query->getResult();
+			$coberturasConceptos = $this->entityManager->createQuery('SELECT c FROM Coberturas:CoberturaConcepto c WHERE c.id = :id')
+				->setParameter('id', $id)
+				->getResult();
 
 			if (count($coberturasConceptos) > 0) {
 				return $coberturasConceptos[0];
@@ -59,15 +57,14 @@ class DoctrineCoberturasConceptosRepositorio implements CoberturasConceptosRepos
 	}
 
 	/**
-	 * @param null $oficinaId
 	 * @return array
 	 */
-	public function obtenerTodos($oficinaId = null)
+	public function obtenerTodos()
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query               = $this->entityManager->createQuery('SELECT c FROM Coberturas:CoberturaConcepto c ORDER BY c.concepto');
-			$coberturasConceptos = $query->getResult();
+			$coberturasConceptos = $this->entityManager->createQuery('SELECT c FROM Coberturas:CoberturaConcepto c ORDER BY c.concepto')
+				->getResult();
 
 			if (count($coberturasConceptos) > 0) {
 				return $coberturasConceptos;

@@ -34,21 +34,22 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	}
 
 	/**
+	 * obtener póliza por id
 	 * @param int $id
-	 * @param int|null $oficinaId
-	 * @return array
+	 * @return Poliza
 	 */
-	public function obtenerPorId($id, $oficinaId = null)
+	public function obtenerPorId($id)
 	{
 		// TODO: Implement obtenerPorId() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m, ma, s FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN m.marca ma JOIN c.servicio s WHERE p.id = :id AND p.activa = 1')
-				->setParameter('id', $id);
 
-			$cobertura = $query->getResult();
+			$poliza = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m, ma, s, o FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN m.marca ma JOIN c.servicio s JOIN p.oficina o WHERE p.id = :id AND p.activa = 1')
+				->setParameter('id', $id)
+				->getResult();
 
-			if (count($cobertura) > 0) {
-				return $cobertura[0];
+
+			if (count($poliza) > 0) {
+				return $poliza[0];
 			}
 
 			return null;
@@ -61,16 +62,17 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	}
 
 	/**
-	 * @param int|null $oficinaId
+	 * obtener lista de pólizas
+	 *
 	 * @return array|null
 	 */
-	public function obtenerTodos($oficinaId = null)
+	public function obtenerTodos()
 	{
 		// TODO: Implement obtenerTodos() method.
 		try {
-			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m WHERE p.activa = 1 ORDER BY p.id')
-				->setMaxResults(50);
-			$polizas = $query->getResult();
+			$polizas = $this->entityManager->createQuery("SELECT p, a, v, c, co, vi, m, o FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN p.oficina o WHERE p.activa = 1 ORDER BY p.id")
+				->setMaxResults(50)
+				->getResult();
 
 			if (count($polizas) > 0) {
 				return $polizas;
@@ -86,18 +88,19 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	}
 
 	/**
-	 * buscar pólizas dependiendo el dato del vehículo (número de serie o motor)
+	 * obtener lista de pólizas en base al dato de búsqueda
+	 *
 	 * @param string $dato
-	 * @param int|null $oficinaId
 	 * @return array|null
 	 */
-	public function obtenerPorVehiculo($dato, $oficinaId = null)
+	public function obtenerPorVehiculo($dato)
 	{
 		try {
-			$query = $this->entityManager->createQuery('SELECT p, a, v, c, co, vi, m FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m WHERE v.numeroSerie LIKE :dato OR v.numeroMotor LIKE :dato ORDER BY p.id')
+
+			$polizas = $this->entityManager->createQuery("SELECT p, a, v, c, co, vi, m, o FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN p.oficina o WHERE v.numeroSerie LIKE :dato OR v.numeroMotor LIKE :dato ORDER BY p.id")
+				->setParameter('dato', "%$dato%")
 				->setMaxResults(50)
-				->setParameter('dato', "%$dato%");
-			$polizas = $query->getResult();
+				->getResult();
 
 			if (count($polizas) > 0) {
 				return $polizas;
@@ -114,6 +117,7 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 
 	/**
 	 * obtener polizas en base a los parámetros de búsqueda
+	 *
 	 * @param array $parametros
 	 * @return array|null
 	 */
@@ -122,70 +126,38 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 		try {
 			$queryString = '';
 
-			if (!is_null($parametros['estatus'])) {
+			if (array_key_exists('estatus', $parametros)) {
 				$queryString .= ' AND p.activa = :activa';
 			}
 
-			if (!is_null($parametros['entreFechaEmision'])) {
-				if (!is_null($parametros['yFechaEmision'])) {
+			if (array_key_exists('entreFechaEmision', $parametros)) {
+				if (array_key_exists('yFechaEmision', $parametros)) {
 					$queryString .= ' AND p.fechaEmision BETWEEN :entreFechaEmision AND :yFechaEmision';
 				} else {
 					$queryString .= ' AND p.fechaEmision = :entreFechaEmision';
 				}
 			} else {
-				if (!is_null($parametros['yFechaEmision'])) {
+				if (array_key_exists('yFechaEmision', $parametros)) {
 					$queryString .= ' AND p.fechaEmision = :yFechaEmision';
 				}
 			}
 
-			if (!is_null($parametros['entreFechaVigencia'])) {
-				if (!is_null($parametros['yFechaVigencia'])) {
+			if (array_key_exists('entreFechaVigencia', $parametros)) {
+				if (array_key_exists('yFechaVigencia', $parametros)) {
 					$queryString .= ' AND p.fechaVigencia BETWEEN :entreFechaVigencia AND :yFechaVigencia';
 				} else {
 					$queryString .= ' AND p.fechaVigencia = :entreFechaEmision';
 				}
 			} else {
-				if (!is_null($parametros['yFechaVigencia'])) {
+				if (array_key_exists('yFechaVigencia', $parametros)) {
 					$queryString .= ' AND p.fechaVigencia = :yFechaVigencia';
 				}
 			}
 
-			$query = $this->entityManager->createQuery("SELECT p, a, v, c, co, vi, m FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m WHERE p.id IS NOT NULL $queryString ORDER BY p.id")
-					->setMaxResults(50);
-
-			if (!is_null($parametros['estatus'])) {
-				$query->setParameter('activa', $parametros['estatus']);
-			}
-
-			if (!is_null($parametros['entreFechaEmision'])) {
-				if (!is_null($parametros['yFechaEmision'])) {
-					$query->setParameter('entreFechaEmision', $parametros['entreFechaEmision']);
-					$query->setParameter('yFechaEmision', $parametros['yFechaEmision']);
-
-				} else {
-					$query->setParameter('entreFechaEmision', $parametros['entreFechaEmision']);
-				}
-			} else {
-				if (!is_null($parametros['yFechaEmision'])) {
-					$query->setParameter('yFechaEmision', $parametros['yFechaEmision']);
-				}
-			}
-
-			if (!is_null($parametros['entreFechaVigencia'])) {
-				if (!is_null($parametros['yFechaVigencia'])) {
-					$query->setParameter('entreFechaVigencia', $parametros['entreFechaVigencia']);
-					$query->setParameter('yFechaVigencia', $parametros['yFechaVigencia']);
-
-				} else {
-					$query->setParameter('entreFechaVigencia', $parametros['entreFechaVigencia']);
-				}
-			} else {
-				if (!is_null($parametros['yFechaVigencia'])) {
-					$query->setParameter('yFechaVigencia', $parametros['yFechaVigencia']);
-				}
-			}
-
-			$polizas = $query->getResult();
+			$polizas = $this->entityManager->createQuery("SELECT p, a, v, c, co, vi, m, o FROM Polizas:Poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN p.oficina o WHERE p.id IS NOT NULL $queryString ORDER BY p.id")
+				->setParameters($parametros)
+				->setMaxResults(50)
+				->getResult();
 
 			if (count($polizas) > 0) {
 				return $polizas;
@@ -201,7 +173,34 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 	}
 
 	/**
+	 * obtener pagos de la póliza
+	 *
+	 * @param string $fecha
+	 * @return array|null
+	 */
+	public function obtenerPorFechaPago($fecha)
+	{
+		try {
+			$polizasPagos = $this->entityManager->createQuery("SELECT pa, p, a, v, c, co, vi, m, o FROM Pagos:PolizaPago pa JOIN pa.poliza p JOIN p.asociadoAgente a JOIN p.vehiculo v JOIN p.cobertura c JOIN p.costo co JOIN co.vigencia vi JOIN v.modelo m JOIN p.oficina o WHERE pa.fechaPago = :fechaPago ORDER BY p.id")
+				->setParameter('fechaPago', $fecha)
+				->getResult();
+
+			if (count($polizasPagos) > 0) {
+				return $polizasPagos;
+			}
+
+			return null;
+
+		} catch (PDOException $e) {
+			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
+			$pdoLogger->log($e);
+			return null;
+		}
+	}
+
+	/**
 	 * guardar o editar una póliza
+	 *
 	 * @param Poliza $poliza
 	 * @return bool
 	 */
@@ -212,25 +211,6 @@ class DoctrinePolizasRepositorio implements PolizasRepositorio
 				$this->entityManager->persist($poliza);
 			}
 
-			$this->entityManager->flush();
-
-			return true;
-
-		} catch (PDOException $e) {
-			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
-			$pdoLogger->log($e);
-			return false;
-		}
-	}
-
-	/**
-	 * actualizar cambios realizados al objeto Poliza en la BD
-	 * @param Poliza $poliza
-	 * @return bool
-	 */
-	public function actualizar(Poliza $poliza)
-	{
-		try {
 			$this->entityManager->flush();
 
 			return true;

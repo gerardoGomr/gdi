@@ -1,8 +1,10 @@
 <?php
 namespace GDI\Dominio\Repositorios;
+use GDI\Dominio\Oficinas\Oficina;
 
 /**
  * Interface Repositorio
+ *
  * @package GDI\Dominio\Repositorios
  * @author Gerardo Adrián Gómez Ruiz
  * @version 1.0
@@ -10,15 +12,13 @@ namespace GDI\Dominio\Repositorios;
 interface Repositorio
 {
     /**
-     * @param int|null $oficinaId
      * @return array
      */
-    public function obtenerTodos($oficinaId = null);
+    public function obtenerTodos();
 
     /**
      * @param int $id
-     * @param int|null $oficinaId
      * @return mixed
      */
-    public function obtenerPorId($id, $oficinaId = null);
+    public function obtenerPorId($id);
 }

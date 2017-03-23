@@ -19,14 +19,3 @@ GDI\Dominio\Vehiculos\Marca:
         referencedColumnName: id
       mappedBy: marca
       cascade: [persist]
-  manyToMany:
-    oficinas:
-      targetEntity: GDI\Dominio\Oficinas\Oficina
-      joinTable:
-        name: marca_oficina
-        joinColumns:
-          marca_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          oficina_id:
-            referenceColumnName: id
