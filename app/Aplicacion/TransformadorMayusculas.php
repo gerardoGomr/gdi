@@ -13,14 +13,18 @@ class TransformadorMayusculas
 {
     /**
      * transformar los valores del request a mayúsculas
+     * se omiten ciertos indexes. Se omiten valores que sean arrays
+     * 
      * @param Request $request
      * @return void
      */
     public function transformar(Request $request)
     {
-        $input   = $request->except('emailAsociado', 'emailAgente', 'polizaId');
+        $input = $request->except('emailAsociado', 'emailAgente', 'polizaId');
         array_walk($input, function(&$value) {
-            $value = mb_strtoupper($value);
+            if (!is_array($value)) {
+                $value = mb_strtoupper($value);
+            }
         });
 
         $input[] = $request->get('emailAsociado');

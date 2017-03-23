@@ -16,6 +16,7 @@
                                         <span id="acciones">
                                             <button type="button" id="registrarPoliza" class="btn btn-primary"><i class="fa fa-plus-square"></i> ACTUALIZAR PÓLIZA</button>
                                             <a href="{{ url('polizas') }}" class="btn btn-default" id="cancelar"><i class="fa fa-times"></i> CANCELAR</a>
+                                            <br><br>
                                         </span>
                                         <div class="separator"></div>
                                         <div class="box-generic padding-none animated fadeInUp hide" id="busquedaVehiculo">

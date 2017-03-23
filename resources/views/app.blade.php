@@ -15,8 +15,8 @@
 
 		<!-- CSS DEFINITION -->
 		<link rel="shortcut icon" href="{{ asset('img/logo.ico') }}">
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/base-styles.css') }}" />
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/base-styles.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}">
 
 		@yield('css')
 
@@ -53,22 +53,20 @@
 		</div>
 
 		<script data-id="App.Config">
-			var basePath           = '',
-					commonPath             = '/assets/',
-					rootPath               = '',
-					DEV                    = false,
-					componentsPath         = '/assets/components/',
-					layoutApp              = false,
-					module                 = 'admin';
-
-			var primaryColor       = '#013f78',
-					dangerColor            = '#b55151',
-					successColor           = '#609450',
-					infoColor              = '#4a8bc2',
-					warningColor           = '#ab7a4b',
-					inverseColor           = '#45484d';
-
-			var themerPrimaryColor = primaryColor;
+            var basePath           = '',
+                commonPath         = '/assets/',
+                rootPath           = '',
+                DEV                = false,
+                componentsPath     = '/assets/components/',
+                layoutApp          = false,
+                module             = 'admin',
+                primaryColor       = '#013f78',
+                dangerColor        = '#b55151',
+                successColor       = '#609450',
+                infoColor          = '#4a8bc2',
+                warningColor       = '#ab7a4b',
+                inverseColor       = '#45484d',
+                themerPrimaryColor = primaryColor;
 		</script>
 
 		<script src="{{ asset('js/base-scripts.js') }}"></script>

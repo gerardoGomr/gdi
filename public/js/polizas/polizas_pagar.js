@@ -48,6 +48,11 @@ $(document).ready(function() {
 							window.open($('#urlFormatoParcial').val());
 						}
 
+						if (respuesta.generarFormatoConformidad === 'OK') {
+							// abrir recibo de conformidad
+							window.open('/polizas/conformidad/' + $('#polizaId').val());
+						}
+
 						// redirigir a pantalla principal
 						window.location.href = $('#urlPrincipal').val();
 					});

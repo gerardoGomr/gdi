@@ -18,7 +18,7 @@ abstract class ReporteGDI extends TCPDF
         // Set font
         $this->SetFont('helvetica', 'B', 16);
         $this->Cell(0, 10, 'CERTIFICADO DE ACEPTACIÓN', false, true, 'R');
-        $this->Cell(0, 10, 'CT NO.55 B', false, true, 'R');
+        $this->Cell(0, 10, '', false, true, 'R');
         // imagen
         $this->Image(asset('img/logo.png'), 10, 10, 75);
         $this->Ln(25);

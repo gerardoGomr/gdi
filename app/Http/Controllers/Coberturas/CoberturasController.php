@@ -38,10 +38,17 @@ class CoberturasController extends Controller
 
     /**
      * CoberturasController constructor.
+     *
+     * @param ResponsabilidadesRepositorio $responsabilidadesRepositorio
+     * @param CoberturasRepositorio $coberturasRepositorio
      */
     public function __construct(ResponsabilidadesRepositorio $responsabilidadesRepositorio, CoberturasRepositorio $coberturasRepositorio)
     {
-        $this->oficinaId                    = request()->session()->get('usuario')->getOficina()->getId();
+        $this->middleware(function ($request, $next) {
+            $this->oficinaId = $request->session()->get('usuario')->getOficina()->getId();
+            return $next($request);
+        });
+
         $this->responsabilidadesRepositorio = $responsabilidadesRepositorio;
         $this->coberturasRepositorio        = $coberturasRepositorio;
     }

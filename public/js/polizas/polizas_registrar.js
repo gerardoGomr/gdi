@@ -47,13 +47,16 @@ $(document).ready(function() {
 
 				if (resultado.estatus === 'fail') {
 					bootbox.alert('NO SE ENCONTRARON VEHÍCULOS QUE COINCIDAN CON EL PARÁMETRO: ' + $datoVehiculoBuscar.val() + ".\n\r POR FAVOR, REGISTRE LOS DATOS DEL VEHÍCULO.", function () {
-						$('#registro').html(resultado.html);
+						$('#registro').html(resultado.html)
+							.removeClass('hide');
 						$('#numSerie').val($datoVehiculoBuscar.val());
 						$('#numMotor').val($datoVehiculoBuscar.val());
 						$datoVehiculoBuscar.val('');
 						$busquedaVehiculo.addClass('hide');
+						$('#botonBuscarVehiculoNuevamente').removeClass('hide');
 						$datosAsociadoAgente.removeClass('hide');
 						$('#vehiculoNuevo').val('1');
+						$('.hasNiceScroll').getNiceScroll().resize();
 					});
 				}
 
@@ -115,10 +118,8 @@ $(document).ready(function() {
 	// buscar vehículo nuevamente
 	$('#botonBuscarVehiculoNuevamente').on('click', function () {
 		$busquedaVehiculo.removeClass('hide');
-		$datosVehiculo.addClass('hide');
-		$datosAsociado.addClass('hide');
-		$datosAsociadoAgente.addClass('hide');
-		$datosCobertura.addClass('hide');
+		$('#registro').addClass('hide');
+		$(this).addClass('hide');
 		$datoVehiculoBuscar.focus();
 	});
 

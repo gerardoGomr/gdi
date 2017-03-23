@@ -91,7 +91,7 @@
                                                         <input type="hidden" id="tipoVigencia" value="{{ $poliza->getCosto()->getVigencia()->getVigencia() }}">
                                                         <input type="hidden" id="tipoCobertura" value="{{ $poliza->getCobertura()->getCoberturaTipo() }}">
                                                         <input type="hidden" id="costoParcial" value="">
-                                                        <input type="hidden" name="polizaId" value="{{ base64_encode($poliza->getId()) }}">
+                                                        <input type="hidden" name="polizaId" id="polizaId" value="{{ base64_encode($poliza->getId()) }}">
                                                         <input type="hidden" id="urlPrincipal" value="{{ url('polizas') }}">
                                                         <input type="hidden" id="urlFormato" value="{{ url('polizas/formato/' . base64_encode($poliza->getId())) }}">
                                                         <input type="hidden" id="urlFormatoParcial" value="{{ url('polizas/formato-parcial/' . base64_encode($poliza->getId())) }}">

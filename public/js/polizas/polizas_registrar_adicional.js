@@ -52,6 +52,12 @@ $datoAsociadoBuscar.on('keyup', function(event) {
 	}
 });
 
+$('#buscarOtroAsociadoProtegido').on('click', function(event) {
+	$('#busquedaAsociado').removeClass('hide');
+	$('#capturarDatosAsociado').addClass('hide');
+	$('#datoAsociadoBuscar').focus();
+});
+
 // elegir un asociado protegido del modal y presentar información
 $('#resultadoAsociados').on('click', 'button.seleccionarAsociado', function () {
 	var $td         = $(this).parents('td').siblings('td.datos'),
@@ -323,8 +329,8 @@ $('#cobertura').on('change', function (event) {
 		$('div.vigencias').removeClass('hide');
 		$('#seleccionCobertura').addClass('hide');
 		$('#desgloseResponsabilidades').addClass('hide');
-		
 		validarCamposNuevaCobertura();
+		$('.hasNiceScroll').getNiceScroll().resize();
 
 		return false;
 

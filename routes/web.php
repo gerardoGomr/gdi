@@ -75,6 +75,9 @@ Route::group(['middleware' => ['usuarioAutenticado']], function () {
     // ruta para generar el formato parcial de la póliza
     Route::get('polizas/formato-parcial/{polizaId?}', 'Polizas\PolizasController@formatoParcial');
 
+    // ruta para generar el recibo de conformidad
+    Route::get('polizas/conformidad/{polizaId?}', 'Polizas\PolizasController@formatoConformidad');
+
     // ruta para buscar responsabilidades
     Route::post('polizas/responsabilidad/buscar', 'Polizas\PolizasController@bucarResponsabilidades');
 

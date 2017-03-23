@@ -8,8 +8,7 @@
 		</div>
 		<div id="logoWrapper">
 			<div id="logo">
-				<a href="{{ url('/') }}" class="btn btn-sm btn-inverse"><i class="fa fa-home"></i></a>
-				<a href="email.html?lang=en" class="btn btn-sm btn-inverse"><i class="fa fa-envelope"></i><span class="badge pull-right badge-primary">2</span></a>
+				
 			</div>
 		</div>
 		<ul class="menu list-unstyled" id="navigation_components">

@@ -96,6 +96,7 @@
         </div>
 
         <div id="capturarDatosAsociado" class="hide">
+            <button type="button" id="buscarOtroAsociadoProtegido" class="btn bg-gray2"><i class="fa fa-arrow-left"></i> BUSCAR OTRO ASOCIADO PROTEGIDO</button>
             <div class="form-group">
                 <label class="control-label col-md-3" for="tipoPersona">TIPO PERSONA:</label>
                 <div class="col-md-7">

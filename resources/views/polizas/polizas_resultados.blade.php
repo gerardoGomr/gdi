@@ -2,12 +2,12 @@
 use GDI\Aplicacion\Fecha;
 ?>
 @if(count($polizas) > 0)
-    <table class="table table-bordered text-small" id="tablaPolizas">
+    <table class="table table-bordered text-small" id="tablaPolizas" style="font-size: 10px;">
         <thead>
         <tr class="bg-primary">
             <th>No.</th>
             <th>FECHA EXPEDICIÓN</th>
-            <th>ASOCIADO</th>
+            <th>ASOCIADO PROTEGIDO</th>
             <th>VEHICULO</th>
             <th>COSTO</th>
             <th>VIGENCIA</th>

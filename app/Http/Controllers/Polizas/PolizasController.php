@@ -10,6 +10,7 @@ use GDI\Aplicacion\Factories\ServiciosFactory;
 use GDI\Aplicacion\Factories\VehiculosFactory;
 use GDI\Aplicacion\Factories\PolizasPagosFactory;
 use GDI\Aplicacion\Logger;
+use GDI\Aplicacion\Reportes\Polizas\FormatoConformidad;
 use GDI\Aplicacion\Reportes\Polizas\FormatoPoliza;
 use GDI\Aplicacion\Coleccion;
 use GDI\Dominio\Coberturas\Repositorios\CoberturasConceptosRepositorio;
@@ -330,6 +331,7 @@ class PolizasController extends Controller
 
     /**
      * registrar una nueva póliza
+     *
      * @param Request $request
      * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
      * @param ModalidadesRepositorio $modalidadesRepositorio
@@ -345,7 +347,16 @@ class PolizasController extends Controller
      * @param PolizasRepositorio $polizasRepositorio
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registrar(Request $request, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, ModalidadesRepositorio $modalidadesRepositorio, CoberturasRepositorio $coberturasRepositorio, ModelosRepositorio $modelosRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, OficinasRepositorio $oficinasRepositorio, VigenciasRepositorio $vigenciasRepositorio, CostosRepositorio $costosRepositorio, AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio, VehiculosRepositorio $vehiculosRepositorio, PolizasRepositorio $polizasRepositorio)
+    public function registrar(Request $request,
+                              AsociadosAgentesRepositorio $asociadosAgentesRepositorio,
+                              ModalidadesRepositorio $modalidadesRepositorio,
+                              CoberturasRepositorio $coberturasRepositorio, ModelosRepositorio $modelosRepositorio,
+                              UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio,
+                              CoberturasConceptosRepositorio $coberturasConceptosRepositorio,
+                              OficinasRepositorio $oficinasRepositorio, VigenciasRepositorio $vigenciasRepositorio,
+                              CostosRepositorio $costosRepositorio,
+                              AsociadosProtegidosRepositorio $asociadosProtegidosRepositorio,
+                              VehiculosRepositorio $vehiculosRepositorio, PolizasRepositorio $polizasRepositorio)
     {
         $respuesta = ['estatus' => 'OK'];
 
@@ -393,6 +404,7 @@ class PolizasController extends Controller
 
     /**
      * mostrar vista para la selección de pago de la póliza
+     *
      * @param string $polizaId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -441,7 +453,8 @@ class PolizasController extends Controller
 
         } else {
             if ($poliza->esPagoParcial()) {
-                $respuesta['generarFormatoParcial'] = 'OK';
+                $respuesta['generarFormatoParcial']     = 'OK';
+                $respuesta['generarFormatoConformidad'] = 'OK';
             }
         }
 
@@ -573,12 +586,14 @@ class PolizasController extends Controller
     /**
      * Generar la vista para editar la póliza
      * Si el parámetro $polizaId no está especificado, retornar una vista genérica de error
+     *
      * @param string|null $polizaId
      * @param ModalidadesRepositorio $modalidadesRepositorio
      * @param CoberturasConceptosRepositorio $coberturasConceptosRepositorio
      * @param VigenciasRepositorio $vigenciasRepositorio
      * @param CoberturasRepositorio $coberturasRepositorio
      * @param AsociadosAgentesRepositorio $asociadosAgentesRepositorio
+     * @param UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function verFormEdicion($polizaId = null, ModalidadesRepositorio $modalidadesRepositorio, CoberturasConceptosRepositorio $coberturasConceptosRepositorio, VigenciasRepositorio $vigenciasRepositorio, CoberturasRepositorio $coberturasRepositorio, AsociadosAgentesRepositorio $asociadosAgentesRepositorio, UnidadesAdministrativasRepositorio $unidadesAdministrativasRepositorio)
@@ -617,5 +632,25 @@ class PolizasController extends Controller
         return response()->json([
             'html' => view('polizas.polizas_resultado_responsabilidades_combo', compact('responsabilidades'))->render()
         ]);
+    }
+
+    /**
+     * generar formato de conformidad para pólizas parciales
+     *
+     * @param string|null $polizaId
+     */
+    public function formatoConformidad($polizaId = null)
+    {
+        $this->validarQueryString($polizaId);
+
+        $polizaId = (int)base64_decode($polizaId);
+        $poliza   = $this->polizasRepositorio->obtenerPorId($polizaId);
+
+        $formatoConformidad = new FormatoConformidad($poliza);
+        $formatoConformidad->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $formatoConformidad->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $formatoConformidad->SetAutoPageBreak(true);
+        $formatoConformidad->SetMargins(15, 55);
+        $formatoConformidad->generar();
     }
 }

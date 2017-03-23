@@ -487,4 +487,14 @@ class Poliza
     {
         return !is_null($this->costoDiferencia) && !$this->estaPagada;
     }
+
+    /**
+     * obtener el costo parcial de la póliza
+     *
+     * @return float
+     */
+    public function getCostoParcial()
+    {
+        return $this->costo->getCosto() * 0.5;
+    }
 }

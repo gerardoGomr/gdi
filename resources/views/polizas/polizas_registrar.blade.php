@@ -16,6 +16,8 @@
                                         <span id="acciones">
                                             <button type="button" id="registrarPoliza" class="btn btn-primary"><i class="fa fa-plus-square"></i> REGISTRAR PÓLIZA</button>
                                             <a href="{{ url('polizas') }}" class="btn btn-default" id="cancelar"><i class="fa fa-times"></i> CANCELAR REGISTRO</a>
+                                            <br><br>
+                                            <button id="botonBuscarVehiculoNuevamente" type="button" class="btn bg-info hide"><i class="fa fa-arrow-left"></i> BUSCAR OTRO VEHÍCULO</button>
                                         </span>
                                         <div class="separator"></div>
                                         <div class="box-generic padding-none animated fadeInUp" id="busquedaVehiculo">
@@ -34,7 +36,7 @@
 
                                         <div id="registro"></div>
 
-                                        <div id="datosAsociadoAgente" class="hide box-generic padding-none animated fadeInUp">
+                                        <div id="datosAsociadoAgente" class="box-generic padding-none animated fadeInUp">
                                             <h5 class="innerAll border-bottom bg-gray">ASOCIADO AGENTE</h5>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3" for="asociadoAgente">NOMBRE:</label>
