@@ -22,3 +22,7 @@ GDI\Dominio\Oficinas\Oficina:
         name: domicilio_id
         referencedColumnName: id
       cascade: [persist]
+  oneToMany:
+    asociadosAgentes:
+      targetEntity: GDI\Dominio\Polizas\AsociadoAgente
+      mappedBy: oficina

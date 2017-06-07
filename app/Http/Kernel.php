@@ -50,6 +50,7 @@ class Kernel extends HttpKernel
         'can'                => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest'              => \GDI\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'           => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'usuarioAutenticado' => \GDI\Http\Middleware\UsuarioAutenticado::class
+        'usuarioAutenticado' => \GDI\Http\Middleware\UsuarioAutenticado::class,
+        'corteDeCaja'        => \GDI\Http\Middleware\VerificadorCortesCaja::class,
     ];
 }

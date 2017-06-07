@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Dominio\Polizas;
 
+use GDI\Dominio\Listas\IColeccion;
 use GDI\Dominio\Oficinas\Oficina;
 use GDI\Dominio\Personas\Domicilio;
 use GDI\Dominio\Personas\Persona;
@@ -42,6 +43,11 @@ class AsociadoAgente extends Persona
      * @var Oficina
      */
     private $oficina;
+
+    /**
+     * @var IColeccion
+     */
+    private $polizas;
 
     /**
      * AsociadoAgente constructor.

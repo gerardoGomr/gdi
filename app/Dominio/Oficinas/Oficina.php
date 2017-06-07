@@ -1,5 +1,6 @@
 <?php
 namespace GDI\Dominio\Oficinas;
+use GDI\Dominio\Listas\IColeccion;
 use GDI\Dominio\Personas\Domicilio;
 
 /**
@@ -29,6 +30,11 @@ class Oficina
      * @var bool
      */
     private $activa;
+
+    /**
+     * @var IColeccion
+     */
+    private $asociadosAgentes;
 
     /**
      * Oficina constructor.
@@ -63,6 +69,14 @@ class Oficina
     public function getDomicilio()
     {
         return $this->domicilio;
+    }
+
+    /**
+     * @return IColeccion
+     */
+    public function getAsociadosAgentes()
+    {
+        return $this->asociadosAgentes;
     }
 
     /**

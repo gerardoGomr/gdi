@@ -31,12 +31,6 @@ GDI\Dominio\Polizas\Poliza:
       type: string
       length: 255
   oneToOne:
-    asociadoAgente:
-      targetEntity: AsociadoAgente
-      joinColumn:
-        name: asociado_colaborador_id
-        referencedColumnName: id
-      cascade: [persist]
     vehiculo:
       targetEntity: GDI\Dominio\Vehiculos\Vehiculo
       joinColumn:
@@ -71,3 +65,10 @@ GDI\Dominio\Polizas\Poliza:
       joinColumn:
         name: usuario_id
         referencedColumnName: id
+    asociadoAgente:
+      targetEntity: AsociadoAgente
+      inversedBy: polizas
+      joinColumn:
+        name: asociado_colaborador_id
+        referencedColumnName: id
+      cascade: [persist]

@@ -24,7 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // validar el día actual
+        // si es 15 o (28, 29, 30, 31 dependiendo el mes)
+        // generar un nuevo reporte de comisiones
+        // con un dispatch()->onConnection(sync)
+        // $job = new GenerarReporteComisionesJob(new DoctrineOficinasRepositorio, 2)
     }
 }

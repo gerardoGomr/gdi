@@ -1,6 +1,7 @@
 <?php
 namespace GDI\Infraestructura\Oficinas;
 
+use DateTime;
 use GDI\Aplicacion\Logger;
 use Doctrine\ORM\EntityManager;
 use GDI\Dominio\Oficinas\Oficina;
@@ -22,6 +23,11 @@ class DoctrineOficinasRepositorio implements OficinasRepositorio
 	 */
 	protected $entityManager;
 
+    /**
+     * @var Logger
+     */
+	protected $pdoLogger;
+
 	/**
 	 * DoctrineUsuariosRepositorio constructor.
 	 * @param EntityManager $em
@@ -29,6 +35,7 @@ class DoctrineOficinasRepositorio implements OficinasRepositorio
 	public function __construct(EntityManager $em)
 	{
 		$this->entityManager = $em;
+        $this->pdoLogger     = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
 	}
 
 	/**
@@ -51,8 +58,7 @@ class DoctrineOficinasRepositorio implements OficinasRepositorio
 			return null;
 
 		} catch (PDOException $e) {
-			$pdoLogger = new Logger(new Log('pdo_exception'), new StreamHandler(storage_path() . '/logs/pdo/sqlsrv_' . date('Y-m-d') . '.log', Log::ERROR));
-			$pdoLogger->log($e);
+			$this->pdoLogger->log($e);
 			return null;
 		}
 	}
@@ -65,4 +71,33 @@ class DoctrineOficinasRepositorio implements OficinasRepositorio
 	{
 		// TODO: Implement obtenerTodos() method.
 	}
+
+    /**
+     * obtener una lista de oficinas, asociados agentes asignados y las pólizas de estos en
+     * base a la fecha de la quicena
+     *
+     * @param DateTime $fechaInicial
+     * @param DateTime $fechaFinal
+     * @return array
+     */
+    public function obtenerOficinasConAsociadosYPolizasDeLaQuincena(DateTime $fechaInicial, DateTime $fechaFinal)
+    {
+        // TODO: Implement obtenerOficinasConAsociadosYPolizasDeLaQuincena() method.
+        try {
+            $oficinas = $this->entityManager->createQuery('SELECT o, a, p FROM Oficinas:Oficina o JOIN o.asociadosAgentes a JOIN a.polizas p WHERE p.fechaEmision BETWEEN :fecha1 AND :fecha2 AND p.estaPagada = true')
+                ->setParameter('fecha1', $fechaInicial)
+                ->setParameter('fecha2', $fechaFinal)
+                ->getResult();
+
+            if (count($oficinas) > 0) {
+                return $oficinas;
+            }
+
+            return null;
+
+        } catch (PDOException $e) {
+            $this->pdoLogger->log($e);
+            return null;
+        }
+    }
 }

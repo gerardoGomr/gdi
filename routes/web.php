@@ -18,74 +18,83 @@
  */
 
 Route::group(['middleware' => ['usuarioAutenticado']], function () {
-    // ruta principal del sistema
-    Route::get('/', 'Polizas\PolizasController@index');
 
-    // ruta para ver polizas registradas
-    Route::get('polizas', 'Polizas\PolizasController@index');
+    Route::get('home', function () {
+        return view('principal');
+    });
 
-    // ruta para buscar pólizas
-    Route::post('polizas/buscar', 'Polizas\PolizasController@buscarPolizas');
+    // grupo protegido para corte de caja
+//    Route::group(['middleware' => ['corteDeCaja']], function () {
 
-    // ruta para buscar pólizas en la captura
-    Route::post('polizas/buscar-existente', 'Polizas\PolizasController@buscarPolizaExistente');
+        // ruta principal del sistema
+        Route::get('/', 'Polizas\PolizasController@index');
 
-    // ruta para ver la vista de registro de nueva póliza/
-    Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');
+        // ruta para ver polizas registradas
+        Route::get('polizas', 'Polizas\PolizasController@index');
 
-    // ruta para ver la vista de edición de póliza
-    Route::get('polizas/editar/{polizaId?}', 'Polizas\PolizasController@verFormEdicion');
+        // ruta para buscar pólizas
+        Route::post('polizas/buscar', 'Polizas\PolizasController@buscarPolizas');
 
-    // ruta para buscar vehiculos en la captura de pólizas
-    Route::post('polizas/vehiculos/buscar', 'Polizas\PolizasController@buscarVehiculos');
+        // ruta para buscar pólizas en la captura
+        Route::post('polizas/buscar-existente', 'Polizas\PolizasController@buscarPolizaExistente');
 
-    // ruta para buscar asociados en la captura de pólizas
-    Route::post('polizas/asociados/buscar', 'Polizas\PolizasController@buscarAsociados');
+        // ruta para ver la vista de registro de nueva póliza/
+        Route::get('polizas/registrar', 'Polizas\PolizasController@verFormRegistro');
 
-    // ruta para buscar modelos de vehiculos dependiendo la marca
-    Route::post('polizas/modelos/buscar', 'Polizas\PolizasController@buscarModelos');
+        // ruta para ver la vista de edición de póliza
+        Route::get('polizas/editar/{polizaId?}', 'Polizas\PolizasController@verFormEdicion');
 
-    // ruta para buscar coberturas en base al servicio y tipo
-    Route::post('polizas/coberturas/buscar', 'Polizas\PolizasController@buscarCoberturas');
+        // ruta para buscar vehiculos en la captura de pólizas
+        Route::post('polizas/vehiculos/buscar', 'Polizas\PolizasController@buscarVehiculos');
 
-    // ruta para buscar vigencias de coberturas en base a la cobertura y la modalidad
-    Route::post('polizas/coberturas/vigencias/buscar', 'Polizas\PolizasController@buscarVigenciasCobertura');
+        // ruta para buscar asociados en la captura de pólizas
+        Route::post('polizas/asociados/buscar', 'Polizas\PolizasController@buscarAsociados');
 
-    // ruta para registrar una nueva póliza
-    Route::post('polizas/registrar', [
-        'as'   => 'poliza-registrar',
-        'uses' => 'Polizas\PolizasController@registrar',
-    ]);
+        // ruta para buscar modelos de vehiculos dependiendo la marca
+        Route::post('polizas/modelos/buscar', 'Polizas\PolizasController@buscarModelos');
 
-    // ruta para construir vista de pago de pólizas
-    Route::get('polizas/pagar/{polizaId?}', 'Polizas\PolizasController@verFormPago');
+        // ruta para buscar coberturas en base al servicio y tipo
+        Route::post('polizas/coberturas/buscar', 'Polizas\PolizasController@buscarCoberturas');
 
-    // ruta para procesar pago de póliza
-    Route::post('polizas/pagar', 'Polizas\PolizasController@pagarPoliza');
+        // ruta para buscar vigencias de coberturas en base a la cobertura y la modalidad
+        Route::post('polizas/coberturas/vigencias/buscar', 'Polizas\PolizasController@buscarVigenciasCobertura');
 
-    // ruta para 2o pago parcial
-    Route::post('polizas/pagar/parcial', 'Polizas\PolizasController@pagarPolizaParcial');
+        // ruta para registrar una nueva póliza
+        Route::post('polizas/registrar', [
+            'as'   => 'poliza-registrar',
+            'uses' => 'Polizas\PolizasController@registrar',
+        ]);
 
-    // ruta para 2o pago parcial
-    Route::post('polizas/pagar/diferencia', 'Polizas\PolizasController@pagarPo|lizaDiferencia');
+        // ruta para construir vista de pago de pólizas
+        Route::get('polizas/pagar/{polizaId?}', 'Polizas\PolizasController@verFormPago');
 
-    // ruta para generar el formato de la póliza
-    Route::get('polizas/formato/{polizaId?}', 'Polizas\PolizasController@formato');
+        // ruta para procesar pago de póliza
+        Route::post('polizas/pagar', 'Polizas\PolizasController@pagarPoliza');
 
-    // ruta para generar el formato parcial de la póliza
-    Route::get('polizas/formato-parcial/{polizaId?}', 'Polizas\PolizasController@formatoParcial');
+        // ruta para 2o pago parcial
+        Route::post('polizas/pagar/parcial', 'Polizas\PolizasController@pagarPolizaParcial');
 
-    // ruta para generar el recibo de conformidad
-    Route::get('polizas/conformidad/{polizaId?}', 'Polizas\PolizasController@formatoConformidad');
+        // ruta para 2o pago parcial
+        Route::post('polizas/pagar/diferencia', 'Polizas\PolizasController@pagarPo|lizaDiferencia');
 
-    // ruta para buscar responsabilidades
-    Route::post('polizas/responsabilidad/buscar', 'Polizas\PolizasController@bucarResponsabilidades');
+        // ruta para generar el formato de la póliza
+        Route::get('polizas/formato/{polizaId?}', 'Polizas\PolizasController@formato');
 
-    // ruta para agregar una responsabilidad a la cobertura
-    Route::post('cobertura/responsabilidad/agregar', 'Coberturas\CoberturasController@agregarResponsabilidad');
+        // ruta para generar el formato parcial de la póliza
+        Route::get('polizas/formato-parcial/{polizaId?}', 'Polizas\PolizasController@formatoParcial');
 
-    //ruta para eliminar una responsabilidad de la cobertura
-    Route::post('cobertura/responsabilidad/eliminar', 'Coberturas\CoberturasController@eliminarResponsabilidad');
+        // ruta para generar el recibo de conformidad
+        Route::get('polizas/conformidad/{polizaId?}', 'Polizas\PolizasController@formatoConformidad');
+
+        // ruta para buscar responsabilidades
+        Route::post('polizas/responsabilidad/buscar', 'Polizas\PolizasController@bucarResponsabilidades');
+
+        // ruta para agregar una responsabilidad a la cobertura
+        Route::post('cobertura/responsabilidad/agregar', 'Coberturas\CoberturasController@agregarResponsabilidad');
+
+        //ruta para eliminar una responsabilidad de la cobertura
+        Route::post('cobertura/responsabilidad/eliminar', 'Coberturas\CoberturasController@eliminarResponsabilidad');
+
 
     // ruta para mostrar los cortes de caja realizados
     Route::get('caja/cortes', 'Caja\CajaController@index');
@@ -104,6 +113,9 @@ Route::group(['middleware' => ['usuarioAutenticado']], function () {
 
     // ruta para exportar a PDF un corte de caja
     Route::get('caja/cortes/pdf/{id?}', 'Caja\CajaController@exportarPDF');
+
+    // ruta para ver comisiones
+    Route::get('comisiones', 'Comisiones\ComisionesController@index');
 });
 
 // ruta para mostrar la vista de login

@@ -5,6 +5,21 @@ $(document).ready(function() {
         format:    'dd/mm/yyyy'
     });
 
+    // mostrar búsqueda avanzada
+    $('#abrirBuscador').on('click', function () {
+        $('#formFiltro').removeClass('hide');
+        $('#cerrarBuscador').removeClass('hide');
+        $(this).addClass('hide');
+    });
+
+    // ocultar búsqueda avanzada
+    $('#cerrarBuscador').on('click', function () {
+        $('#formFiltro').addClass('hide');
+        $(this).addClass('hide');
+        $('#abrirBuscador').removeClass('hide');
+    });
+
+    // buscar pólizas
     $('#buscar').on('click', function () {
         $.ajax({
             url:        $('#formFiltro').attr('action'),
