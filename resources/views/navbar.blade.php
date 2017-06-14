@@ -3,15 +3,6 @@
 		<button class="btn btn-sm btn-navbar btn-primary btn-stroke" data-toggle="tooltip" data-original-title="Expander/contraer menú" data-placement="right"><i class="fa fa-bars fa-2x"></i></button>
 	</div>
 
-	<div class="col-md-6 visible-md visible-lg visible-xs padding-none">
-		<div class="input-group innerL">
-			<input id="txtBusqueda" name="txtBusqueda" type="text" class="form-control input-sm" placeholder="BÚSQUEDA RÁPIDA" autocomplete="off">
-			<span class="input-group-btn">
-				<button id="btnBuscar" name="btnBuscar" class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-			</span>
-		</div>
-	</div>
-
   	<div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs border-left bg-inverse-faded">
 		<div class="dropdown username hidden-xs pull-left">
 			<a class="dropdown-toggle dropdown-hover" data-toggle="dropdown" href="#">

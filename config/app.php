@@ -120,7 +120,7 @@ return [
     |
     */
 
-    'name' => 'Your Application Name',
+    'name' => 'GDI',
 
     'providers' => [
 

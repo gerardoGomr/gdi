@@ -17,8 +17,8 @@
 		<link rel="shortcut icon" href="{{ asset('img/logo.ico') }}" />
 
 		<!-- CSS DEFINITION -->
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/base-styles.css') }}" />
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ elixir('css/base-styles.css') }}" />
+		<link rel="stylesheet" type="text/css" href="{{ elixir('css/admin.css') }}" />
 		@yield('css')
 
 		<script>
@@ -72,7 +72,7 @@
 			var themerPrimaryColor = primaryColor;
 		</script>
 
-		<script src="{{ asset('js/base-scripts.js') }}"></script>
+		<script src="{{ elixir('js/base-scripts.js') }}"></script>
 		@yield('js')
 	</body>
 </html>

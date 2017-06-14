@@ -1,4 +1,3 @@
 GDI\Dominio\Polizas\Pagos\PolizaPagoSemestralEfectivo:
   type: entity
   extends: PolizaPago
-  table: poliza_pago
